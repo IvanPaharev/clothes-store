@@ -6,20 +6,11 @@
         <div class="col-sm-6">
             <div>
                 <p><a href="#">My Profile</a></p>
-                <img src="resources/images/skirts/miguelina/1.jpg" class="img-responsive"alt="Dress photo">
+                <img src="resources/images/dress/mainImages/{{ctrl.dress.imageSource}}" class="img-responsive"alt="Dress photo">
             </div>
             <div class="row">
-                <div class="col-sm-3">
-                    <img src="resources/images/skirts/miguelina/1.jpg" class="img-responsive"alt="Dress photo">
-                </div>
-                <div class="col-sm-3">
-                    <img src="resources/images/skirts/miguelina/2.jpg" class="img-responsive"alt="Dress photo">
-                </div>
-                <div class="col-sm-3">
-                    <img src="resources/images/skirts/miguelina/3.jpg" class="img-responsive"alt="Dress photo">
-                </div>
-                <div class="col-sm-3">
-                    <img src="resources/images/skirts/miguelina/4.jpg" class="img-responsive"alt="Dress photo">
+                <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
+                    <img src="resources/images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
                 </div>
             </div>
         </div>
@@ -35,9 +26,7 @@
                         Size<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li>10</li>
-                        <li>12</li>
-                        <li>14</li>
+                        <li ng-repeat="size in ctrl.dress.sizeSet">{{size.ukSize}}</li>
                     </ul>
                 </div>
                 <div class="col-sm-6">
@@ -45,9 +34,7 @@
                         Color<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li>White</li>
-                        <li>Black</li>
-                        <li>Red</li>
+                        <li ng-repeat="color in ctrl.dress.colorSet">{{color.color}}</li>
                     </ul>
                 </div>
             </div>

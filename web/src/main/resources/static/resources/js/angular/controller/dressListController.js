@@ -12,49 +12,11 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
         "category": {},
         "description": {},
         "price": null,
-        "imageResource": null,
+        "imageSource": null,
         "releaseDate": '',
-        "sizeSet": [
-            {
-                "id": 1,
-                "ukSize": 10
-            },
-            {
-                "id": 2,
-                "ukSize": 12
-            },
-            {
-                "id": 3,
-                "ukSize": 14
-            }
-        ],
-        "colorSet": [
-            {
-                "id": 3,
-                "color": "White",
-                "imageResource": null
-            },
-            {
-                "id": 1,
-                "color": "Red",
-                "imageResource": null
-            },
-            {
-                "id": 2,
-                "color": "Black",
-                "imageResource": null
-            }
-        ],
-        "dressImageSet": [
-            {
-                "id": 2,
-                "image_resource": "twst2"
-            },
-            {
-                "id": 1,
-                "image_resource": "test1"
-            }
-        ]
+        "sizeSet": [],
+        "colorSet": [],
+        "dressImageSet": []
     };
     self.dresses=[];
 

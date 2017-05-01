@@ -3,6 +3,7 @@ package com.netcracker.store.logic.service.impl;
 import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.persistence.dao.DressDao;
 import com.netcracker.store.persistence.entity.Dress;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,10 @@ public class DressServiceImpl implements DressService {
 
     @Override
     public Dress getDressById(int id) {
-        return dressDao.get(id);
+        Dress dress = dressDao.get(id);
+        Hibernate.initialize(dress.getColorSet());
+        Hibernate.initialize(dress.getSizeSet());
+        Hibernate.initialize(dress.getDressImageSet());
+        return dress;
     }
 }
