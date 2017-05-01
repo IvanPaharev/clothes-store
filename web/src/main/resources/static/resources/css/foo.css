@@ -1,0 +1,7 @@
+ul.reg-list li {
+    display: inline-block;
+}
+ul.reg-list li + li:before{
+    content: " | ";
+    padding: 0 10px;
+}

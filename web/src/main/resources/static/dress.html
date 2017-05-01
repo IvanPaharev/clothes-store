@@ -1,0 +1,63 @@
+<div class="container" ng-controller="dressListController as ctrl">
+    <div>
+        <button ng-click="ctrl.logDress()">Reset data</button>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div>
+                <p><a href="#">My Profile</a></p>
+                <img src="resources/images/skirts/miguelina/1.jpg" class="img-responsive"alt="Dress photo">
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <img src="resources/images/skirts/miguelina/1.jpg" class="img-responsive"alt="Dress photo">
+                </div>
+                <div class="col-sm-3">
+                    <img src="resources/images/skirts/miguelina/2.jpg" class="img-responsive"alt="Dress photo">
+                </div>
+                <div class="col-sm-3">
+                    <img src="resources/images/skirts/miguelina/3.jpg" class="img-responsive"alt="Dress photo">
+                </div>
+                <div class="col-sm-3">
+                    <img src="resources/images/skirts/miguelina/4.jpg" class="img-responsive"alt="Dress photo">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <p>{{ctrl.dress.manufacturer.name}}</p>
+                <p>{{ctrl.dress.category.name}}</p>
+                <p>{{ctrl.dress.price}}</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        Size<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>10</li>
+                        <li>12</li>
+                        <li>14</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        Color<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>White</li>
+                        <li>Black</li>
+                        <li>Red</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="button">Add to bag!</button>
+            </div>
+            <div>
+                <p>{{ctrl.dress.description.english}}</p>
+                <p>{{ctrl.dress.id}}</p>
+            </div>
+        </div>
+    </div>
+</div>
