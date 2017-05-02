@@ -11,13 +11,13 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
         type: {},
         category: {},
         description: {
-            id: null,
-            english: '',
-            russian:''
+            dressId: null,
+            english: null,
+            russian:null
         },
         price: null,
         amount: null,
-        imageSource: '',
+        imageSource: null,
         orderDetailSet: null,
         sizeSet: [],
         colorSet: [],

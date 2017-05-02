@@ -89,7 +89,7 @@ public class DressController {
         System.out.println("Creating User " + dress.getCategory().getName());
 
         System.out.println(dress.toString());
-        //dressService.addDress(dressInfo);
+        dressService.addDress(dress);
     }
 
 /*    @RequestMapping(value = "/dress/{id}", method = RequestMethod.PUT)

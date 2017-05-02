@@ -25,35 +25,38 @@
                             ng-model="ctrl.dress.manufacturer"
                             ng-options="item.name for item in ctrl.manufacturers">
                     </select>
-<!--                    <select id="manufacturerSelect" ng-model="ctrl.dress.manufacturer">
-                        <option ng-repeat="manufacturer in ctrl.manufacturers" ng-value="{{manufacturer}}">{{manufacturer.name}}</option>
-                    </select>-->
                 </div>
                 <div class="col-sm-4">
                     <label for="categorySelect">Category:</label>
-                    <select id="categorySelect" ng-model="ctrl.dress.category">
-                        <option ng-repeat="category in ctrl.categories" ng-value={{category}}>{{category.name}}</option>
+                    <select id="categorySelect"
+                            ng-model="ctrl.dress.category"
+                            ng-options="item.name for item in ctrl.categories">
                     </select>
                 </div>
                 <div class="col-sm-4">
                     <label for="typeSelect">Type:</label>
-                    <select id="typeSelect" ng-model="ctrl.dress.type">
-                        <option ng-repeat="type in ctrl.types" ng-value="{{type}}">{{type.name}}</option>
+                    <select id="typeSelect"
+                            ng-model="ctrl.dress.type"
+                            ng-options="item.name for item in ctrl.types">
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
                     <label for="sizeSelect">Size:</label>
-                    <select id="sizeSelect" ng-model="ctrl.dress.sizeSet" multiple>
-                        <option ng-repeat="size in ctrl.sizes" ng-value="{{size}}">{{size.ukSize}}</option>
+                    <select id="sizeSelect"
+                            ng-model="ctrl.dress.sizeSet"
+                            ng-options="item.ukSize for item in ctrl.sizes"
+                            multiple>
                     </select>
                 </div>
                 <div class="col-sm-6">
                     <label for="colorSelect">Color:</label>
-                    <select id="colorSelect" ng-model="ctrl.dress.colorSet" multiple>
-                        <option ng-repeat="color in ctrl.colors" ng-value="{{color}}">{{color.color}}</option>
-                    </select>
+                    <select id="colorSelect"
+                            ng-model="ctrl.dress.colorSet"
+                            ng-options="item.color for item in ctrl.colors"
+                            multiple>
+                </select>
                 </div>
             </div>
             <div>

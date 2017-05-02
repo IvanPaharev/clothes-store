@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Table(name = "description")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
+@DynamicInsert
 public class Description implements Serializable{
 
     private static final long serialVersionUID = -4515287304435395433L;

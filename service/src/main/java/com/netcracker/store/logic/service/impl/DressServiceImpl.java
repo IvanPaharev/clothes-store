@@ -42,6 +42,10 @@ public class DressServiceImpl implements DressService {
     @Resource(name = "mySqlTypeDao")
     private TypeDao typeDao;
 
+    @Autowired
+    @Resource(name = "mySqlDescriptionDao")
+    private DescriptionDao descriptionDao;
+
     @Override
     public List<Dress> getAllDresses(){
         List<Dress> dresses = dressDao.getAll();
@@ -94,7 +98,9 @@ public class DressServiceImpl implements DressService {
     @Override
     public void addDress(Dress dress) {
         dressDao.add(dress);
+        Description description = dress.getDescription();
+        description.setDressId(dress.getId());
+        description.setDress(dress);
+        descriptionDao.add(description);
     }
-
-
 }
