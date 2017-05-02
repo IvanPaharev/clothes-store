@@ -1,6 +1,6 @@
 package com.netcracker.store.logic.service;
 
-import com.netcracker.store.persistence.entity.Dress;
+import com.netcracker.store.persistence.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,5 +13,11 @@ public interface DressService {
     List<Dress> getAllDresses();
     List<Dress> getAllEightTimes();
     Dress getDressById(int id);
+    List<Manufacturer> getManufacturers();
+    List<Category> getCategories();
+    List<Color> getColors();
+    List<Size> getSizes();
+    List<Type> getTypes();
+    void addDress(Dress dress);
 
 }

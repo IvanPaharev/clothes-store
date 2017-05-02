@@ -54,8 +54,11 @@ var App = angular.module('myApp',['ngRoute'])
         }).when('/dressList', {
             templateUrl : 'dressList.html',
             controller : 'dressListController'
-        }).when('/dress/:name', {
+        }).when('/dress/:id', {
             templateUrl: '/dress.html',
+            controller : 'dressListController'
+        }).when('/dressAdmin', {
+            templateUrl: '/dressAdmin.html',
             controller : 'dressListController'
         }).when('/login', {
             templateUrl : 'login.html',

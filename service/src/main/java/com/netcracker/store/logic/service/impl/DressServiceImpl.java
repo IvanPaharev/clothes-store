@@ -1,8 +1,8 @@
 package com.netcracker.store.logic.service.impl;
 
 import com.netcracker.store.logic.service.DressService;
-import com.netcracker.store.persistence.dao.DressDao;
-import com.netcracker.store.persistence.entity.Dress;
+import com.netcracker.store.persistence.dao.*;
+import com.netcracker.store.persistence.entity.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,26 @@ public class DressServiceImpl implements DressService {
     @Autowired
     @Resource(name = "mySqlDressDao")
     private DressDao dressDao;
+
+    @Autowired
+    @Resource(name = "mySqlManufacturerDao")
+    private ManufacturerDao manufacturerDao;
+
+    @Autowired
+    @Resource(name = "mySqlCategoryDao")
+    private CategoryDao categoryDao;
+
+    @Autowired
+    @Resource(name = "mySqlColorDao")
+    private ColorDao colorDao;
+
+    @Autowired
+    @Resource(name = "mySqlSizeDao")
+    private SizeDao sizeDao;
+
+    @Autowired
+    @Resource(name = "mySqlTypeDao")
+    private TypeDao typeDao;
 
     @Override
     public List<Dress> getAllDresses(){
@@ -45,4 +65,36 @@ public class DressServiceImpl implements DressService {
         Hibernate.initialize(dress.getDressImageSet());
         return dress;
     }
+
+    @Override
+    public List<Manufacturer> getManufacturers() {
+        return manufacturerDao.getAll();
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        return categoryDao.getAll();
+    }
+
+    @Override
+    public List<Color> getColors() {
+        return colorDao.getAll();
+    }
+
+    @Override
+    public List<Size> getSizes() {
+        return sizeDao.getAll();
+    }
+
+    @Override
+    public List<Type> getTypes() {
+        return typeDao.getAll();
+    }
+
+    @Override
+    public void addDress(Dress dress) {
+        dressDao.add(dress);
+    }
+
+
 }

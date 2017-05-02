@@ -9,7 +9,12 @@ angular.module('myApp').factory('dressService', ['$http', '$q', function($http, 
     var factory = {
         fetchAllDresses:fetchAllDresses,
         fetchDressById:fetchDressById,
-        createDress:createDress,
+        fetchCategories:fetchCategories,
+        fetchManufacturers:fetchManufacturers,
+        fetchColors:fetchColors,
+        fetchSizes:fetchSizes,
+        fetchTypes:fetchTypes,
+        addDress:addDress,
         updateDress:updateDress,
         deleteDress:deleteDress,
         getDress:getDress
@@ -49,12 +54,87 @@ angular.module('myApp').factory('dressService', ['$http', '$q', function($http, 
         return deferred.promise;
     }
 
+    function fetchCategories() {
+        var deferred = $q.defer();
+        $http.get('category')
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    console.error('Error while fetching categories');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function fetchManufacturers() {
+        var deferred = $q.defer();
+        $http.get('manufacturer')
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    console.error('Error while fetching manufacturers');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function fetchColors() {
+        var deferred = $q.defer();
+        $http.get('color')
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    console.error('Error while fetching colors');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function fetchSizes() {
+        var deferred = $q.defer();
+        $http.get('size')
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    console.error('Error while fetching sizes');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function fetchTypes() {
+        var deferred = $q.defer();
+        $http.get('type')
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    console.error('Error while fetching sizes');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
     function getDress() {
         console.log("service get dress "+dress);
         return dress;
     }
 
-    function createDress(dress) {
+    function addDress(dress) {
         var deferred = $q.defer();
         $http.post(REST_SERVICE_URI, dress)
             .then(

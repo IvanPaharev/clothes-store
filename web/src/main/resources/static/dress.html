@@ -1,12 +1,11 @@
-<div class="container" ng-controller="dressListController as ctrl">
+<div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchDressById()">
     <div>
         <button ng-click="ctrl.logDress()">Reset data</button>
     </div>
     <div class="row">
         <div class="col-sm-6">
             <div>
-                <p><a href="#">My Profile</a></p>
-                <img src="resources/images/dress/mainImages/{{ctrl.dress.imageSource}}" class="img-responsive"alt="Dress photo">
+                <img src="resources/images/dress/mainImages/{{ctrl.dress.imageSource}}" style="max-height: 500px;" class="img-responsive"alt="Dress photo">
             </div>
             <div class="row">
                 <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">

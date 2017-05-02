@@ -1,0 +1,70 @@
+<div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchDressProperties()">
+    <div>
+        <button ng-click="ctrl.fetchDressProperties()">Reset data</button>
+        <button ng-click="ctrl.logDresss()">Log dress</button>
+        <button ng-click="ctrl.logManuf()">Log manuf</button>
+        <button ng-click="ctrl.logCateg()">Log categories</button>
+        <button ng-click="ctrl.logColors()">Log colors</button>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div>
+                <img src="resources/images/dress/mainImages/{{ctrl.dress.imageSource}}" style="max-height: 500px;" class="img-responsive"alt="Dress photo">
+            </div>
+            <div class="row">
+                <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
+                    <img src="resources/images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="manufacturerSelect">Manufacturer:</label>
+                    <select id="manufacturerSelect"
+                            ng-model="ctrl.dress.manufacturer"
+                            ng-options="item.name for item in ctrl.manufacturers">
+                    </select>
+<!--                    <select id="manufacturerSelect" ng-model="ctrl.dress.manufacturer">
+                        <option ng-repeat="manufacturer in ctrl.manufacturers" ng-value="{{manufacturer}}">{{manufacturer.name}}</option>
+                    </select>-->
+                </div>
+                <div class="col-sm-4">
+                    <label for="categorySelect">Category:</label>
+                    <select id="categorySelect" ng-model="ctrl.dress.category">
+                        <option ng-repeat="category in ctrl.categories" ng-value={{category}}>{{category.name}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label for="typeSelect">Type:</label>
+                    <select id="typeSelect" ng-model="ctrl.dress.type">
+                        <option ng-repeat="type in ctrl.types" ng-value="{{type}}">{{type.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="sizeSelect">Size:</label>
+                    <select id="sizeSelect" ng-model="ctrl.dress.sizeSet" multiple>
+                        <option ng-repeat="size in ctrl.sizes" ng-value="{{size}}">{{size.ukSize}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label for="colorSelect">Color:</label>
+                    <select id="colorSelect" ng-model="ctrl.dress.colorSet" multiple>
+                        <option ng-repeat="color in ctrl.colors" ng-value="{{color}}">{{color.color}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <input type="text" ng-model="ctrl.dress.price" class="form-control input-sm" placeholder="Enter dress price"/>
+                <input type="text" ng-model="ctrl.dress.description.english" class="form-control input-sm" placeholder="Enter dress description"/>
+                <input type="text" ng-model="ctrl.dress.imageSource" class="form-control input-sm" placeholder="Enter image source"/>
+                <input type="text" ng-model="ctrl.dress.amount" class="form-control input-sm" placeholder="Enter amount"/>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button ng-click="ctrl.addDress()">Add dress</button>
+    </div>
+</div>
