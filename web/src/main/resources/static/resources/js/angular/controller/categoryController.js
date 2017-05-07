@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('myApp').controller('categoryController', ['$scope', '$routeParams', 'categoryService',
-    function($scope, $routeParams, categoryService) {
+angular.module('myApp').controller('categoryController', ['$scope', 'categoryService',
+    function($scope, categoryService) {
 
     var self = this;
     self.category={

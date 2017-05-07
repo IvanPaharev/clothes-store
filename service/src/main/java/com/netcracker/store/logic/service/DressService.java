@@ -1,9 +1,11 @@
 package com.netcracker.store.logic.service;
 
+import com.netcracker.store.logic.dto.DressAndQuantity;
 import com.netcracker.store.persistence.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by A-one on 20.04.2017.
@@ -21,4 +23,7 @@ public interface DressService {
     void addDress(Dress dress);
     void deleteDress(int id);
     void updateDress(Dress dress);
+    void addDressToBag(DressAndQuantity dressAndQuantity);
+    void deleteDressFromUserBag(DressAndQuantity dressAndQuantity);
+    List<DressAndQuantity> getUserBag();
 }

@@ -2,23 +2,20 @@ package com.netcracker.store.web.controller;
 
 import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.persistence.entity.*;
+import com.netcracker.store.logic.dto.DressAndQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by A-one on 20.04.2017.
@@ -111,17 +108,6 @@ public class DressController {
 
     @RequestMapping(value = "/dress/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Dress> updateDress(@RequestBody Dress dress) {
-/*        Dress currentDress = dressService.getDressById(id);
-
-        currentDress.setCategory(dress.getCategory());
-        currentDress.setType(dress.getType());
-        currentDress.setDescription(dress.getDescription());
-        currentDress.setImagePath(dress.getImagePath());
-        currentDress.setKind(dress.getKind());
-        currentDress.setPrice(dress.getPrice());
-        currentDress.setQuantity(dress.getQuantity());
-        currentDress.setReleaseDate(dress.getReleaseDate());*/
-
         dressService.updateDress(dress);
         return new ResponseEntity<Dress>(dress, HttpStatus.OK);
     }
@@ -130,5 +116,20 @@ public class DressController {
     public ResponseEntity<Dress> deleteDress(@PathVariable("id") Integer id) {
         dressService.deleteDress(id);
         return new ResponseEntity<Dress>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/addDressToBag", method = RequestMethod.POST)
+    public void addDressToBag(@RequestBody DressAndQuantity dressAndQuantity) {
+        dressService.addDressToBag(dressAndQuantity);
+    }
+
+    @RequestMapping(value = "/getUserBag", method = RequestMethod.GET)
+    public ResponseEntity<List<DressAndQuantity>> getUserBag(){
+        return new ResponseEntity<List<DressAndQuantity>>(dressService.getUserBag(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/deleteDressFromUserBag", method = RequestMethod.POST)
+    public void deleteDressFromUserBag(@RequestBody DressAndQuantity dressAndQuantity) {
+        dressService.deleteDressFromUserBag(dressAndQuantity);
     }
 }

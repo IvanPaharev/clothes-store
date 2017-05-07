@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-sm-4 col-xs-4 social-header" ng-controller="loginController as ctrl">
                     <ul class="reg-list">
-                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                        <li><a href="#/userBag"><i class="fa fa-shopping-cart"></i></a></li>
                         <li ng-show="!authenticated"><a href="#/register"><!--ui-sref="register">-->Register</a></li>
                         <li ng-show="!authenticated"><a href="#/login"> <!--ui-sref="login">-->Sign in</a></li>
                         <li ng-show="authenticated"><a href="#/dressAdmin">Admin dress</a></li>
@@ -117,10 +117,11 @@
 <script src="resources/js/angular/service/dressService.js"></script>
 <script src="resources/js/angular/service/categoryService.js"></script>
 <script src="resources/js/angular/service/authService.js"></script>
+<script src="resources/js/angular/service/paymentService.js"></script>
 <script src="resources/js/angular/controller/dressListController.js"></script>
 <script src="resources/js/angular/controller/categoryController.js"></script>
+<script src="resources/js/angular/controller/paymentController.js"></script>
 <script src="resources/js/angular/controller/loginController.js"></script>
-<script src="resources/js/angular/controller/dressController.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>-->
 <script src="resources/js/jquery.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>

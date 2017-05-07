@@ -1,5 +1,6 @@
 package com.netcracker.store.logic.service.impl;
 
+import com.netcracker.store.logic.dto.DressAndQuantity;
 import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.persistence.dao.*;
 import com.netcracker.store.persistence.entity.*;
@@ -9,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by A-one on 20.04.2017.
@@ -45,6 +49,8 @@ public class DressServiceImpl implements DressService {
     @Autowired
     @Resource(name = "mySqlDescriptionDao")
     private DescriptionDao descriptionDao;
+
+    private List<DressAndQuantity> userBag = new ArrayList<>();
 
     @Override
     public List<Dress> getAllDresses(){
@@ -113,5 +119,20 @@ public class DressServiceImpl implements DressService {
     @Override
     public void updateDress(Dress dress) {
         dressDao.update(dress);
+    }
+
+    @Override
+    public void addDressToBag(DressAndQuantity dressAndQuantity) {
+        userBag.add(dressAndQuantity);
+    }
+
+    @Override
+    public List<DressAndQuantity> getUserBag() {
+        return userBag;
+    }
+
+    @Override
+    public void deleteDressFromUserBag(DressAndQuantity dressAndQuantity) {
+        userBag.remove(dressAndQuantity);
     }
 }

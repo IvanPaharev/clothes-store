@@ -24,28 +24,6 @@ angular.module('myApp').factory('categoryService', ['$http', '$q', function($htt
         return deferred.promise;
     }
 
-/*    function fetchDressById(id) {
-        var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI+id)
-            .then(
-                function(response) {
-                    deferred.resolve(response.data);
-                    console.log("this is servise ressponce")
-                    dress = response.data;
-                },
-                function (errResponse) {
-                    console.error('Error while fetching user by id');
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
-    }
-
-    function getDress() {
-        console.log("service get dress "+dress);
-        return dress;
-    }*/
-
     function addCategory(category) {
         var deferred = $q.defer();
         $http.post('category', category)

@@ -1,0 +1,32 @@
+<div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.getUserBag()">
+    <table>
+        <thead>
+            <tr>
+                <th>Dress info</th>
+                <th>Dress image</th>
+                <th>Quantity</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="dressAndQuantity in ctrl.userBag">
+                <td>
+                    <span>{{dressAndQuantity.dress.category.name}}</span><br>
+                    <span>{{dressAndQuantity.dress.manufacturer.name}}</span>
+                </td>
+                <td>
+                    <img src="images/dress/mainImages/{{dressAndQuantity.dress.imageSource}}" alt="Dress image" class="img-responsive" />
+                </td>
+                <td>
+                    <span>{{dressAndQuantity.quantity}}</span>
+                </td>
+                <td>
+                    <button type="button" ng-click="ctrl.deleteDressFromUserBag(dressAndQuantity)" class="btn btn-danger custom-width">Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="#/orderPage" class="btn btn-danger">Place order</a>
+    </div>
+</div>

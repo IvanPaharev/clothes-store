@@ -57,6 +57,12 @@ var App = angular.module('myApp',['ngRoute', 'ngFileUpload'])
         }).when('/dress/:id', {
             templateUrl: '/dress.html',
             controller : 'dressListController'
+        }).when('/userBag', {
+            templateUrl: '/userBag.html',
+            controller : 'dressListController'
+        }).when('/orderPage', {
+            templateUrl: '/orderPage.html',
+            controller : 'paymentController'
         }).when('/dressAdmin', {
             templateUrl: '/dressAdmin.html',
             controller : 'dressListController'

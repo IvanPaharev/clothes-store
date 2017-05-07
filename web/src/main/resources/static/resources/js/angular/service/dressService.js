@@ -60,7 +60,10 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         editDress: editDress,
         removeDress: removeDress,
         getDress: getDress,
-        readAsDataUrl: readAsDataUrl
+        readAsDataUrl: readAsDataUrl,
+        addDressToBag: addDressToBag,
+        getUserBag: getUserBag,
+        deleteDressFromUserBag: deleteDressFromUserBag
     };
 
     function fetchAllDresses() {
@@ -196,7 +199,6 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
-
     function editDress(id, dress) {
         var deferred = $q.defer();
         $http.put(REST_SERVICE_URI+id, dress)
@@ -227,4 +229,52 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
+    function addDressToBag(dress, quantity) {
+        var deferred = $q.defer();
+        var dressAndQuantity = {
+            dress: dress,
+            quantity: quantity
+        }
+        $http.post('addDressToBag', dressAndQuantity)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while adding dress to bag: ' + errResponse);
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function getUserBag() {
+        var deferred = $q.defer();
+        $http.get('getUserBag')
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while adding dress to bag: ' + errResponse);
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
+    function deleteDressFromUserBag(dressAndQuantity) {
+        var deferred = $q.defer();
+        $http.post('deleteDressFromUserBag', dressAndQuantity)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while adding dress to bag: ' + errResponse);
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
 }]);

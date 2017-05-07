@@ -37,9 +37,9 @@ public class OrderDetailPK implements Serializable {
     public OrderDetailPK() {
     }
 
-    public OrderDetailPK(int userOrderId, int productId) {
+    public OrderDetailPK(int userOrderId, int dressId) {
         this.userOrderId = userOrderId;
-        this.dressId = productId;
+        this.dressId = dressId;
     }
 
 }
