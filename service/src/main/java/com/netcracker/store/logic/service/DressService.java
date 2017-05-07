@@ -19,5 +19,6 @@ public interface DressService {
     List<Size> getSizes();
     List<Type> getTypes();
     void addDress(Dress dress);
-
+    void deleteDress(int id);
+    void updateDress(Dress dress);
 }

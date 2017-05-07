@@ -6,12 +6,20 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Created by A-one on 23.04.2017.
  */
 @SpringBootApplication
-public class DressStoreApplication {
+public class DressStoreApplication extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:///D:/dressStoreImages/");
+    }
 
     @Bean
     public MappingJackson2HttpMessageConverter jacksonMessageConverter(){

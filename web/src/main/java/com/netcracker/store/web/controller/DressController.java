@@ -3,11 +3,21 @@ package com.netcracker.store.web.controller;
 import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.persistence.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -15,6 +25,8 @@ import java.util.List;
  */
 @RestController
 public class DressController {
+
+    private byte[] multipartFile;
 
     @Autowired
     private DressService dressService;
@@ -26,15 +38,6 @@ public class DressController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(dresses, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/category", method = RequestMethod.GET)
-    public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = dressService.getCategories();
-        if (categories.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/color", method = RequestMethod.GET)
@@ -86,47 +89,46 @@ public class DressController {
 
     @RequestMapping(value = "/dress/", method = RequestMethod.POST)
     public void createDress(@RequestBody Dress dress) {
-        System.out.println("Creating User " + dress.getCategory().getName());
-
-        System.out.println(dress.toString());
         dressService.addDress(dress);
+        String fileName = dress.getId() + ".jpg";
+        try {
+            Path path = Paths.get("D:\\dressStoreImages\\dress\\mainImages\\" + fileName);
+            Files.write(path,multipartFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-/*    @RequestMapping(value = "/dress/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Dress> updateDress(@PathVariable("id") Integer id, @RequestBody Dress dress) {
-        System.out.println("Updating User " + id);
-
-        Dress currentDress = dressService.getDressById(id);
-
-        if (currentDress == null) {
-            System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<Dress>(HttpStatus.NOT_FOUND);
+    @RequestMapping(value = "/dress_img")
+    public void uploadImg(@RequestParam("file")MultipartFile file) {
+        try {
+            multipartFile = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        currentDress.setName(dress.getName());
+
+    @RequestMapping(value = "/dress/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Dress> updateDress(@RequestBody Dress dress) {
+/*        Dress currentDress = dressService.getDressById(id);
+
         currentDress.setCategory(dress.getCategory());
+        currentDress.setType(dress.getType());
         currentDress.setDescription(dress.getDescription());
         currentDress.setImagePath(dress.getImagePath());
         currentDress.setKind(dress.getKind());
         currentDress.setPrice(dress.getPrice());
         currentDress.setQuantity(dress.getQuantity());
-        currentDress.setReleaseDate(dress.getReleaseDate());
+        currentDress.setReleaseDate(dress.getReleaseDate());*/
 
-        dressDao.update(currentDress);
-        return new ResponseEntity<Dress>(currentDress, HttpStatus.OK);
+        dressService.updateDress(dress);
+        return new ResponseEntity<Dress>(dress, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/dress/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Dress> deleteDress(@PathVariable("id") Integer id) {
-        System.out.println("Fetching & Deleting User with id " + id);
-
-        Dress dress = dressDao.get(id);
-        if (dress == null) {
-            System.out.println("Unable to delete. User with id " + id + " not found");
-            return new ResponseEntity<Dress>(HttpStatus.NOT_FOUND);
-        }
-
-        dressDao.delete(id);
+        dressService.deleteDress(id);
         return new ResponseEntity<Dress>(HttpStatus.NO_CONTENT);
-    }*/
+    }
 }

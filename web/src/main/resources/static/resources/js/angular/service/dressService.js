@@ -1,26 +1,67 @@
 'use strict';
 
-angular.module('myApp').factory('dressService', ['$http', '$q', function($http, $q){
+angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', function($http, $q, Upload){
 
     var REST_SERVICE_URI = 'http://localhost:8080/dress/';
 
     var dress = {};
 
-    var factory = {
-        fetchAllDresses:fetchAllDresses,
-        fetchDressById:fetchDressById,
-        fetchCategories:fetchCategories,
-        fetchManufacturers:fetchManufacturers,
-        fetchColors:fetchColors,
-        fetchSizes:fetchSizes,
-        fetchTypes:fetchTypes,
-        addDress:addDress,
-        updateDress:updateDress,
-        deleteDress:deleteDress,
-        getDress:getDress
+    var onLoad = function(reader, deferred, scope) {
+        return function() {
+            scope.$apply(function() {
+                deferred.resolve(reader.result);
+            });
+        };
     };
 
-    return factory;
+    var onError = function(reader, deferred, scope) {
+        return function() {
+            scope.$apply(function() {
+                deferred.reject(reader.result);
+            });
+        };
+    };
+
+    var onProgress = function(reader, scope) {
+        return function(event) {
+            scope.$broadcast("fileProgress", {
+                total: event.total,
+                loaded: event.loaded
+            });
+        };
+    };
+
+    var getReader = function(deferred, scope) {
+        var reader = new FileReader();
+        reader.onload = onLoad(reader, deferred, scope);
+        reader.onerror = onError(reader, deferred, scope);
+        reader.onprogress = onProgress(reader, scope);
+        return reader;
+    };
+
+    var readAsDataUrl = function(file, scope) {
+        var deferred = $q.defer();
+
+        var reader = getReader(deferred, scope);
+        reader.readAsDataURL(file);
+
+        return deferred.promise;
+    };
+
+    return {
+        fetchAllDresses: fetchAllDresses,
+        fetchDressById: fetchDressById,
+        fetchCategories: fetchCategories,
+        fetchManufacturers: fetchManufacturers,
+        fetchColors: fetchColors,
+        fetchSizes: fetchSizes,
+        fetchTypes: fetchTypes,
+        addDress: addDress,
+        editDress: editDress,
+        removeDress: removeDress,
+        getDress: getDress,
+        readAsDataUrl: readAsDataUrl
+    };
 
     function fetchAllDresses() {
         var deferred = $q.defer();
@@ -134,23 +175,29 @@ angular.module('myApp').factory('dressService', ['$http', '$q', function($http, 
         return dress;
     }
 
-    function addDress(dress) {
+    function addDress(dress, imageFiles) {
         var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI, dress)
-            .then(
-            function (response) {
-                deferred.resolve(response.data);
-            },
-            function(errResponse){
-                console.error('Error while creating User');
-                deferred.reject(errResponse);
-            }
-        );
+        Upload.upload({
+            url: 'dress_img',
+            file: imageFiles[0]
+        }).success(function (data, status, headers, config) {
+            $http.post(REST_SERVICE_URI, dress)
+                .then(
+                    function (response) {
+                        deferred.resolve(response.data);
+                    },
+                    function(errResponse){
+                        console.error('Error while creating User');
+                        deferred.reject(errResponse);
+                    }
+                );
+            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+        });
         return deferred.promise;
     }
 
 
-    function updateDress(dress, id) {
+    function editDress(id, dress) {
         var deferred = $q.defer();
         $http.put(REST_SERVICE_URI+id, dress)
             .then(
@@ -165,7 +212,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', function($http, 
         return deferred.promise;
     }
 
-    function deleteDress(id) {
+    function removeDress(id) {
         var deferred = $q.defer();
         $http.delete(REST_SERVICE_URI+id)
             .then(

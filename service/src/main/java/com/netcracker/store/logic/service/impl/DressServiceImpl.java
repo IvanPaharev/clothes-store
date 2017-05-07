@@ -98,9 +98,20 @@ public class DressServiceImpl implements DressService {
     @Override
     public void addDress(Dress dress) {
         dressDao.add(dress);
+        dress.setImageSource(dress.getId() + ".jpg");
         Description description = dress.getDescription();
         description.setDressId(dress.getId());
         description.setDress(dress);
         descriptionDao.add(description);
+    }
+
+    @Override
+    public void deleteDress(int id) {
+        dressDao.delete(id);
+    }
+
+    @Override
+    public void updateDress(Dress dress) {
+        dressDao.update(dress);
     }
 }

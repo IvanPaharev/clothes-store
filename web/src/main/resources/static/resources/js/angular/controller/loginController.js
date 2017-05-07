@@ -1,4 +1,4 @@
-angular.module('myApp').controller('loginController', ['$rootScope', '$http', '$location', function($rootScope, $http, $location) {
+angular.module('myApp').controller('loginController', ['$rootScope', '$location', 'authService', function($rootScope, $location, authService) {
     var self = this;
 
     self.user = {
@@ -14,7 +14,31 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$http', '$
             ]
         };
 
-    var authenticate = function(credentials, callback) {
+    self.credentials = {};
+
+    self.register = function () {
+        authService.register(self.user);
+        $location.path("/");
+    };
+
+    self.logout = function() {
+        authService.logout($rootScope);
+        $location.path("/");
+    };
+
+    self.login = function() {
+        authService.authenticate($rootScope, self.credentials, function() {
+            if ($rootScope.authenticated) {
+                $location.path("/");
+                self.error = false;
+            } else {
+                $location.path("/login");
+                self.error = true;
+            }
+        });
+    };
+
+/*    var authenticate = function(credentials, callback) {
 
         var headers = credentials ? {authorization : "Basic "
         + btoa(credentials.username + ":" + credentials.password)
@@ -60,5 +84,5 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$http', '$
                 self.error = true;
             }
         });
-    };
+    };*/
 }]);

@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('myApp').controller('dressListController', ['$scope', '$location', '$routeParams', 'dressService', function($scope, $location, $routeParams, dressService) {
+angular.module('myApp').controller('dressListController', ['$scope', '$location', '$routeParams', 'dressService', 'Upload', '$timeout',
+    function($scope, $location, $routeParams, dressService, Upload, $timeout) {
 
 
 
@@ -18,6 +19,7 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
         price: null,
         amount: null,
         imageSource: null,
+        releaseDate: null,
         orderDetailSet: null,
         sizeSet: [],
         colorSet: [],
@@ -29,6 +31,9 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.manufacturers=[];
     self.colors=[];
     self.sizes=[];
+    self.imageFiles=[];
+
+    self.imgSrc=null;
 
     self.submit = submit;
     self.edit = edit;
@@ -36,12 +41,11 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.reset = reset;
     self.fetchDressById = fetchDressById;
     self.addDress = addDress;
-    self.logDress = logDress;
-    self.logManuf = logManuf;
-    self.logColors = logColors;
-    self.logCateg = logCateg;
-    self.logDresss = logDresss;
+    self.logImgFiles = logImgFiles;
     self.fetchDressProperties = fetchDressProperties;
+    self.readAsDataUrl = readAsDataUrl;
+    self.editDress = editDress;
+    self.removeDress = removeDress;
 
     fetchAllDresses();
 
@@ -57,28 +61,20 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
         );
     }
 
-    function logDress() {
-        self.dress = dressService.getDress();
-        console.log(self.dress);
-    }
-
-    function logDresss() {
-        console.log(self.dress);
-    }
-
-    function logManuf() {
-        console.log(self.manufacturers);
-    }
-
-    function logColors() {
-        console.log(self.colors);
-    }
-
-    function logCateg() {
-        console.log(self.categories);
+    function logImgFiles() {
+        console.log(self.imageFiles);
     }
 
     function fetchDressProperties() {
+        dressService.fetchDressById($routeParams.id)
+            .then(
+                function (d) {
+                    self.dress = d;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching dress by id:' + errResponse.toString());
+                }
+            );
         dressService.fetchCategories()
             .then(
                 function (c) {
@@ -131,21 +127,6 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
             .then(
                 function (d) {
                     self.dress = d;
-                    /*$state.go('dress', {id: d.id});
-                    console.log("this is after go ");
-                    self.dress = null;
-                    $timeout( function(){
-                        self.dress = null;
-                        self.dress = dressService.getDress();
-                        console.log(self.dress);
-                    }, 1000);
-                    console.log("this is after dress");
-                    $state.transitionTo('dress', {id: d.id}, {
-                        location: true,
-                        inherit: true,
-                        relative: $state.$current,
-                        notify: true
-                    })*/
                 },
                 function (errResponse) {
                     console.error('Error while fetching dress by id:' + errResponse.toString());
@@ -169,7 +150,31 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     }
 
     function addDress() {
-        dressService.addDress(self.dress);
+        dressService.addDress(self.dress, self.imageFiles);
+    }
+
+    function editDress(id) {
+        dressService.editDress(id, self.dress)
+            .then(
+                function(){
+                    self.dresses = [];
+                    fetchAllDresses();
+                    self.dresses[id] = self.dress;
+                },
+                function(errResponse){
+                    console.error('Error while updating User'+errResponse);
+                }
+            );
+    }
+
+    function removeDress(id) {
+        dressService.removeDress(id)
+            .then(
+                fetchAllDresses(),
+                function(errResponse){
+                    console.error('Error while deleting User'+errResponse);
+                }
+            );
     }
 
     function updateDress(dress, id){
@@ -283,4 +288,46 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
         //.myForm.$setPristine(); //reset Form
     }
 
+    function readAsDataUrl(file) {
+        dressService.readAsDataUrl(file, $scope)
+            .then(
+                function (result) {
+                    self.imgSrc = result;
+                }
+            );
+    }
+
+    $scope.$watch('imageFiles', function () {
+        $scope.upload($scope.imageFiles);
+    });
+
+    $scope.upload = function (imageFiles) {
+        if (imageFiles && imageFiles.length) {
+            for (var i = 0; i < imageFiles.length; i++) {
+                var file = imageFiles[i];
+                if (!file.$error) {
+                    Upload.upload({
+                        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                        data: {
+                            username: $scope.username,
+                            file: file
+                        }
+                    }).then(function (resp) {
+                        $timeout(function() {
+                            $scope.log = 'file: ' +
+                                resp.config.data.file.name +
+                                ', Response: ' + JSON.stringify(resp.data) +
+                                '\n' + $scope.log;
+                        });
+                    }, null, function (evt) {
+                        var progressPercentage = parseInt(100.0 *
+                            evt.loaded / evt.total);
+                        $scope.log = 'progress: ' + progressPercentage +
+                            '% ' + evt.config.data.file.name + '\n' +
+                            $scope.log;
+                    });
+                }
+            }
+        }
+    };
 }]);

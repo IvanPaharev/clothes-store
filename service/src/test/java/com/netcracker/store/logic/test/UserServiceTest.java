@@ -25,7 +25,7 @@ public class UserServiceTest {
 
     @Test
     public void testGetUserByEmail() {
-        User user = userService.getUserByEmail("a@a.a");
+        User user = userService.getUserByEmail("admin@test.com");
         assertNotNull(user);
     }
 
