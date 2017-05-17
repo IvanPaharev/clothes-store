@@ -31,15 +31,13 @@
         </div>
     </div>
 </div>
-<!-- //banner -->
-<!-- banner-bottom -->
 <div class="banner-bottom">
-    <div class="container">
+    <div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchHomeDresses()">
         <div class="banner-bottom-grids">
             <div class="banner-bottom-grid-left animated wow slideInLeft" data-wow-delay=".5s">
                 <div class="grid">
                     <figure class="effect-julia">
-                        <img src="resources/images/jackets/nigel_cabourn/1.jpg" alt=" " class="img-responsive" />
+                        <img ng-src={{ctrl.homeDresses[0]}} alt=" " class="img-responsive" />
                         <figcaption>
                             <h3>Best <span>Store</span><i> in online shopping</i></h3>
                             <div>
@@ -54,7 +52,7 @@
             <div class="banner-bottom-grid-left1 animated wow slideInUp" data-wow-delay=".5s">
                 <div class="banner-bottom-grid-left-grid left1-grid grid-left-grid1">
                     <div class="banner-bottom-grid-left-grid1">
-                        <img src="resources/images/welcome/1.jpg" alt=" " class="img-responsive" />
+                        <img ng-src={{ctrl.homeDresses[1]}} alt=" " class="img-responsive" />
                     </div>
                     <div class="banner-bottom-grid-left1-pos">
                         <p>Discount 45%</p>
@@ -62,7 +60,7 @@
                 </div>
                 <div class="banner-bottom-grid-left-grid left1-grid grid-left-grid1">
                     <div class="banner-bottom-grid-left-grid1">
-                        <img src="resources/images/welcome/2.jpg" alt=" " class="img-responsive" />
+                        <img ng-src={{ctrl.homeDresses[2]}} alt=" " class="img-responsive" />
                     </div>
                     <div class="banner-bottom-grid-left1-position">
                         <div class="banner-bottom-grid-left1-pos1">
@@ -74,7 +72,7 @@
             <div class="banner-bottom-grid-right animated wow slideInRight" data-wow-delay=".5s">
                 <div class="banner-bottom-grid-left-grid grid-left-grid1">
                     <div class="banner-bottom-grid-left-grid1">
-                        <img src="resources/images/welcome/3.jpg" alt=" " class="img-responsive" />
+                        <img ng-src={{ctrl.homeDresses[3]}} alt=" " class="img-responsive" />
                     </div>
                     <div class="grid-left-grid1-pos">
                         <p>top and classic designs <span>2016 Collection</span></p>
@@ -96,26 +94,26 @@
             <div class="col-md-3 new-collections-grid">
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="resources/images/welcome/7.jpg" alt=" " class="img-responsive" /></a>
+                        <a href="single.html" class="product-image"><img src="../resources/images/welcome/7.jpg" alt=" " class="img-responsive" /></a>
                         <div class="new-collections-grid1-image-pos">
                             <a href="single.html">Quick View</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
@@ -129,26 +127,26 @@
                 </div>
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="resources/images/welcome/8.jpg" alt=" " class="img-responsive" /></a>
+                        <a href="single.html" class="product-image"><img src="../resources/images/welcome/8.jpg" alt=" " class="img-responsive" /></a>
                         <div class="new-collections-grid1-image-pos">
                             <a href="single.html">Quick View</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
@@ -164,26 +162,26 @@
             <div class="col-md-6 new-collections-grid">
                 <div class="new-collections-grid1 new-collections-grid1-image-width animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="resources/images/welcome/5.jpg" alt=" " class="img-responsive" /></a>
+                        <a href="single.html" class="product-image"><img src="../resources/images/welcome/5.jpg" alt=" " class="img-responsive" /></a>
                         <div class="new-collections-grid1-image-pos new-collections-grid1-image-pos1">
                             <a href="single.html">Quick View</a>
                         </div>
                         <div class="new-collections-grid1-right new-collections-grid1-right-rate">
                             <div class="rating">
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
@@ -202,26 +200,26 @@
                     <div class="new-collections-grid1-sub">
                         <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                             <div class="new-collections-grid1-image">
-                                <a href="single.html" class="product-image"><img src="resources/images/welcome/6.jpg" alt=" " class="img-responsive" /></a>
+                                <a href="single.html" class="product-image"><img src="../resources/images/welcome/6.jpg" alt=" " class="img-responsive" /></a>
                                 <div class="new-collections-grid1-image-pos">
                                     <a href="single.html">Quick View</a>
                                 </div>
                                 <div class="new-collections-grid1-right">
                                     <div class="rating">
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="clearfix"> </div>
                                     </div>
@@ -237,26 +235,26 @@
                     <div class="new-collections-grid1-sub">
                         <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                             <div class="new-collections-grid1-image">
-                                <a href="single.html" class="product-image"><img src="resources/images/welcome/9.jpg" alt=" " class="img-responsive" /></a>
+                                <a href="single.html" class="product-image"><img src="../resources/images/welcome/9.jpg" alt=" " class="img-responsive" /></a>
                                 <div class="new-collections-grid1-image-pos">
                                     <a href="single.html">Quick View</a>
                                 </div>
                                 <div class="new-collections-grid1-right">
                                     <div class="rating">
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="rating-left">
-                                            <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                            <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                         </div>
                                         <div class="clearfix"> </div>
                                     </div>
@@ -275,26 +273,26 @@
             <div class="col-md-3 new-collections-grid">
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="resources/images/welcome/10.jpg" alt=" " class="img-responsive" /></a>
+                        <a href="single.html" class="product-image"><img src="../resources/images/welcome/10.jpg" alt=" " class="img-responsive" /></a>
                         <div class="new-collections-grid1-image-pos">
                             <a href="single.html">Quick View</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
@@ -308,26 +306,26 @@
                 </div>
                 <div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
                     <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img src="resources/images/welcome/11.jpg" alt=" " class="img-responsive" /></a>
+                        <a href="single.html" class="product-image"><img src="../resources/images/welcome/11.jpg" alt=" " class="img-responsive" /></a>
                         <div class="new-collections-grid1-image-pos">
                             <a href="single.html">Quick View</a>
                         </div>
                         <div class="new-collections-grid1-right">
                             <div class="rating">
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/2.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/2.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="rating-left">
-                                    <img src="resources/images/welcome/1.png" alt=" " class="img-responsive" />
+                                    <img src="../resources/images/welcome/1.png" alt=" " class="img-responsive" />
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>

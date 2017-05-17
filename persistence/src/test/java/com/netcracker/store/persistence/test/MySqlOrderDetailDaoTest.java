@@ -92,7 +92,7 @@ public class MySqlOrderDetailDaoTest{
         UserOrder userOrder = new UserOrder(
                 new Date(System.currentTimeMillis()),
                 orderStatusDao.getAll().get(0),
-                userDao.get(2),
+                userDao.getAll().get(0),
                 new HashSet<>(orderDetailDao.getAll()));
         userOrderDao.add(userOrder);
         OrderDetail orderDetail = new OrderDetail(new OrderDetailPK(userOrder.getId(), dress.getId()), 2);

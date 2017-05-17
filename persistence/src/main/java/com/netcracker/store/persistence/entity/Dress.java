@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Set;
 
@@ -20,21 +24,28 @@ public class Dress extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
+    @NotNull
     private Manufacturer manufacturer;
 
     @ManyToOne
     @JoinColumn(name = "type_id", referencedColumnName = "id")
+    @NotNull
     private Type type;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @NotNull
     private Category category;
 
     @OneToOne(mappedBy = "dress")
     private Description description;
 
+    @NotNull
+    @DecimalMin(value = "0")
     private double price;
 
+    @NotNull
+    @Min(value = 0)
     private int amount;
 
     @Column(name = "image_source")

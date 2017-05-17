@@ -1,16 +1,16 @@
-<div class="container" ng-controller="dressListController as ctrl">
+<div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchDressesByType()">
     <div class="row">
         <div ng-repeat="d in ctrl.dresses" class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-body">
                     <a href="#/dress/{{d.id}}">
-                        <img src="images/dress/mainImages/{{d.imageSource}}" class="img-responsive" style="max-height: 250px;" alt="Image">
+                        <img src="images/dress/mainImages/{{d.imageSource}}" class="img-responsive" style="height: 200px;" alt="Image">
                     </a>
                 </div>
                 <div class="panel-footer">
-                    <span ng-bind="d.manufacturer.name"></span><br>
-                    <span ng-bind="d.category.name"></span><br>
-                    <span ng-bind="d.price"></span>
+                    <span>Manufacturer: {{d.manufacturer.name}}</span><br>
+                    <span>Category: {{d.category.name}}</span><br>
+                    <span>Price: {{d.price}}</span>
                 </div>
                 <div restrict access="admin">
                     <a href="#/dressAdmin/{{d.id}}">

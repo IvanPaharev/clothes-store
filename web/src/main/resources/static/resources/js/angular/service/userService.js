@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp').factory('authService', ['$http', function($http){
+angular.module('myApp').factory('userService', ['$http', '$q', function($http, $q){
 
     var user = {};
 
@@ -8,11 +8,32 @@ angular.module('myApp').factory('authService', ['$http', function($http){
         getUser: getUser,
         authenticate: authenticate,
         logout: logout,
-        register: register
+        register: register,
+        fetchUser: fetchUser,
+        updateUser: updateUser
     };
 
     function getUser() {
         return user;
+    }
+
+    function fetchUser() {
+        var deferred = $q.defer();
+        $http.post('user/details', user.name)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function(errResponse){
+                console.error('Error while fetching categories');
+                deferred.reject(errResponse);
+            }
+        );
+        return deferred.promise;
+    }
+
+    function updateUser(user) {
+        $http.put('user', user);
     }
 
     function authenticate(scope, credentials, callback) {

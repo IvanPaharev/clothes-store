@@ -1,4 +1,4 @@
-angular.module('myApp').controller('loginController', ['$rootScope', '$location', 'authService', function($rootScope, $location, authService) {
+angular.module('myApp').controller('loginController', ['$rootScope', '$location', 'userService', function($rootScope, $location, userService) {
     var self = this;
 
     self.user = {
@@ -17,17 +17,17 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$location'
     self.credentials = {};
 
     self.register = function () {
-        authService.register(self.user);
+        userService.register(self.user);
         $location.path("/");
     };
 
     self.logout = function() {
-        authService.logout($rootScope);
+        userService.logout($rootScope);
         $location.path("/");
     };
 
     self.login = function() {
-        authService.authenticate($rootScope, self.credentials, function() {
+        userService.authenticate($rootScope, self.credentials, function() {
             if ($rootScope.authenticated) {
                 $location.path("/");
                 self.error = false;

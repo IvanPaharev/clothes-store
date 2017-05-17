@@ -32,10 +32,13 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.colors=[];
     self.sizes=[];
     self.imageFiles=[];
+    self.mainImageFile=null;
     self.userBag=[];
+    self.homeDresses=[];
 
     self.dressQuantity=null;
-    self.imgSrc=null;
+    self.mainImgSrc=null;
+    self.imgSrc=[];
 
     self.fetchDressById = fetchDressById;
     self.addDress = addDress;
@@ -46,8 +49,18 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.addDressToBag = addDressToBag;
     self.getUserBag = getUserBag;
     self.deleteDressFromUserBag = deleteDressFromUserBag;
+    self.fetchHomeDresses = fetchHomeDresses;
+    self.validateInput = validateInput;
+    self.fetchAllDresses = fetchAllDresses;
+    self.fetchDressesByType = fetchDressesByType;
 
-    fetchAllDresses();
+    function fetchHomeDresses() {
+        dressService.fetchHomeDresses();
+        self.homeDresses.push("resources/images/jackets/nigel_cabourn/1.jpg");
+        self.homeDresses.push("resources/images/welcome/1.jpg");
+        self.homeDresses.push("resources/images/welcome/2.jpg");
+        self.homeDresses.push("resources/images/welcome/3.jpg");
+    }
 
     function fetchAllDresses(){
         dressService.fetchAllDresses()
@@ -61,16 +74,30 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
         );
     }
 
-    function fetchDressProperties() {
-        dressService.fetchDressById($routeParams.id)
+    function fetchDressesByType() {
+        dressService.fetchDressesByType($routeParams.type)
             .then(
-                function (d) {
-                    self.dress = d;
+                function(d) {
+                    self.dresses = d;
                 },
-                function (errResponse) {
-                    console.error('Error while fetching dress by id:' + errResponse.toString());
+                function(errResponse){
+                    console.error('Error while fetching Users'+errResponse);
                 }
             );
+    }
+
+    function fetchDressProperties() {
+        if ($routeParams.id) {
+            dressService.fetchDressById($routeParams.id)
+                .then(
+                    function (d) {
+                        self.dress = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while fetching dress by id:' + errResponse.toString());
+                    }
+                );
+        }
         dressService.fetchCategories()
             .then(
                 function (c) {
@@ -118,6 +145,12 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
             );
     }
 
+    function validateInput() {
+        if (self.dressQuantity){
+            console.log(self.dressQuantity);
+        }
+    }
+
     function fetchDressById() {
         dressService.fetchDressById($routeParams.id)
             .then(
@@ -133,7 +166,7 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     }
 
     function addDress() {
-        dressService.addDress(self.dress, self.imageFiles);
+        dressService.addDress(self.dress, self.mainImageFile, self.imageFiles);
     }
 
     function editDress(id) {
@@ -160,11 +193,15 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
             );
     }
 
-    function readAsDataUrl(file) {
+    function readAsDataUrl(file, flag) {
         dressService.readAsDataUrl(file, $scope)
             .then(
                 function (result) {
-                    self.imgSrc = result;
+                    if (flag === 'mainImage') {
+                        self.mainImgSrc = result;
+                    } else {
+                        self.imgSrc[flag] = result;
+                    }
                 }
             );
     }

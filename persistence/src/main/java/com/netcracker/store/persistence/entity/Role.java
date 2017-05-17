@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -24,6 +25,7 @@ public class Role extends BaseEntity {
     private static final long serialVersionUID = 8101419755624978165L;
 
     @Column(unique = true)
+    @NotNull
     private String role;
 
     @ManyToMany(mappedBy = "roleSet")

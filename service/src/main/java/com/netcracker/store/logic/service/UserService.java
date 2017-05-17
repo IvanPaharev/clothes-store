@@ -12,6 +12,7 @@ import java.util.Set;
 public interface UserService {
     User getUserByEmail(String email);
     void addUser(User user);
+    void updateUser(User user);
     Set<User> getAllUsers();
     void deleteUser(User user);
 }

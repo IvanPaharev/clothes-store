@@ -6,15 +6,15 @@
             </div>
             <div class="row">
                 <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
-                    <img src="resources/images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
+                    <img src="images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div>
-                <p>{{ctrl.dress.manufacturer.name}}</p>
-                <p>{{ctrl.dress.category.name}}</p>
-                <p>{{ctrl.dress.price}}</p>
+                <p>Manufacturer: {{ctrl.dress.manufacturer.name}}</p>
+                <p>Category: {{ctrl.dress.category.name}}</p>
+                <p>Price: {{ctrl.dress.price}}</p>
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -41,8 +41,8 @@
                 <button ng-click="ctrl.addDressToBag()" class="btn btn-primary" type="button">Add to bag!</button>
             </div>
             <div>
-                <p>{{ctrl.dress.description.english}}</p>
-                <p>{{ctrl.dress.id}}</p>
+                <p>Description: {{ctrl.dress.description.english}}</p>
+                <p>Dress ID: {{ctrl.dress.id}}</p>
             </div>
         </div>
     </div>

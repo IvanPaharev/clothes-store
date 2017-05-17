@@ -49,35 +49,38 @@ var App = angular.module('myApp',['ngRoute', 'ngFileUpload'])
 
         //noinspection JSUnresolvedFunction
         $routeProvider.when('/', {
-            templateUrl : 'home.html',
+            templateUrl : 'pages/home.html',
             controller : 'dressListController'
-        }).when('/dressList', {
-            templateUrl : 'dressList.html',
+        }).when('/dressList/:type', {
+            templateUrl : 'pages/dressList.html',
             controller : 'dressListController'
         }).when('/dress/:id', {
-            templateUrl: '/dress.html',
+            templateUrl: 'pages/dress.html',
             controller : 'dressListController'
         }).when('/userBag', {
-            templateUrl: '/userBag.html',
+            templateUrl: 'pages/userBag.html',
             controller : 'dressListController'
         }).when('/orderPage', {
-            templateUrl: '/orderPage.html',
+            templateUrl: 'pages/orderPage.html',
             controller : 'paymentController'
         }).when('/dressAdmin', {
-            templateUrl: '/dressAdmin.html',
+            templateUrl: 'pages/dressAdmin.html',
             controller : 'dressListController'
         }).when('/dressAdmin/:id', {
-            templateUrl: '/dressAdmin.html',
+            templateUrl: 'pages/dressAdmin.html',
             controller : 'dressListController'
         }).when('/login', {
-            templateUrl : 'login.html',
+            templateUrl : 'pages/login.html',
             controller : 'loginController'
         }).when('/register', {
-            templateUrl : 'register.html',
+            templateUrl : 'pages/register.html',
             controller : 'loginController'
         }).when('/categoriesList', {
-            templateUrl : 'categoriesList.html',
+            templateUrl : 'pages/categoriesList.html',
             controller : 'categoryController'
+        }).when('/userRoom', {
+            templateUrl : 'pages/user/userRoom.html',
+            controller : 'userController'
         }).otherwise('/');
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';

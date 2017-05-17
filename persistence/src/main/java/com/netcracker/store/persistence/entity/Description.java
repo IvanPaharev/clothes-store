@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -23,10 +24,13 @@ public class Description implements Serializable{
 
     @Id
     @Column(name = "dress_id")
+    @NotNull
     private int dressId;
 
+    @NotNull
     private String english;
 
+    @NotNull
     private String russian;
 
     @OneToOne

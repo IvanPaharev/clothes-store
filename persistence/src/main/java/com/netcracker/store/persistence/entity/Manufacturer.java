@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class Manufacturer extends BaseEntity {
     private static final long serialVersionUID = 7722192986659845970L;
 
     @Column(unique = true)
+    @NotNull
     private String name;
 
     private String description;

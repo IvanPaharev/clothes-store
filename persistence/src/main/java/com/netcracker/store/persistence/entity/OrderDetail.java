@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,18 +22,23 @@ public class OrderDetail implements Serializable {
     private static final long serialVersionUID = 5604812482204021100L;
 
     @EmbeddedId
+    @NotNull
     protected OrderDetailPK orderDetailPK;
 
+    @NotNull
+    @Min(value = 0)
     private int quantity;
 
     @JoinColumn(name = "dress_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     @ManyToOne
+    @NotNull
     private Dress dress;
 
     @JoinColumn(name = "user_order_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     @ManyToOne
+    @NotNull
     private UserOrder userOrder;
 
     public OrderDetail() {

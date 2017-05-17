@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by A-one on 19.04.2017.
@@ -19,11 +20,13 @@ public class DressImage extends BaseEntity {
     private static final long serialVersionUID = -5879513953579091985L;
 
     @Column(name = "image_source")
+    @NotNull
     private String imageSource;
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "dress_id", referencedColumnName = "id")
+    @NotNull
     private Dress dress;
 
     @Override

@@ -50,12 +50,19 @@ public class DressServiceImpl implements DressService {
     @Resource(name = "mySqlDescriptionDao")
     private DescriptionDao descriptionDao;
 
+    @Autowired
+    private DressImageDao dressImageDao;
+
     private List<DressAndQuantity> userBag = new ArrayList<>();
 
     @Override
     public List<Dress> getAllDresses(){
-        List<Dress> dresses = dressDao.getAll();
         return dressDao.getAll();
+    }
+
+    @Override
+    public List<Dress> getDressesByType(String type) {
+        return dressDao.getDressesByType(type);
     }
 
     @Override
@@ -134,5 +141,10 @@ public class DressServiceImpl implements DressService {
     @Override
     public void deleteDressFromUserBag(DressAndQuantity dressAndQuantity) {
         userBag.remove(dressAndQuantity);
+    }
+
+    @Override
+    public void addDressImage(Dress dress, String fileName) {
+        dressImageDao.add(new DressImage(fileName, dress));
     }
 }

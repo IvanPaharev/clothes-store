@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -22,6 +23,7 @@ public class OrderStatus extends BaseEntity{
     private static final long serialVersionUID = 272256990910779772L;
 
     @Column(unique = true)
+    @NotNull
     private String status;
 
     private String description;

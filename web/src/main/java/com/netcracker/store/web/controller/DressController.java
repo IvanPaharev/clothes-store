@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +25,36 @@ import java.util.Map;
 @RestController
 public class DressController {
 
-    private byte[] multipartFile;
+    private byte[][] multipartFiles = new byte[10][];
 
     @Autowired
     private DressService dressService;
 
     @RequestMapping(value = "/dress/", method = RequestMethod.GET)
     public ResponseEntity<List<Dress>> getAllDresses() {
-        List<Dress> dresses = dressService.getAllEightTimes();
+        List<Dress> dresses = dressService.getAllDresses();
+        if (dresses.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(dresses, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/dressList/{type}", method = RequestMethod.GET)
+    public ResponseEntity<List<Dress>> getDressesByCategory(@PathVariable String type) {
+        List<Dress> dresses = dressService.getDressesByType(type);
+        if (dresses.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(dresses, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/dress_home", method = RequestMethod.GET)
+    public ResponseEntity<List<String>> getHDresses() {
+        List<String> dresses = new ArrayList<>();
+        dresses.add("resources/images/jackets/nigel_cabourn/1.jpg");
+        dresses.add("resources/images/welcome/1.jpg");
+        dresses.add("resources/images/welcome/2.jpg");
+        dresses.add("resources/images/welcome/3.jpg");
         if (dresses.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -87,19 +111,32 @@ public class DressController {
     @RequestMapping(value = "/dress/", method = RequestMethod.POST)
     public void createDress(@RequestBody Dress dress) {
         dressService.addDress(dress);
-        String fileName = dress.getId() + ".jpg";
+        int dressId = dress.getId();
+        String fileName = dressId + ".jpg";
         try {
             Path path = Paths.get("D:\\dressStoreImages\\dress\\mainImages\\" + fileName);
-            Files.write(path,multipartFile);
+            Files.write(path, multipartFiles[0]);
+            multipartFiles[0] = null;
+            for (int i = 1; i < multipartFiles.length; i++) {
+                if (multipartFiles[i] != null) {
+                    fileName = dressId + "_" + i + ".jpg";
+                    path = Paths.get("D:\\dressStoreImages\\dress\\otherImages\\" + fileName);
+                    Files.write(path, multipartFiles[i]);
+                    dressService.addDressImage(dress, fileName);
+                }
+                multipartFiles[i] = null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @RequestMapping(value = "/dress_img")
-    public void uploadImg(@RequestParam("file")MultipartFile file) {
+    @RequestMapping(value = "/image/{id}")
+    public void uploadImg(@RequestParam("file") MultipartFile file, @PathVariable("id") int id) {
         try {
-            multipartFile = file.getBytes();
+            if (id < multipartFiles.length) {
+                multipartFiles[id] = file.getBytes();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

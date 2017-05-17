@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -22,8 +23,10 @@ public class User extends BaseEntity {
     private static final long serialVersionUID = 4425799012842683419L;
 
     @Column(unique = true)
+    @NotNull
     private String email;
 
+    @NotNull
     private String password;
 
     private String address;

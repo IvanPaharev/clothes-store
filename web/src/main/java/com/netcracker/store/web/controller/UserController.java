@@ -40,6 +40,11 @@ public class UserController {
         userService.addUser(user);
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    public void updateUser(@RequestBody User user) {
+        userService.updateUser(user);
+    }
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<Set<User>> getAllUsers() {
         Set<User> users = userService.getAllUsers();
@@ -49,20 +54,10 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-        /*    @RequestMapping(value = "/dress/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createDress(@RequestBody Dress dress, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating User " + dress.getCategory().getName());
+    @RequestMapping(value = "/details", method = RequestMethod.POST)
+    public ResponseEntity<User> getUserDetails(@RequestBody String email) {
+        User user = userService.getUserByEmail(email);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
-        if (dress.getId() != null && dressService.getDressById(dress.getId()) != null) {
-            System.out.println("A User with name " + dress.getCategory().getName() + " already exist");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
-
-        System.out.println(dress.toString());
-        dressService.add(dress);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/dress/{id}").buildAndExpand(dress.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }*/
 }

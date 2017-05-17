@@ -50,6 +50,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     return {
         fetchAllDresses: fetchAllDresses,
+        fetchDressesByType: fetchDressesByType,
         fetchDressById: fetchDressById,
         fetchCategories: fetchCategories,
         fetchManufacturers: fetchManufacturers,
@@ -63,8 +64,14 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         readAsDataUrl: readAsDataUrl,
         addDressToBag: addDressToBag,
         getUserBag: getUserBag,
-        deleteDressFromUserBag: deleteDressFromUserBag
+        deleteDressFromUserBag: deleteDressFromUserBag,
+        fetchHomeDresses: fetchHomeDresses,
+        uploadDress: uploadDress
     };
+
+    function fetchHomeDresses() {
+        return null;
+    }
 
     function fetchAllDresses() {
         var deferred = $q.defer();
@@ -81,6 +88,21 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
+    function fetchDressesByType(type) {
+        var deferred = $q.defer();
+        $http.get('dressList/' + type)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while fetching Users');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
     function fetchDressById(id) {
         var deferred = $q.defer();
         $http.get(REST_SERVICE_URI+id)
@@ -91,7 +113,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
                     dress = response.data;
                 },
                 function (errResponse) {
-                    console.error('Error while fetching user by id');
+                    console.error('Error while fetching dress by id');
                     deferred.reject(errResponse);
                 }
             );
@@ -178,11 +200,28 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return dress;
     }
 
-    function addDress(dress, imageFiles) {
+    function addDress(dress, mainImageFile, imageFiles) {
         var deferred = $q.defer();
-        Upload.upload({
-            url: 'dress_img',
-            file: imageFiles[0]
+        var counter = 0;
+        imageFiles.unshift(mainImageFile);
+        for (var i = 0; i < imageFiles.length; i++) {
+            Upload.upload({
+                url: 'image/' + i,
+                file: imageFiles[i]
+            }).success(function (data, status, headers, config) {
+                counter++;
+                console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                console.log(counter);
+                console.log(imageFiles.length);
+                if (counter == imageFiles.length) {
+                    uploadDress(dress, deferred);
+                }
+            });
+        }
+        imageFiles.splice(0, 1);
+        /*Upload.upload({
+            url: 'images',
+            file: imageFiles
         }).success(function (data, status, headers, config) {
             $http.post(REST_SERVICE_URI, dress)
                 .then(
@@ -190,13 +229,26 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
                         deferred.resolve(response.data);
                     },
                     function(errResponse){
-                        console.error('Error while creating User');
+                        console.error('Error while creating dress');
                         deferred.reject(errResponse);
                     }
                 );
-            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-        });
+            console.log('file ' + config.file + 'uploaded. Response: ' + data);
+        });*/
         return deferred.promise;
+    }
+
+    function uploadDress(dress, deferred) {
+        $http.post(REST_SERVICE_URI, dress)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while creating dress');
+                    deferred.reject(errResponse);
+                }
+            );
     }
 
     function editDress(id, dress) {
@@ -234,7 +286,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         var dressAndQuantity = {
             dress: dress,
             quantity: quantity
-        }
+        };
         $http.post('addDressToBag', dressAndQuantity)
             .then(
                 function (response) {

@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -22,15 +23,18 @@ public class UserOrder extends BaseEntity {
     private static final long serialVersionUID = -8529336881202343860L;
 
     @Column(name = "date_created")
+    @NotNull
     private Date dateCreated;
 
     @ManyToOne
     @JoinColumn(name = "order_status_id", referencedColumnName = "id")
+    @NotNull
     private OrderStatus orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
+    @NotNull
     private User user;
 
     @OneToMany(mappedBy = "userOrder")

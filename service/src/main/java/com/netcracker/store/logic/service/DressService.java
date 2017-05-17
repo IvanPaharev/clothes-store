@@ -13,6 +13,7 @@ import java.util.Map;
 @Service
 public interface DressService {
     List<Dress> getAllDresses();
+    List<Dress> getDressesByType(String type);
     List<Dress> getAllEightTimes();
     Dress getDressById(int id);
     List<Manufacturer> getManufacturers();
@@ -26,4 +27,5 @@ public interface DressService {
     void addDressToBag(DressAndQuantity dressAndQuantity);
     void deleteDressFromUserBag(DressAndQuantity dressAndQuantity);
     List<DressAndQuantity> getUserBag();
+    void addDressImage(Dress dress, String fileName);
 }
