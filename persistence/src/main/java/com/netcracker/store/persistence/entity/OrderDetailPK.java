@@ -30,11 +30,9 @@ public class OrderDetailPK implements Serializable {
     private static final long serialVersionUID = -1381453765352891148L;
 
     @Column(name = "user_order_id")
-    @NotNull
     private int userOrderId;
 
     @Column(name = "dress_id")
-    @NotNull
     private int dressId;
 
     public OrderDetailPK() {

@@ -220,8 +220,8 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
             );
     }
 
-    function deleteDressFromUserBag(dressAndQuantity) {
-        dressService.deleteDressFromUserBag(dressAndQuantity);
+    function deleteDressFromUserBag(orderDetail) {
+        dressService.deleteDressFromUserBag(orderDetail);
         getUserBag();
     }
 

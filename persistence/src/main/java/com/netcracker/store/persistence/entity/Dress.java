@@ -1,5 +1,7 @@
 package com.netcracker.store.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -55,6 +57,7 @@ public class Dress extends BaseEntity {
     private Date releaseDate;
 
     @OneToMany(mappedBy = "dress")
+    @JsonIgnore
     private Set<OrderDetail> orderDetailSet;
 
     @ManyToMany

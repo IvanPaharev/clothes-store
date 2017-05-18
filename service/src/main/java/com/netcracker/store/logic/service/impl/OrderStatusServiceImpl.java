@@ -23,4 +23,9 @@ public class OrderStatusServiceImpl implements OrderStatusService {
     public List<OrderStatus> getAllOrderStatuses() {
         return orderStatusDao.getAll();
     }
+
+    @Override
+    public OrderStatus getUserBagOrderStatus() {
+        return orderStatusDao.getUserBagStatus();
+    }
 }

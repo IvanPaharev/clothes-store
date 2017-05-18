@@ -9,19 +9,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="dressAndQuantity in ctrl.userBag">
+            <tr ng-repeat="orderDetail in ctrl.userBag">
                 <td>
-                    <span>{{dressAndQuantity.dress.category.name}}</span><br>
-                    <span>{{dressAndQuantity.dress.manufacturer.name}}</span>
+                    <span>{{orderDetail.dress.category.name}}</span><br>
+                    <span>{{orderDetail.dress.manufacturer.name}}</span>
                 </td>
                 <td>
-                    <img src="images/dress/mainImages/{{dressAndQuantity.dress.imageSource}}" alt="Dress image" class="img-responsive" />
+                    <img src="images/dress/mainImages/{{orderDetail.dress.imageSource}}" alt="Dress image" class="img-responsive" />
                 </td>
                 <td>
-                    <span>{{dressAndQuantity.quantity}}</span>
+                    <span>{{orderDetail.quantity}}</span>
                 </td>
                 <td>
-                    <button type="button" ng-click="ctrl.deleteDressFromUserBag(dressAndQuantity)" class="btn btn-danger custom-width">Remove</button>
+                    <button type="button" ng-click="ctrl.deleteDressFromUserBag(orderDetail)" class="btn btn-danger custom-width">Remove</button>
                 </td>
             </tr>
         </tbody>

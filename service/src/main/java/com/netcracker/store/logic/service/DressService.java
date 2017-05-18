@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by A-one on 20.04.2017.
@@ -24,8 +25,8 @@ public interface DressService {
     void addDress(Dress dress);
     void deleteDress(int id);
     void updateDress(Dress dress);
-    void addDressToBag(DressAndQuantity dressAndQuantity);
+/*    void addDressToBag(DressAndQuantity dressAndQuantity);
     void deleteDressFromUserBag(DressAndQuantity dressAndQuantity);
-    List<DressAndQuantity> getUserBag();
+    Set<OrderDetail> getUserBag();*/
     void addDressImage(Dress dress, String fileName);
 }

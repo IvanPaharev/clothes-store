@@ -283,11 +283,11 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function addDressToBag(dress, quantity) {
         var deferred = $q.defer();
-        var dressAndQuantity = {
+        var orderDetail = {
             dress: dress,
             quantity: quantity
         };
-        $http.post('addDressToBag', dressAndQuantity)
+        $http.post('addDressToBag', orderDetail)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -315,9 +315,9 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
-    function deleteDressFromUserBag(dressAndQuantity) {
+    function deleteDressFromUserBag(orderDetail) {
         var deferred = $q.defer();
-        $http.post('deleteDressFromUserBag', dressAndQuantity)
+        $http.post('deleteDressFromUserBag', orderDetail)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

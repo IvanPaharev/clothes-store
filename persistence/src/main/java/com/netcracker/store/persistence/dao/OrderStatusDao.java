@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface OrderStatusDao extends BaseDao<OrderStatus, Integer> {
+    OrderStatus getUserBagStatus();
 }

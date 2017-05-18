@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,6 +31,14 @@ public abstract class MySqlBaseDao<E, ID extends Serializable> implements BaseDa
     }
 
     @Override
+    public void addAll(Collection<E> collection) {
+        Session session = getCurrentSession();
+        for (E e : collection) {
+            session.persist(e);
+        }
+    }
+
+    @Override
     public E get(ID id) {
         return getCurrentSession().get(daoClass, id);
     }
@@ -37,6 +46,13 @@ public abstract class MySqlBaseDao<E, ID extends Serializable> implements BaseDa
     @Override
     public void update(E e) {
         getCurrentSession().update(e);
+    }
+
+    @Override
+    public void delete(E e) {
+        if (e != null) {
+            getCurrentSession().delete(e);
+        }
     }
 
     @Override
@@ -57,7 +73,13 @@ public abstract class MySqlBaseDao<E, ID extends Serializable> implements BaseDa
         return session.createCriteria(daoClass).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();//session.createQuery(criteria).list();
     }
 
-
+    @Override
+    public void deleteAll(Collection<E> collection) {
+        Session session = getCurrentSession();
+        for (E e : collection) {
+            session.delete(e);
+        }
+    }
 
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();

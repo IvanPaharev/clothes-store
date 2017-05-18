@@ -87,7 +87,7 @@ var App = angular.module('myApp',['ngRoute', 'ngFileUpload'])
 
     });
 
-App.directive('restrict', function(authService){
+App.directive('restrict', function(userService){
     return{
         restrict: 'A',
         priority: 100000,
@@ -95,7 +95,7 @@ App.directive('restrict', function(authService){
         link: function(){},
         compile:  function(element, attr, linker){
             var accessDenied = true;
-            var user = authService.getUser();
+            var user = userService.getUser();
             var attributes = attr.access.split(" ");
             for(var i in attributes){
                 for (var j in user.authorities) {

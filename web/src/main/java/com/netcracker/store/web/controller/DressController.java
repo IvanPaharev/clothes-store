@@ -1,6 +1,7 @@
 package com.netcracker.store.web.controller;
 
 import com.netcracker.store.logic.service.DressService;
+import com.netcracker.store.logic.service.UserOrderService;
 import com.netcracker.store.persistence.entity.*;
 import com.netcracker.store.logic.dto.DressAndQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by A-one on 20.04.2017.
@@ -29,6 +27,9 @@ public class DressController {
 
     @Autowired
     private DressService dressService;
+
+    @Autowired
+    private UserOrderService userOrderService;
 
     @RequestMapping(value = "/dress/", method = RequestMethod.GET)
     public ResponseEntity<List<Dress>> getAllDresses() {
@@ -156,17 +157,17 @@ public class DressController {
     }
 
     @RequestMapping(value = "/addDressToBag", method = RequestMethod.POST)
-    public void addDressToBag(@RequestBody DressAndQuantity dressAndQuantity) {
-        dressService.addDressToBag(dressAndQuantity);
+    public void addDressToBag(@RequestBody OrderDetail orderDetail) {
+        userOrderService.addToUserBag(orderDetail);
     }
 
     @RequestMapping(value = "/getUserBag", method = RequestMethod.GET)
-    public ResponseEntity<List<DressAndQuantity>> getUserBag(){
-        return new ResponseEntity<List<DressAndQuantity>>(dressService.getUserBag(), HttpStatus.OK);
+    public ResponseEntity<Set<OrderDetail>> getUserBag(){
+        return new ResponseEntity<>(userOrderService.getUserBag(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/deleteDressFromUserBag", method = RequestMethod.POST)
-    public void deleteDressFromUserBag(@RequestBody DressAndQuantity dressAndQuantity) {
-        dressService.deleteDressFromUserBag(dressAndQuantity);
+    public void deleteDressFromUserBag(@RequestBody OrderDetail orderDetail) {
+        userOrderService.deleteDressFromUserBag(orderDetail);
     }
 }

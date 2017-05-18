@@ -2,6 +2,7 @@ package com.netcracker.store.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +23,6 @@ public class OrderDetail implements Serializable {
     private static final long serialVersionUID = 5604812482204021100L;
 
     @EmbeddedId
-    @NotNull
     protected OrderDetailPK orderDetailPK;
 
     @NotNull
@@ -30,15 +30,12 @@ public class OrderDetail implements Serializable {
     private int quantity;
 
     @JoinColumn(name = "dress_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @JsonIgnore
     @ManyToOne
-    @NotNull
     private Dress dress;
 
     @JoinColumn(name = "user_order_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnore
     @ManyToOne
-    @NotNull
     private UserOrder userOrder;
 
     public OrderDetail() {

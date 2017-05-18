@@ -24,7 +24,6 @@ public class Description implements Serializable{
 
     @Id
     @Column(name = "dress_id")
-    @NotNull
     private int dressId;
 
     @NotNull

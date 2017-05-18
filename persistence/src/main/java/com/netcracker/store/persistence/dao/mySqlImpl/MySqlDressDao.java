@@ -20,7 +20,6 @@ public class MySqlDressDao extends MySqlBaseDao<Dress, Integer> implements Dress
     public List<Dress> getDressesByType(String type) {
         Query query = getCurrentSession().createQuery("from Dress where type.name = :type");
         query.setParameter("type", type);
-        List<Dress> dresses = query.list();
         return query.list();
     }
 }

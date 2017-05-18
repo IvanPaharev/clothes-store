@@ -29,6 +29,6 @@ public class PaymentController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Boolean> addUserOrder(){
         userOrderService.addUserOrder();
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
