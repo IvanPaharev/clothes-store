@@ -1,14 +1,18 @@
 package com.netcracker.store.persistence.test;
 
 import com.netcracker.store.persistence.dao.BaseDao;
+import com.netcracker.store.persistence.dao.ColorDao;
 import com.netcracker.store.persistence.dao.DressDao;
 import com.netcracker.store.persistence.entity.*;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.annotation.Resource;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 public class MySqlDressDaoTest extends BaseDaoGenericTest {
 
     @Autowired
-    @Resource(name = "mySqlDressDao")
     private DressDao dressDao;
 
     @Autowired
@@ -30,8 +33,7 @@ public class MySqlDressDaoTest extends BaseDaoGenericTest {
     private BaseDao<Type, Integer> classDao;
 
     @Autowired
-    @Resource(name = "mySqlColorDao")
-    private BaseDao<Color, Integer> colorDao;
+    private ColorDao colorDao;
 
     @Autowired
     @Resource(name = "mySqlSizeDao")
@@ -60,6 +62,20 @@ public class MySqlDressDaoTest extends BaseDaoGenericTest {
         dress.setPrice(price);
         getDao().update(dress);
         assertEquals(price, (Double) dress.getPrice());
+    }
+
+    @Test
+    public void testCriteria() {
+        System.out.println("hello");
+        List<Category> categories = new ArrayList<>();
+        List<Manufacturer> manufacturers = new ArrayList<>();
+        manufacturers.add(manufacturerDao.getAll().get(1));
+        manufacturers.add(manufacturerDao.getAll().get(6));
+        List<Dress> dresses = dressDao.getAllByCriteria(categoryDao.getAll(), manufacturers, 550, 900, "women");
+        for (Dress dress : dresses) {
+            System.out.println(dress);
+            System.out.println(dresses.size());
+        }
     }
 
     @Override

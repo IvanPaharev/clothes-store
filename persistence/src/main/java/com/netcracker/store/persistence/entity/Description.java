@@ -26,10 +26,8 @@ public class Description implements Serializable{
     @Column(name = "dress_id")
     private int dressId;
 
-    @NotNull
     private String english;
 
-    @NotNull
     private String russian;
 
     @OneToOne

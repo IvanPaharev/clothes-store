@@ -8,6 +8,7 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
         getUser: getUser,
         authenticate: authenticate,
         logout: logout,
+        initAuthentication: initAuthentication,
         register: register,
         fetchUser: fetchUser,
         updateUser: updateUser
@@ -57,9 +58,31 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
 
     }
 
-    function logout(scope) {
+    function initAuthentication(scope) {
+        var deferred = $q.defer();
+        $http.get('user')
+            .then(
+                function(response) {
+                    if (response.data.name) {
+                        user = response.data;
+                        scope.authenticated = true;
+                        deferred.resolve(response.data);
+                    } else {
+                        scope.authenticated = false;
+                    }
+                },
+                function (errResponse) {
+                    console.error('Error while auth initialization: ' + errResponse);
+                    deferred.resolve(errResponse)
+                }
+            );
+        return deferred.promise;
+    }
+
+    function logout(scope, location) {
         $http.post('logout', {}).finally(function() {
             scope.authenticated = false;
+            location.path("/");
         });
     }
 

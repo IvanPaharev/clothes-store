@@ -8,9 +8,9 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     var self = this;
     self.dress = {
         id: null,
-        manufacturer: {},
-        type: {},
-        category: {},
+        manufacturer: null,
+        type: null,
+        category: null,
         description: {
             dressId: null,
             english: null,
@@ -21,24 +21,33 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
         imageSource: null,
         releaseDate: null,
         orderDetailSet: null,
-        sizeSet: [],
-        colorSet: [],
-        dressImageSet: []
+        sizeSet: null,
+        colorSet: null,
+        dressImageSet: null
     };
-    self.dresses=[];
-    self.categories=[];
-    self.types=[];
-    self.manufacturers=[];
-    self.colors=[];
-    self.sizes=[];
-    self.imageFiles=[];
+    self.dresses=null;
+    self.categories=null;
+    self.types=null;
+    self.manufacturers=null;
+    self.colors=null;
+    self.sizes=null;
+    self.imageFiles=null;
     self.mainImageFile=null;
-    self.userBag=[];
-    self.homeDresses=[];
+    self.userBag=null;
+    self.homeDresses=null;
 
     self.dressQuantity=null;
     self.mainImgSrc=null;
     self.imgSrc=[];
+    self.sizeTypes=['common', 'uk', 'us', 'italy', 'france', 'russian', 'german', 'japan'];
+    self.sizeType='common';
+
+    self.criteria={
+        categories:[],
+        manufacturers:[],
+        priceFrom:0,
+        priceTo:99999
+    };
 
     self.fetchDressById = fetchDressById;
     self.addDress = addDress;
@@ -54,8 +63,13 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.fetchAllDresses = fetchAllDresses;
     self.fetchDressesByType = fetchDressesByType;
 
+    self.fetchDressesByCriteria = fetchDressesByCriteria;
+    self.toggleCategorySelection = toggleCategorySelection;
+    self.toggleManufacturerSelection = toggleManufacturerSelection;
+
     function fetchHomeDresses() {
         dressService.fetchHomeDresses();
+        self.homeDresses = [];
         self.homeDresses.push("resources/images/jackets/nigel_cabourn/1.jpg");
         self.homeDresses.push("resources/images/welcome/1.jpg");
         self.homeDresses.push("resources/images/welcome/2.jpg");
@@ -75,6 +89,24 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     }
 
     function fetchDressesByType() {
+        dressService.fetchCategories()
+            .then(
+                function (c) {
+                    self.categories = c;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching categories:' + errResponse.toString());
+                }
+            );
+        dressService.fetchManufacturers()
+            .then(
+                function (m) {
+                    self.manufacturers = m;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching manufacturers:' + errResponse.toString());
+                }
+            );
         dressService.fetchDressesByType($routeParams.type)
             .then(
                 function(d) {
@@ -223,6 +255,40 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     function deleteDressFromUserBag(orderDetail) {
         dressService.deleteDressFromUserBag(orderDetail);
         getUserBag();
+    }
+
+    function fetchDressesByCriteria() {
+        dressService.fetchDressesByCriteria(self.criteria, $routeParams.type)
+            .then(
+                function(d) {
+                    self.dresses = d;
+                },
+                function(errResponse){
+                    console.error('Error while fetching Users'+errResponse);
+                }
+            );
+    }
+
+    function toggleCategorySelection(category) {
+        var idx = self.criteria.categories.indexOf(category);
+        if (idx > -1) {
+            self.criteria.categories.splice(idx, 1);
+        }
+        else {
+            self.criteria.categories.push(category);
+        }
+        self.fetchDressesByCriteria();
+    }
+
+    function toggleManufacturerSelection(manufacturer) {
+        var idx = self.criteria.manufacturers.indexOf(manufacturer);
+        if (idx > -1) {
+            self.criteria.manufacturers.splice(idx, 1);
+        }
+        else {
+            self.criteria.manufacturers.push(manufacturer);
+        }
+        self.fetchDressesByCriteria();
     }
 
     $scope.$watch('imageFiles', function () {

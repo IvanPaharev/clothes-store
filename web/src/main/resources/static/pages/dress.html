@@ -21,10 +21,17 @@
                     <label for="sizeSelect">Size:</label>
                     <select id="sizeSelect"
                             ng-model="ctrl.dress.sizeSet"
-                            ng-options="item.ukSize for item in ctrl.sizes"
+                            ng-options="item.{{ctrl.sizeType}} for item in ctrl.sizes"
                             multiple>
                     </select>
                 </div>
+<!--                <div class="col-sm-2">
+                    <label for="sizeTypeSelect">Size type:</label>
+                    <select id="sizeTypeSelect"
+                            ng-model="ctrl.dress.sizeType"
+                            ng-options="item for item in ctrl.sizeTypes">
+                    </select>
+                </div>-->
                 <div class="col-sm-6">
                     <label for="colorSelect">Color:</label>
                     <select id="colorSelect"

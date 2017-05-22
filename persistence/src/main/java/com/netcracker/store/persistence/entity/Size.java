@@ -23,9 +23,37 @@ public class Size extends BaseEntity{
 
     private static final long serialVersionUID = 8101419755624978165L;
 
-    @Column(name = "uk_size", unique = true)
+    @Column(name = "common", unique = true)
     @NotNull
-    private Integer ukSize;
+    private String common;
+
+    @Column(name = "uk", unique = true)
+    @NotNull
+    private Integer uk;
+
+    @Column(name = "us", unique = true)
+    @NotNull
+    private String us;
+
+    @Column(name = "italy", unique = true)
+    @NotNull
+    private Integer italy;
+
+    @Column(name = "france", unique = true)
+    @NotNull
+    private Integer france;
+
+    @Column(name = "russia", unique = true)
+    @NotNull
+    private Integer russia;
+
+    @Column(name = "germany", unique = true)
+    @NotNull
+    private Integer germany;
+
+    @Column(name = "japan", unique = true)
+    @NotNull
+    private Integer japan;
 
     @ManyToMany(mappedBy = "sizeSet")
     @JsonIgnore
@@ -35,15 +63,37 @@ public class Size extends BaseEntity{
         super();
     }
 
-    public Size(Integer ukSize, Set<Dress> dressesSet) {
-        this.ukSize = ukSize;
+    public Size(String common,
+                Integer uk,
+                String us,
+                Integer italy,
+                Integer france,
+                Integer russia,
+                Integer germany,
+                Integer japan,
+                Set<Dress> dressesSet) {
+        this.common = common;
+        this.uk = uk;
+        this.us = us;
+        this.italy = italy;
+        this.france = france;
+        this.russia = russia;
+        this.germany = germany;
+        this.japan = japan;
         this.dressesSet = dressesSet;
     }
 
     @Override
     public String toString() {
         return "Size{" +
-                "ukSize=" + ukSize +
+                "common='" + common + '\'' +
+                ", uk=" + uk +
+                ", us='" + us + '\'' +
+                ", italy=" + italy +
+                ", france=" + france +
+                ", russia=" + russia +
+                ", germany=" + germany +
+                ", japan=" + japan +
                 '}';
     }
 
@@ -54,13 +104,26 @@ public class Size extends BaseEntity{
 
         Size size = (Size) o;
 
-        return ukSize != null ? ukSize.equals(size.ukSize) : size.ukSize == null;
-
+        if (!common.equals(size.common)) return false;
+        if (!uk.equals(size.uk)) return false;
+        if (!us.equals(size.us)) return false;
+        if (!italy.equals(size.italy)) return false;
+        if (!france.equals(size.france)) return false;
+        if (!russia.equals(size.russia)) return false;
+        if (!germany.equals(size.germany)) return false;
+        return japan.equals(size.japan);
     }
 
     @Override
     public int hashCode() {
-        int result = ukSize != null ? ukSize.hashCode() : 0;
+        int result = common.hashCode();
+        result = 31 * result + uk.hashCode();
+        result = 31 * result + us.hashCode();
+        result = 31 * result + italy.hashCode();
+        result = 31 * result + france.hashCode();
+        result = 31 * result + russia.hashCode();
+        result = 31 * result + germany.hashCode();
+        result = 31 * result + japan.hashCode();
         return result;
     }
 }

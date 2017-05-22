@@ -30,9 +30,9 @@ public class MySqlSizeDaoTest extends BaseDaoGenericTest{
     public void testUpdate() {
         Integer newName = 2;
         Size size = (Size) getDao().get(testId);
-        size.setUkSize(newName);
+        size.setUk(newName);
         getDao().update(size);
-        assertEquals(newName, size.getUkSize());
+        assertEquals(newName, size.getUk());
     }
 
     @Override
@@ -42,6 +42,6 @@ public class MySqlSizeDaoTest extends BaseDaoGenericTest{
 
     @Override
     protected BaseEntity getEntity() {
-        return new Size(2, new HashSet<>(dressDao.getAll()));
+        return new Size("test", 2, "test", 2, 2, 2, 2, 2, new HashSet<>(dressDao.getAll()));
     }
 }

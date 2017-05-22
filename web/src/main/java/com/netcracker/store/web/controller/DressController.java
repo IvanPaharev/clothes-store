@@ -1,5 +1,6 @@
 package com.netcracker.store.web.controller;
 
+import com.netcracker.store.logic.dto.Criteria;
 import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.logic.service.UserOrderService;
 import com.netcracker.store.persistence.entity.*;
@@ -23,7 +24,7 @@ import java.util.*;
 @RestController
 public class DressController {
 
-    private byte[][] multipartFiles = new byte[10][];
+    private byte[][] multipartFiles = new byte[100][];
 
     @Autowired
     private DressService dressService;
@@ -169,5 +170,10 @@ public class DressController {
     @RequestMapping(value = "/deleteDressFromUserBag", method = RequestMethod.POST)
     public void deleteDressFromUserBag(@RequestBody OrderDetail orderDetail) {
         userOrderService.deleteDressFromUserBag(orderDetail);
+    }
+
+    @RequestMapping(value = "/dressesByCriteria/{type}", method = RequestMethod.POST)
+    public ResponseEntity<List<Dress>> getDressesByCreiteria(@RequestBody Criteria criteria, @PathVariable String type) {
+        return new ResponseEntity<List<Dress>>(dressService.getDressesByCriteria(criteria, type), HttpStatus.OK);
     }
 }

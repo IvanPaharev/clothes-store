@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,20 +25,27 @@ import static org.junit.Assert.*;
 public abstract class BaseDaoGenericTest {
 
     private BaseEntity entity;
-
     protected int testId;
+    private int deleteId;
 
     @Before
     public void setUp(){
         entity = getEntity();
-        testId = ((BaseEntity)getDao().getAll().get(0)).getId();
+        testId = ((BaseEntity)getDao().getAll().get(1)).getId();
     }
 
     @Test
-    public void testAddAndGetAll() {
-        int size = getDao().getAll().size();
+    public void testGetAll() {
+        List es = getDao().getAll();
+        assertNotNull(es);
+        assertEquals(false, es.isEmpty());
+    }
+
+    @Test
+    public void testAdd() {
         getDao().add(entity);
-        assertTrue(size < getDao().getAll().size());
+        assertNotNull(getDao().get(entity.getId()));
+        deleteId = entity.getId();
     }
 
     @Test
@@ -50,8 +59,8 @@ public abstract class BaseDaoGenericTest {
 
     @Test
     public void testDelete() {
-        getDao().delete(testId);
-        assertNull(getDao().get(testId));
+        getDao().delete(deleteId);
+        assertNull(getDao().get(deleteId));
     }
 
     protected abstract BaseDao getDao();

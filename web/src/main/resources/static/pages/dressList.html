@@ -1,22 +1,52 @@
 <div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchDressesByType()">
     <div class="row">
-        <div ng-repeat="d in ctrl.dresses" class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-body">
-                    <a href="#/dress/{{d.id}}">
-                        <img src="images/dress/mainImages/{{d.imageSource}}" class="img-responsive" style="height: 200px;" alt="Image">
-                    </a>
+        <div class="col-sm-3">
+            <span>Categories:</span>
+            <div ng-repeat="category in ctrl.categories">
+                <div class="action-checkbox">
+                    <input id="{{category.name}}" type="checkbox" value="{{category.name}}"
+                           ng-checked="ctrl.criteria.selectedCategories.indexOf(category) > -1"
+                           ng-click="ctrl.toggleCategorySelection(category)" />
+                    <label for="{{category.name}}">{{category.name}}</label>
                 </div>
-                <div class="panel-footer">
-                    <span>Manufacturer: {{d.manufacturer.name}}</span><br>
-                    <span>Category: {{d.category.name}}</span><br>
-                    <span>Price: {{d.price}}</span>
+            </div>
+            <span>Manufacturers:</span>
+            <div ng-repeat="manufacturer in ctrl.manufacturers">
+                    <div class="action-checkbox">
+                    <input id="{{manufacturer.name}}" type="checkbox" value="{{manufacturer.name}}"
+                           ng-checked="ctrl.criteria.selectedManufacturers.indexOf(manufacturer) > -1"
+                           ng-click="ctrl.toggleManufacturerSelection(manufacturer)" />
+                    <label for="{{manufacturer.name}}">{{manufacturer.name}}</label>
                 </div>
-                <div restrict access="admin">
-                    <a href="#/dressAdmin/{{d.id}}">
-                        <button>Edit</button>
-                    </a>
-                    <button ng-click="ctrl.removeDress(d.id)">Remove</button>
+            </div>
+            <span>Price from:</span>
+            <input type="text" ng-model="ctrl.criteria.priceFrom" class="form-control input-sm"
+                   placeholder="Price from" ng-blur="ctrl.fetchDressesByCriteria()"/>
+            <span>Price to:</span>
+            <input type="text" ng-model="ctrl.criteria.priceTo" class="form-control input-sm"
+                   placeholder="Price to" ng-blur="ctrl.fetchDressesByCriteria()"/>
+        </div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div ng-repeat="d in ctrl.dresses" class="col-sm-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a href="#/dress/{{d.id}}">
+                                <img src="images/dress/mainImages/{{d.imageSource}}" class="img-responsive" style="height: 200px;" alt="Image">
+                            </a>
+                        </div>
+                        <div class="panel-footer">
+                            <span>Manufacturer: {{d.manufacturer.name}}</span><br>
+                            <span>Category: {{d.category.name}}</span><br>
+                            <span>Price: {{d.price}}</span>
+                        </div>
+                        <div restrict access="admin">
+                            <a href="#/dressAdmin/{{d.id}}">
+                                <button>Edit</button>
+                            </a>
+                            <button ng-click="ctrl.removeDress(d.id)">Remove</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

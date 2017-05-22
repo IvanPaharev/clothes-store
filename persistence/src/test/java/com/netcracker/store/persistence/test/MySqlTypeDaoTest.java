@@ -1,12 +1,11 @@
 package com.netcracker.store.persistence.test;
 
 import com.netcracker.store.persistence.dao.BaseDao;
+import com.netcracker.store.persistence.dao.TypeDao;
 import com.netcracker.store.persistence.entity.BaseEntity;
 import com.netcracker.store.persistence.entity.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-import javax.annotation.Resource;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,8 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class MySqlTypeDaoTest extends BaseDaoGenericTest{
 
     @Autowired
-    @Resource(name = "mySqlTypeDao")
-    private BaseDao<Type, Integer> classDao;
+    private TypeDao typeDao;
 
     @Override
     public void testUpdate() {
@@ -30,7 +28,7 @@ public class MySqlTypeDaoTest extends BaseDaoGenericTest{
 
     @Override
     protected BaseDao getDao() {
-        return classDao;
+        return typeDao;
     }
 
     @Override

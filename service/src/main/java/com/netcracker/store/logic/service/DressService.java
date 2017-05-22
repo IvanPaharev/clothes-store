@@ -1,5 +1,6 @@
 package com.netcracker.store.logic.service;
 
+import com.netcracker.store.logic.dto.Criteria;
 import com.netcracker.store.logic.dto.DressAndQuantity;
 import com.netcracker.store.persistence.entity.*;
 import org.springframework.stereotype.Service;
@@ -29,4 +30,6 @@ public interface DressService {
     void deleteDressFromUserBag(DressAndQuantity dressAndQuantity);
     Set<OrderDetail> getUserBag();*/
     void addDressImage(Dress dress, String fileName);
+
+    List<Dress> getDressesByCriteria(Criteria criteria, String type);
 }

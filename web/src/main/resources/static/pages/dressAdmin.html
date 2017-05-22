@@ -6,21 +6,29 @@
                  accept="image/*" ngf-pattern="'image/*'">
                 <span>Upload main image</span>
             </div>
-            <div ngf-drop ngf-select ng-model="ctrl.imageFiles" class="drop-box"
-                 ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-                 accept="image/*" ngf-pattern="'image/*'">
-                <span>Upload secondary images</span>
-            </div>
             <div ng-if="ctrl.mainImageFile">
                 <div ng-init="ctrl.readAsDataUrl(ctrl.mainImageFile, 'mainImage')">
                     <img ng-show="ctrl.mainImageFile" ng-src="{{ctrl.mainImgSrc}}" style="max-height: 400px;" class="img-responsive"alt="Dress photo">
                 </div>
+            </div>
+            <div ng-if="!ctrl.mainImageFile && ctrl.dress.imageSource">
+                <img src="images/dress/mainImages/{{ctrl.dress.imageSource}}" style="max-height: 500px;" class="img-responsive"alt="Dress photo">
+            </div>
+            <div ngf-drop ngf-select ng-model="ctrl.imageFiles" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                 accept="image/*" ngf-pattern="'image/*'">
+                <span>Upload secondary images</span>
             </div>
             <div class="row">
                 <div ng-repeat="img in ctrl.imageFiles track by $index" class="col-sm-3">
                     <div ng-init="ctrl.readAsDataUrl(ctrl.imageFiles[$index], $index)">
                         <img ng-show="ctrl.imgSrc[$index]" ng-src={{ctrl.imgSrc[$index]}} class="img-responsive" alt="Dress photo">
                     </div>
+                </div>
+            </div>
+            <div ng-if="!ctrl.imageFiles && ctrl.dress.dressImageSet" class="row">
+                <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
+                    <img src="images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
                 </div>
             </div>
         </div>
@@ -53,7 +61,7 @@
                     <label for="sizeSelect">Size:</label>
                     <select id="sizeSelect"
                             ng-model="ctrl.dress.sizeSet"
-                            ng-options="item.ukSize for item in ctrl.sizes"
+                            ng-options="item.common for item in ctrl.sizes"
                             multiple>
                     </select>
                 </div>

@@ -1,6 +1,7 @@
 package com.netcracker.store.persistence.test;
 
 import com.netcracker.store.persistence.dao.BaseDao;
+import com.netcracker.store.persistence.dao.CategoryDao;
 import com.netcracker.store.persistence.entity.BaseEntity;
 import com.netcracker.store.persistence.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class MySqlCategoryDaoTest extends BaseDaoGenericTest {
 
     @Autowired
-    @Resource(name = "mySqlCategoryDao")
-    private BaseDao<Category, Integer> categoryDao;
+    private CategoryDao categoryDao;
 
     @Override
     public void testUpdate() {

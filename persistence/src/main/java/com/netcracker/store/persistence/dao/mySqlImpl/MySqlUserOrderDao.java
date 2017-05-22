@@ -4,9 +4,10 @@ import com.netcracker.store.persistence.entity.User;
 import com.netcracker.store.persistence.entity.UserOrder;
 import com.netcracker.store.persistence.dao.UserOrderDao;
 import org.hibernate.Hibernate;
-import org.hibernate.Query;
+//import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Query;
 import java.util.List;
 
 
@@ -21,11 +22,11 @@ public class MySqlUserOrderDao extends MySqlBaseDao<UserOrder, Integer> implemen
 
     @Override
     public UserOrder getUserBagOrder(User user) {
-        Query query = getCurrentSession().createQuery("from UserOrder " +
+        Query query = entityManager.createQuery("from UserOrder " +
                 "where user = :user and orderStatus.status = :orderStatus");
         query.setParameter("user", user);
         query.setParameter("orderStatus", "IN_USER_BAG");
-        List<UserOrder> userBagOrder = query.list();
+        List<UserOrder> userBagOrder = query.getResultList();
         UserOrder userOrder = null;
         if (userBagOrder.size() == 1) {
             userOrder = userBagOrder.get(0);

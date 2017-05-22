@@ -1,35 +1,27 @@
 angular.module('myApp').controller('loginController', ['$rootScope', '$location', 'userService', function($rootScope, $location, userService) {
     var self = this;
 
-    self.user = {
-            "id": null,
-            "email": '',
-            "password": '',
-            "userOrderSet": [],
-            "roleSet": [
-                {
-                    "id": 1,
-                    "role": "user"
-                }
-            ]
-        };
-
     self.credentials = {};
 
     self.register = function () {
         userService.register(self.user);
-        $location.path("/");
     };
 
     self.logout = function() {
-        userService.logout($rootScope);
-        $location.path("/");
+        userService.logout($rootScope, $location);
     };
 
     self.login = function() {
         userService.authenticate($rootScope, self.credentials, function() {
             if ($rootScope.authenticated) {
                 $location.path("/");
+                $rootScope.user = userService.getUser();
+                $rootScope.isAdmin = false;
+                for (var i in $rootScope.user.authorities) {
+                    if ($rootScope.user.authorities[i].authority == 'admin') {
+                        $rootScope.isAdmin = true;
+                    }
+                }
                 self.error = false;
             } else {
                 $location.path("/login");
@@ -38,51 +30,22 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$location'
         });
     };
 
-/*    var authenticate = function(credentials, callback) {
-
-        var headers = credentials ? {authorization : "Basic "
-        + btoa(credentials.username + ":" + credentials.password)
-        } : {};
-
-        $http.get('user', {headers : headers}).then(function(response) {
-            if (response.data.name) {
-                $rootScope.authenticated = true;
-            } else {
-                $rootScope.authenticated = false;
-            }
-            callback && callback();
-        }, function() {
-            $rootScope.authenticated = false;
-            callback && callback();
-        });
-
+    self.initAuthentication = function () {
+        userService.initAuthentication($rootScope)
+            .then(
+                function (user) {
+                    $rootScope.user = user;
+                    $rootScope.isAdmin = false;
+                    for (var i in $rootScope.user.authorities) {
+                        if ($rootScope.user.authorities[i].authority == 'admin') {
+                            $rootScope.isAdmin = true;
+                        }
+                    }
+                },
+                function (errResponse) {
+                    console.log('Error while auth init: ' + errResponse);
+                }
+            );
     };
 
-    self.register = function () {
-        console.error("register");
-        console.log("register");
-        $http.post('user', self.user);
-        $location.path("/");
-    };
-
-    self.logout = function() {
-        $http.post('logout', {}).finally(function() {
-            $rootScope.authenticated = false;
-            $location.path("/");
-        });
-    };
-
-    authenticate();
-    self.credentials = {};
-    self.login = function() {
-        authenticate(self.credentials, function() {
-            if ($rootScope.authenticated) {
-                $location.path("/");
-                self.error = false;
-            } else {
-                $location.path("/login");
-                self.error = true;
-            }
-        });
-    };*/
 }]);

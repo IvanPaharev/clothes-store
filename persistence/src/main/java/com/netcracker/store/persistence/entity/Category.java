@@ -41,7 +41,7 @@ public class Category extends BaseEntity {
     @Override
     public String toString() {
         return "Category{" +
-                "role='" + name + '\'' +
+                "name='" + name + '\'' +
                 '}';
     }
 
@@ -52,14 +52,11 @@ public class Category extends BaseEntity {
 
         Category category = (Category) o;
 
-        if (name != null ? !name.equals(category.name) : category.name != null) return false;
-        return dressSet != null ? dressSet.equals(category.dressSet) : category.dressSet == null;
-
+        return name != null ? name.equals(category.name) : category.name == null;
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 }

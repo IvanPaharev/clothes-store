@@ -81,7 +81,10 @@ var App = angular.module('myApp',['ngRoute', 'ngFileUpload'])
         }).when('/userRoom', {
             templateUrl : 'pages/user/userRoom.html',
             controller : 'userController'
-        }).otherwise('/');
+        }).otherwise('/', {
+            templateUrl: 'pages/home.html',
+            controller: 'dressListController'
+        });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 

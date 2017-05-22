@@ -2,8 +2,9 @@ package com.netcracker.store.persistence.dao.mySqlImpl;
 
 import com.netcracker.store.persistence.dao.OrderStatusDao;
 import com.netcracker.store.persistence.entity.OrderStatus;
-import org.hibernate.Query;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.Query;
 
 
 /**
@@ -17,8 +18,8 @@ public class MySqlOrderStatusDao extends MySqlBaseDao<OrderStatus, Integer> impl
 
     @Override
     public OrderStatus getUserBagStatus() {
-        Query query = getCurrentSession().createQuery("from OrderStatus where status = :status");
+        Query query = entityManager.createQuery("from OrderStatus where status = :status");
         query.setParameter("status", "IN_USER_BAG");
-        return (OrderStatus) query.list().get(0);
+        return (OrderStatus) query.getResultList().get(0);
     }
 }

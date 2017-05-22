@@ -1,5 +1,6 @@
 package com.netcracker.store.logic.service.impl;
 
+import com.netcracker.store.logic.dto.Criteria;
 import com.netcracker.store.logic.dto.DressAndQuantity;
 import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.logic.service.UserOrderService;
@@ -120,23 +121,25 @@ public class DressServiceImpl implements DressService {
         dressDao.update(dress);
     }
 
-/*    @Override
-    public void addDressToBag(DressAndQuantity dressAndQuantity) {
-        userOrderService.addToUserBag(dressAndQuantity);
-    }
-
-    @Override
-    public Set<OrderDetail> getUserBag() {
-        return userOrderService.getUserBag();
-    }
-
-    @Override
-    public void deleteDressFromUserBag(DressAndQuantity dressAndQuantity) {
-        userBag.remove(dressAndQuantity);
-    }*/
-
     @Override
     public void addDressImage(Dress dress, String fileName) {
         dressImageDao.add(new DressImage(fileName, dress));
+    }
+
+    @Override
+    public List<Dress> getDressesByCriteria(Criteria criteria, String type) {
+        if (criteria.getCategories().size() == 0) {
+            criteria.setCategories(categoryDao.getAll());
+        }
+        if (criteria.getManufacturers().size() == 0) {
+            criteria.setManufacturers(manufacturerDao.getAll());
+        }
+        return dressDao.getAllByCriteria(
+                criteria.getCategories(),
+                criteria.getManufacturers(),
+                criteria.getPriceFrom(),
+                criteria.getPriceTo(),
+                type
+        );
     }
 }

@@ -40,18 +40,18 @@
                             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="https://github.com/IvanPaharev/clothes-store"><i class="fa fa-github"></i></a></li>
                             <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa fa-vk"></i></a></li>
+                            <li><a href="https://vk.com/id254693006"><i class="fa fa-vk"></i></a></li>
                             <li><a href="#"><i class="fa fa-skype"></i></a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-4 social-header" ng-controller="loginController as ctrl">
-                    <ul class="reg-list">
+                    <ul class="reg-list" ng-init="ctrl.initAuthentication()">
                         <li><a href="#/userBag"><i class="fa fa-shopping-cart"></i></a></li>
                         <li ng-show="!authenticated"><a href="#/register"><!--ui-sref="register">-->Register</a></li>
                         <li ng-show="!authenticated"><a href="#/login"> <!--ui-sref="login">-->Sign in</a></li>
-                        <li ng-show="authenticated"><a href="#/userRoom">User room</a></li>
-                        <li ng-show="authenticated"><a href="#/dressAdmin">Admin dress</a></li>
+                        <li ng-show="authenticated"><a href="#/userRoom">{{user.name}}</a></li>
+                        <li ng-show="authenticated && isAdmin"><a href="#/dressAdmin">Admin dress</a></li>
                         <li ng-show="authenticated"><a href="#" ng-click="ctrl.logout()">Logout</a></li>
                     </ul>
                 </div>
@@ -75,8 +75,8 @@
                 <ul class="nav navbar-nav">
                     <li><a href="#/dressList/women"><!--ui-sref="dressList">-->Women</a></li>
                     <li><a href="#/dressList/men">Men</a></li>
-                    <li><a href="#/dressList/girls">Girls</a></li>
-                    <li><a href="#/dressList/boys">Boys</a></li>
+                    <li><a href="#/dressList/girl">Girls</a></li>
+                    <li><a href="#/dressList/boy">Boys</a></li>
                     <li><a href="#/dressList/new">New</a></li>
                     <li>
                         <div class="search" style="padding-top: 5px">
