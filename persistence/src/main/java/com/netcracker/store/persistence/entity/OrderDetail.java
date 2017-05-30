@@ -38,6 +38,14 @@ public class OrderDetail implements Serializable {
     @ManyToOne
     private UserOrder userOrder;
 
+    @JoinColumn(name = "color_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne
+    private Color color;
+
+    @JoinColumn(name = "size_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne
+    private Size size;
+
     public OrderDetail() {
     }
 

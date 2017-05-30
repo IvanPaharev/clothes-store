@@ -9,7 +9,7 @@ import java.util.List;
  * Created by A-one on 07.05.2017.
  */
 @Service
-public interface OrderStatusService {
+public interface OrderStatusService extends BaseService<OrderStatus, Integer> {
     List<OrderStatus> getAllOrderStatuses();
     OrderStatus getUserBagOrderStatus();
 }

@@ -68,13 +68,10 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         fetchHomeDresses: fetchHomeDresses,
         uploadDress: uploadDress,
 
-        addCategoryToQuery: addCategoryToQuery,
-        addManufacturerToQuery: addManufacturerToQuery,
-        addColorToQuery: addColorToQuery,
-        addSizeToQuery: addSizeToQuery,
-        addPriceRangeToQuery: addPriceRangeToQuery,
-        addDateRangeToQuery: addDateRangeToQuery,
-        fetchDressesByCriteria: fetchDressesByCriteria
+        getQueryCount: getQueryCount,
+        fetchDressesByCriteria: fetchDressesByCriteria,
+
+        getCurrencyInfo: getCurrencyInfo
     };
 
     function fetchHomeDresses() {
@@ -114,6 +111,21 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
     function fetchDressesByCriteria(criteria, type) {
         var deferred = $q.defer();
         $http.post('dressesByCriteria/' + type, criteria)
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while fetching Users');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+    
+    function getQueryCount(criteria, type) {
+        var deferred = $q.defer();
+        $http.post('getQueryCount/' + type, criteria)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -288,10 +300,12 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
-    function addDressToBag(dress, quantity) {
+    function addDressToBag(dress, color, size, quantity) {
         var deferred = $q.defer();
         var orderDetail = {
             dress: dress,
+            color: color,
+            size: size,
             quantity: quantity
         };
         $http.post('addDressToBag', orderDetail)
@@ -337,102 +351,18 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
-    function addCategoryToQuery(category) {
+    function getCurrencyInfo() {
         var deferred = $q.defer();
-        $http.post('addCategoryToQuery', category)
+        $http.get('http://api.fixer.io/latest?base=USD')
             .then(
-                function (response) {
+                function(response) {
                     deferred.resolve(response.data);
                 },
-                function(errResponse){
-                    console.error('Error while adding category to query: ' + errResponse);
+                function (errResponse) {
+                    console.error('Error while fetching colors');
                     deferred.reject(errResponse);
                 }
             );
         return deferred.promise;
     }
-
-    function addManufacturerToQuery(manufacturer) {
-        var deferred = $q.defer();
-        $http.post('addManufacturerToQuery', manufacturer)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function(errResponse){
-                    console.error('Error while adding manufacturer to query: ' + errResponse);
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
-    }
-
-    function addColorToQuery(color) {
-        var deferred = $q.defer();
-        $http.post('addColorToQuery', color)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function(errResponse){
-                    console.error('Error while adding color to query: ' + errResponse);
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
-    }
-
-    function addSizeToQuery(size) {
-        var deferred = $q.defer();
-        $http.post('addSizeToQuery', size)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function(errResponse){
-                    console.error('Error while adding size to query: ' + errResponse);
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
-    }
-
-    function addPriceRangeToQuery(priceFrom, priceTo) {
-        var deferred = $q.defer();
-        var priceRange = {
-            priceFrom: priceFrom,
-            priceTo: priceTo
-        };
-        $http.post('addPriceRangeToQuery', priceRange)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function(errResponse){
-                    console.error('Error while adding price range to query: ' + errResponse);
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
-    }
-
-    function addDateRangeToQuery(dateFrom, dateTo) {
-        var deferred = $q.defer();
-        var dateRange = {
-            dateFrom: dateFrom,
-            dateTo: dateTo
-        };
-        $http.post('addDateRangeToQuery', dateRange)
-            .then(
-                function (response) {
-                    deferred.resolve(response.data);
-                },
-                function(errResponse){
-                    console.error('Error while adding date range to query: ' + errResponse);
-                    deferred.reject(errResponse);
-                }
-            );
-        return deferred.promise;
-    }
-
 }]);

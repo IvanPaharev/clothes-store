@@ -15,14 +15,14 @@
                 <p>Manufacturer: {{ctrl.dress.manufacturer.name}}</p>
                 <p>Category: {{ctrl.dress.category.name}}</p>
                 <p>Price: {{ctrl.dress.price}}</p>
+                <p>Release date: {{ctrl.dress.releaseDate}}</p>
             </div>
             <div class="row">
                 <div class="col-sm-6">
                     <label for="sizeSelect">Size:</label>
                     <select id="sizeSelect"
-                            ng-model="ctrl.dress.sizeSet"
-                            ng-options="item.{{ctrl.sizeType}} for item in ctrl.sizes"
-                            multiple>
+                            ng-model="ctrl.size"
+                            ng-options="item.{{ctrl.sizeType}} for item in ctrl.sizes">
                     </select>
                 </div>
 <!--                <div class="col-sm-2">
@@ -35,9 +35,8 @@
                 <div class="col-sm-6">
                     <label for="colorSelect">Color:</label>
                     <select id="colorSelect"
-                            ng-model="ctrl.dress.colorSet"
-                            ng-options="item.color for item in ctrl.colors"
-                            multiple>
+                            ng-model="ctrl.color"
+                            ng-options="item.color for item in ctrl.colors">
                     </select>
                 </div>
                 <div class="col-sm-4">

@@ -27,3 +27,7 @@ ul.reg-list li + li:before{
 
 .checkboxdemoSelectAll .demo-select-all-checkboxes {
     padding-left: 30px; }
+
+.page-button:focus {
+    background-color: burlywood;
+}

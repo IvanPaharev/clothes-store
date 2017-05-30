@@ -87,7 +87,18 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
     }
 
     function register(user) {
-        $http.post('user', user);
+        var deferred = $q.defer();
+        $http.post('user', user)
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    console.error('Error while auth initialization: ' + errResponse);
+                    deferred.resolve(errResponse)
+                }
+            );
+        return deferred.promise;
     }
 
 }]);

@@ -1,7 +1,5 @@
 package com.netcracker.store.logic.service.impl;
 
-import com.netcracker.store.logic.dto.DressAndQuantity;
-import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.logic.service.OrderStatusService;
 import com.netcracker.store.logic.service.UserOrderService;
 import com.netcracker.store.logic.service.UserService;
@@ -17,14 +15,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by A-one on 07.05.2017.
  */
 @Service
 @Transactional
-public class UserOrderServiceImpl implements UserOrderService {
+public class UserOrderServiceImpl extends BaseServiceImpl<UserOrder, Integer> implements UserOrderService {
 
     private final UserOrderDao userOrderDao;
     private final UserService userService;
@@ -36,6 +36,7 @@ public class UserOrderServiceImpl implements UserOrderService {
                                 UserService userService,
                                 OrderStatusService orderStatusService,
                                 OrderDetailDao orderDetailDao) {
+        super(userOrderDao);
         this.userOrderDao = userOrderDao;
         this.userService = userService;
         this.orderStatusService = orderStatusService;;
@@ -56,8 +57,12 @@ public class UserOrderServiceImpl implements UserOrderService {
         int userOrderId = userOrder.getId();
         for (OrderDetail orderDetail : userBag) {
             newOrderDetailSet.add(new OrderDetail(
-                    new OrderDetailPK(userOrderId, orderDetail.getDress().getId()), orderDetail.getQuantity()
-            ));
+                    new OrderDetailPK(
+                            userOrderId,
+                            orderDetail.getDress().getId(),
+                            orderDetail.getColor().getId(),
+                            orderDetail.getSize().getId()
+                    ), orderDetail.getQuantity()));
         }
         orderDetailDao.addAll(newOrderDetailSet);
         orderDetailDao.deleteAll(userBag);
@@ -75,7 +80,12 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrder.setUser(user);
             userOrderDao.add(userOrder);
         }
-        orderDetail.setOrderDetailPK(new OrderDetailPK(userOrder.getId(), orderDetail.getDress().getId()));
+        orderDetail.setOrderDetailPK(new OrderDetailPK(
+                userOrder.getId(),
+                orderDetail.getDress().getId(),
+                orderDetail.getColor().getId(),
+                orderDetail.getSize().getId()
+        ));
         orderDetailDao.add(orderDetail);
     }
 

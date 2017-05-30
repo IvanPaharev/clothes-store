@@ -1,5 +1,6 @@
 package com.netcracker.store.logic.service.impl;
 
+import com.netcracker.store.logic.service.BaseService;
 import com.netcracker.store.logic.service.OrderStatusService;
 import com.netcracker.store.persistence.dao.OrderStatusDao;
 import com.netcracker.store.persistence.entity.OrderStatus;
@@ -14,10 +15,15 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class OrderStatusServiceImpl implements OrderStatusService {
+public class OrderStatusServiceImpl extends BaseServiceImpl<OrderStatus, Integer> implements OrderStatusService {
+
+    private final OrderStatusDao orderStatusDao;
 
     @Autowired
-    private OrderStatusDao orderStatusDao;
+    public OrderStatusServiceImpl(OrderStatusDao orderStatusDao) {
+        super(orderStatusDao);
+        this.orderStatusDao = orderStatusDao;
+    }
 
     @Override
     public List<OrderStatus> getAllOrderStatuses() {

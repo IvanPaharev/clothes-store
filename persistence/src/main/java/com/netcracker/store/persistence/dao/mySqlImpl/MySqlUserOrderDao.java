@@ -6,15 +6,19 @@ import com.netcracker.store.persistence.dao.UserOrderDao;
 import org.hibernate.Hibernate;
 //import org.hibernate.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 
 /**
  * Created by A-one on 10.04.2017.
  */
-@Component
+@Repository
 public class MySqlUserOrderDao extends MySqlBaseDao<UserOrder, Integer> implements UserOrderDao {
     public MySqlUserOrderDao() {
         super(UserOrder.class);
@@ -22,14 +26,17 @@ public class MySqlUserOrderDao extends MySqlBaseDao<UserOrder, Integer> implemen
 
     @Override
     public UserOrder getUserBagOrder(User user) {
-        Query query = entityManager.createQuery("from UserOrder " +
-                "where user = :user and orderStatus.status = :orderStatus");
-        query.setParameter("user", user);
-        query.setParameter("orderStatus", "IN_USER_BAG");
-        List<UserOrder> userBagOrder = query.getResultList();
+        CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
+        CriteriaQuery<UserOrder> criteriaQuery = builder.createQuery(UserOrder.class);
+        Root<UserOrder> root = criteriaQuery.from(UserOrder.class);
+        criteriaQuery.select(root);
+        criteriaQuery.where(builder.and(
+                builder.equal(root.get("orderStatus").get("status"), "IN_USER_BAG"),
+                builder.equal(root.get("user"), user)));
+        List<UserOrder> userOrders = entityManager.createQuery(criteriaQuery).getResultList();
         UserOrder userOrder = null;
-        if (userBagOrder.size() == 1) {
-            userOrder = userBagOrder.get(0);
+        if(!userOrders.isEmpty()) {
+            userOrder = userOrders.get(0);
             Hibernate.initialize(userOrder.getOrderDetailSet());
         }
         return userOrder;

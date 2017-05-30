@@ -2,9 +2,42 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$location'
     var self = this;
 
     self.credentials = {};
+    self.confirmPassword = null;
+    self.isPasswordsNotMatch = false;
+    self.isPasswordNotCorrect = false;
+    self.isEmailNotFree = false;
+    self.isRegistered = false;
+    self.user = {
+        email: null,
+        password: null
+    };
+
 
     self.register = function () {
-        userService.register(self.user);
+        if (self.user.password === self.confirmPassword) {
+            self.isPasswordsNotMatch = false;
+            if (self.user.password.length >=6 && self.user.password.length <= 20) {
+                self.isPasswordNotCorrect = false;
+                userService.register(self.user)
+                    .then(
+                        function (response) {
+                            self.isEmailNotFree = response;
+                            if (!response) {
+                                self.isRegistered = true;
+                            }
+                        },
+                        function (errResponse) {
+                            console.log('Error while auth init: ' + errResponse);
+                        }
+                    );
+            } else {
+                self.isRegistered = false;
+                self.isPasswordNotCorrect = true;
+            }
+        } else {
+            self.isRegistered = false;
+            self.isPasswordsNotMatch = true;
+        }
     };
 
     self.logout = function() {

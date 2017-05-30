@@ -11,11 +11,12 @@
         <tbody>
             <tr ng-repeat="orderDetail in ctrl.userBag">
                 <td>
-                    <span>{{orderDetail.dress.category.name}}</span><br>
-                    <span>{{orderDetail.dress.manufacturer.name}}</span>
+                    <span>Category: {{orderDetail.dress.category.name}}</span><br>
+                    <span>Manufacturer: {{orderDetail.dress.manufacturer.name}}</span><br>
+                    <span>Price: {{orderDetail.dress.price}}</span>
                 </td>
                 <td>
-                    <img src="images/dress/mainImages/{{orderDetail.dress.imageSource}}" alt="Dress image" class="img-responsive" />
+                    <img src="images/dress/mainImages/{{orderDetail.dress.imageSource}}" style="height: 200px;" alt="Dress image" class="img-responsive" />
                 </td>
                 <td>
                     <span>{{orderDetail.quantity}}</span>

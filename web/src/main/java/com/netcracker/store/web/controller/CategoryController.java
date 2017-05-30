@@ -21,7 +21,7 @@ public class CategoryController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.getAll();
         if (categories.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -30,19 +30,19 @@ public class CategoryController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        categoryService.addCategory(category);
+        categoryService.add(category);
         return new ResponseEntity<Category>(category, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
-        categoryService.updateCategory(category);
+        categoryService.update(category);
         return new ResponseEntity<Category>(category, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Category> deleteCategory(@PathVariable("id") Integer id) {
-        categoryService.deleteCategory(id);
+        categoryService.delete(id);
         return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
     }
 }

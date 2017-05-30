@@ -64,10 +64,10 @@ var App = angular.module('myApp',['ngRoute', 'ngFileUpload'])
             templateUrl: 'pages/orderPage.html',
             controller : 'paymentController'
         }).when('/dressAdmin', {
-            templateUrl: 'pages/dressAdmin.html',
+            templateUrl: 'pages/admin/dressAdmin.html',
             controller : 'dressListController'
         }).when('/dressAdmin/:id', {
-            templateUrl: 'pages/dressAdmin.html',
+            templateUrl: 'pages/admin/dressAdmin.html',
             controller : 'dressListController'
         }).when('/login', {
             templateUrl : 'pages/login.html',

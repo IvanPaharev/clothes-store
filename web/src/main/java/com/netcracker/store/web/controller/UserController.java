@@ -35,9 +35,9 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addUser(@RequestBody User user) {
+    public ResponseEntity<Boolean> addUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.addUser(user);
+        return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)

@@ -9,9 +9,9 @@ import java.util.Set;
  * Created by A-one on 23.04.2017.
  */
 @Service
-public interface UserService {
+public interface UserService extends BaseService<User, Integer> {
     User getUserByEmail(String email);
-    void addUser(User user);
+    boolean addUser(User user);
     void updateUser(User user);
     Set<User> getAllUsers();
     void deleteUser(User user);

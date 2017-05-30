@@ -35,12 +35,19 @@ public class OrderDetailPK implements Serializable {
     @Column(name = "dress_id")
     private int dressId;
 
+    @Column(name = "color_id")
+    private int colorId;
+
+    @Column(name = "size_id")
+    private int sizeId;
+
     public OrderDetailPK() {
     }
 
-    public OrderDetailPK(int userOrderId, int dressId) {
+    public OrderDetailPK(int userOrderId, int dressId, int colorId, int sizeId) {
         this.userOrderId = userOrderId;
         this.dressId = dressId;
+        this.colorId = colorId;
+        this.sizeId = sizeId;
     }
-
 }

@@ -24,34 +24,38 @@ import java.util.Set;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserDetailsServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userService.getUserByEmail(s);
-        List<GrantedAuthority> authorities =
-                buildUserAuthority(user.getRoleSet());
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getRoleSet());
         return buildUserForAuthentication(user, authorities);
     }
 
     private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user,
                                             List<GrantedAuthority> authorities) {
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPassword(), true, true, true, true, authorities);
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                true,
+                true,
+                true,
+                true,
+                authorities);
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<Role> userRoles) {
-
-        Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
-        // Build user's authorities
+        Set<GrantedAuthority> authoritySet = new HashSet<>();
         for (Role userRole : userRoles) {
-            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+            authoritySet.add(new SimpleGrantedAuthority(userRole.getRole()));
         }
-
-        List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
-
+        List<GrantedAuthority> Result = new ArrayList<>(authoritySet);
         return Result;
     }
 }

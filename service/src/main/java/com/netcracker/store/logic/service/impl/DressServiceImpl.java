@@ -1,9 +1,8 @@
 package com.netcracker.store.logic.service.impl;
 
-import com.netcracker.store.logic.dto.Criteria;
-import com.netcracker.store.logic.dto.DressAndQuantity;
+import com.netcracker.store.persistence.dto.Criteria;
+import com.netcracker.store.persistence.dto.Sort;
 import com.netcracker.store.logic.service.DressService;
-import com.netcracker.store.logic.service.UserOrderService;
 import com.netcracker.store.persistence.dao.*;
 import com.netcracker.store.persistence.entity.*;
 import org.hibernate.Hibernate;
@@ -18,7 +17,7 @@ import java.util.*;
  */
 @Service
 @Transactional
-public class DressServiceImpl implements DressService {
+public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements DressService {
 
     private final DressDao dressDao;
     private final ManufacturerDao manufacturerDao;
@@ -38,6 +37,7 @@ public class DressServiceImpl implements DressService {
                             TypeDao typeDao,
                             DescriptionDao descriptionDao,
                             DressImageDao dressImageDao) {
+        super(dressDao);
         this.dressDao = dressDao;
         this.manufacturerDao = manufacturerDao;
         this.categoryDao = categoryDao;
@@ -46,6 +46,7 @@ public class DressServiceImpl implements DressService {
         this.typeDao = typeDao;
         this.descriptionDao = descriptionDao;
         this.dressImageDao = dressImageDao;
+
     }
 
     @Override
@@ -59,46 +60,12 @@ public class DressServiceImpl implements DressService {
     }
 
     @Override
-    public List<Dress> getAllEightTimes() {
-        List<Dress> dresses = dressDao.getAll();
-        for (int i = 0; i < 3; i++) {
-            dresses.addAll(dresses);
-        }
-        return dresses;
-    }
-
-    @Override
     public Dress getDressById(int id) {
         Dress dress = dressDao.get(id);
         Hibernate.initialize(dress.getColorSet());
         Hibernate.initialize(dress.getSizeSet());
         Hibernate.initialize(dress.getDressImageSet());
         return dress;
-    }
-
-    @Override
-    public List<Manufacturer> getManufacturers() {
-        return manufacturerDao.getAll();
-    }
-
-    @Override
-    public List<Category> getCategories() {
-        return categoryDao.getAll();
-    }
-
-    @Override
-    public List<Color> getColors() {
-        return colorDao.getAll();
-    }
-
-    @Override
-    public List<Size> getSizes() {
-        return sizeDao.getAll();
-    }
-
-    @Override
-    public List<Type> getTypes() {
-        return typeDao.getAll();
     }
 
     @Override
@@ -122,11 +89,6 @@ public class DressServiceImpl implements DressService {
     }
 
     @Override
-    public void addDressImage(Dress dress, String fileName) {
-        dressImageDao.add(new DressImage(fileName, dress));
-    }
-
-    @Override
     public List<Dress> getDressesByCriteria(Criteria criteria, String type) {
         if (criteria.getCategories().size() == 0) {
             criteria.setCategories(categoryDao.getAll());
@@ -134,12 +96,20 @@ public class DressServiceImpl implements DressService {
         if (criteria.getManufacturers().size() == 0) {
             criteria.setManufacturers(manufacturerDao.getAll());
         }
-        return dressDao.getAllByCriteria(
-                criteria.getCategories(),
-                criteria.getManufacturers(),
-                criteria.getPriceFrom(),
-                criteria.getPriceTo(),
-                type
-        );
+        if (criteria.getSort() == null) {
+            criteria.setSort(new Sort("", "releaseDate", false));
+        }
+        return dressDao.getAllByCriteria(criteria, type);
+    }
+
+    @Override
+    public Long getQueryCount(Criteria criteria, String type) {
+        if (criteria.getCategories().size() == 0) {
+            criteria.setCategories(categoryDao.getAll());
+        }
+        if (criteria.getManufacturers().size() == 0) {
+            criteria.setManufacturers(manufacturerDao.getAll());
+        }
+        return dressDao.getQueryCount(criteria, type);
     }
 }

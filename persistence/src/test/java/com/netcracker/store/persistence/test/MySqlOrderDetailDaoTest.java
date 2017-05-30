@@ -95,7 +95,11 @@ public class MySqlOrderDetailDaoTest{
                 userDao.getAll().get(0),
                 new HashSet<>(orderDetailDao.getAll()));
         userOrderDao.add(userOrder);
-        OrderDetail orderDetail = new OrderDetail(new OrderDetailPK(userOrder.getId(), dress.getId()), 2);
+        OrderDetail orderDetail = new OrderDetail(new OrderDetailPK(
+                userOrder.getId(),
+                dress.getId(),
+                dress.getColorSet().iterator().next().getId(),
+                dress.getSizeSet().iterator().next().getId()), 2);
         return orderDetail;
     }
 }

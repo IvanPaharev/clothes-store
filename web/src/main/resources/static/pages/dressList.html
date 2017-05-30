@@ -1,6 +1,12 @@
 <div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchDressesByType()">
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
+            <span>Currency:</span>
+            <div>
+                <select ng-model="ctrl.currentCurrency"
+                        ng-options="key for (key, value) in ctrl.currencyInfo.rates">
+                </select>
+            </div>
             <span>Categories:</span>
             <div ng-repeat="category in ctrl.categories">
                 <div class="action-checkbox">
@@ -26,7 +32,28 @@
             <input type="text" ng-model="ctrl.criteria.priceTo" class="form-control input-sm"
                    placeholder="Price to" ng-blur="ctrl.fetchDressesByCriteria()"/>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label for="sortSelect">Sort by:</label>
+                    <select id="sortSelect"
+                            ng-model="ctrl.criteria.sort"
+                            ng-options="item.name for item in ctrl.sorts"
+                            ng-change="ctrl.fetchDressesByCriteria()">
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label for="pageSizeSelect">On page:</label>
+                    <select id="pageSizeSelect"
+                            ng-model="ctrl.criteria.pageSize"
+                            ng-options="item for item in ctrl.pageSizes"
+                            ng-change="ctrl.fetchDressesByCriteria()">
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <button ng-repeat="page in ctrl.pages track by $index" class="page-button" ng-click="ctrl.fetchPage(page)">{{page}}</button>
+                </div>
+            </div>
             <div class="row">
                 <div ng-repeat="d in ctrl.dresses" class="col-sm-4">
                     <div class="panel panel-primary">
@@ -36,9 +63,11 @@
                             </a>
                         </div>
                         <div class="panel-footer">
+                            <span>Id: {{d.id}}</span><br>
                             <span>Manufacturer: {{d.manufacturer.name}}</span><br>
                             <span>Category: {{d.category.name}}</span><br>
-                            <span>Price: {{d.price}}</span>
+                            <span>Price: {{d.price}}</span><br>
+                            <span>Release date: {{d.releaseDate}}</span>
                         </div>
                         <div restrict access="admin">
                             <a href="#/dressAdmin/{{d.id}}">
@@ -47,6 +76,25 @@
                             <button ng-click="ctrl.removeDress(d.id)">Remove</button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <span>Sort by:</span>
+                    <select ng-model="ctrl.criteria.sort"
+                            ng-options="item.name for item in ctrl.sorts"
+                            ng-change="ctrl.fetchDressesByCriteria()">
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <span>On page:</span>
+                    <select ng-model="ctrl.criteria.pageSize"
+                            ng-options="item for item in ctrl.pageSizes"
+                            ng-change="ctrl.fetchDressesByCriteria()">
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <button ng-repeat="page in ctrl.pages track by $index" class="page-button" ng-click="ctrl.fetchPage(page)">{{page}}</button>
                 </div>
             </div>
         </div>

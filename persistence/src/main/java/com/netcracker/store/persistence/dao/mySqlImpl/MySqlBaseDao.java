@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,16 +26,15 @@ import java.util.List;
 /**
  * Created by A-one on 10.04.2017.
  */
-@Component
+@Repository
 public abstract class MySqlBaseDao<E, ID extends Serializable> implements BaseDao<E, ID> {
-    protected Class<E> daoClass;
+    private Class<E> daoClass;
 
     @Autowired
     protected EntityManagerFactory entityManagerFactory;
 
     @PersistenceContext
     protected EntityManager entityManager;
-
 
     public MySqlBaseDao(Class<E> daoClass) {
         this.daoClass = daoClass;

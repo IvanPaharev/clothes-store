@@ -1,10 +1,9 @@
 package com.netcracker.store.web.controller;
 
-import com.netcracker.store.logic.dto.Criteria;
+import com.netcracker.store.persistence.dto.Criteria;
 import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.logic.service.UserOrderService;
 import com.netcracker.store.persistence.entity.*;
-import com.netcracker.store.logic.dto.DressAndQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +23,7 @@ import java.util.*;
 @RestController
 public class DressController {
 
-    private byte[][] multipartFiles = new byte[100][];
+    private byte[][] multipartFilesBytes = new byte[100][];
 
     @Autowired
     private DressService dressService;
@@ -117,16 +116,16 @@ public class DressController {
         String fileName = dressId + ".jpg";
         try {
             Path path = Paths.get("D:\\dressStoreImages\\dress\\mainImages\\" + fileName);
-            Files.write(path, multipartFiles[0]);
-            multipartFiles[0] = null;
-            for (int i = 1; i < multipartFiles.length; i++) {
-                if (multipartFiles[i] != null) {
+            Files.write(path, multipartFilesBytes[0]);
+            multipartFilesBytes[0] = null;
+            for (int i = 1; i < multipartFilesBytes.length; i++) {
+                if (multipartFilesBytes[i] != null) {
                     fileName = dressId + "_" + i + ".jpg";
                     path = Paths.get("D:\\dressStoreImages\\dress\\otherImages\\" + fileName);
-                    Files.write(path, multipartFiles[i]);
+                    Files.write(path, multipartFilesBytes[i]);
                     dressService.addDressImage(dress, fileName);
                 }
-                multipartFiles[i] = null;
+                multipartFilesBytes[i] = null;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,8 +135,8 @@ public class DressController {
     @RequestMapping(value = "/image/{id}")
     public void uploadImg(@RequestParam("file") MultipartFile file, @PathVariable("id") int id) {
         try {
-            if (id < multipartFiles.length) {
-                multipartFiles[id] = file.getBytes();
+            if (id < multipartFilesBytes.length) {
+                multipartFilesBytes[id] = file.getBytes();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -175,5 +174,10 @@ public class DressController {
     @RequestMapping(value = "/dressesByCriteria/{type}", method = RequestMethod.POST)
     public ResponseEntity<List<Dress>> getDressesByCreiteria(@RequestBody Criteria criteria, @PathVariable String type) {
         return new ResponseEntity<List<Dress>>(dressService.getDressesByCriteria(criteria, type), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getQueryCount/{type}", method = RequestMethod.POST)
+    public ResponseEntity<Long> getQueryCount(@RequestBody Criteria criteria, @PathVariable String type) {
+        return new ResponseEntity<Long>(dressService.getQueryCount(criteria, type), HttpStatus.OK);
     }
 }

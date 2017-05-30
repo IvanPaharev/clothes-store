@@ -14,28 +14,12 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends BaseServiceImpl<Category, Integer> implements CategoryService {
+    private final CategoryDao categoryDao;
 
     @Autowired
-    private CategoryDao categoryDao;
-
-    @Override
-    public List<Category> getAllCategories() {
-        return categoryDao.getAll();
-    }
-
-    @Override
-    public void addCategory(Category category) {
-        categoryDao.add(category);
-    }
-
-    @Override
-    public void deleteCategory(int id) {
-        categoryDao.delete(id);
-    }
-
-    @Override
-    public void updateCategory(Category category) {
-        categoryDao.update(category);
+    public CategoryServiceImpl(CategoryDao categoryDao) {
+        super(categoryDao);
+        this.categoryDao = categoryDao;
     }
 }

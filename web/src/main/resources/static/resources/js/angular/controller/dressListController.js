@@ -36,17 +36,49 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.userBag=null;
     self.homeDresses=null;
 
+    self.color={};
+    self.size={};
     self.dressQuantity=null;
     self.mainImgSrc=null;
     self.imgSrc=[];
     self.sizeTypes=['common', 'uk', 'us', 'italy', 'france', 'russian', 'german', 'japan'];
     self.sizeType='common';
 
+    self.currencyInfo=null;
+    self.currentCurrency=null;
+    self.sorts=[
+        {
+            name: 'first expensive',
+            parameter: 'price',
+            asc: false
+        },
+        {
+            name: 'first cheap',
+            parameter: 'price',
+            asc: true
+        },
+        {
+            name: 'first new',
+            parameter: 'releaseDate',
+            asc: false
+        },
+        {
+            name: 'first old',
+            parameter: 'releaseDate',
+            asc: true
+        }
+    ];
+    self.pageSizes=[12, 24, 60, 100];
+    self.queryCount=null;
+    self.pages=[];
     self.criteria={
         categories:[],
         manufacturers:[],
         priceFrom:0,
-        priceTo:99999
+        priceTo:99999,
+        sort:null,
+        pageNumber:1,
+        pageSize:12
     };
 
     self.fetchDressById = fetchDressById;
@@ -63,6 +95,7 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.fetchAllDresses = fetchAllDresses;
     self.fetchDressesByType = fetchDressesByType;
 
+    self.fetchPage = fetchPage;
     self.fetchDressesByCriteria = fetchDressesByCriteria;
     self.toggleCategorySelection = toggleCategorySelection;
     self.toggleManufacturerSelection = toggleManufacturerSelection;
@@ -89,6 +122,16 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     }
 
     function fetchDressesByType() {
+        dressService.getCurrencyInfo()
+            .then(
+                function (c) {
+                    self.currencyInfo = c;
+                    self.currentCurrency = 1;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching categories:' + errResponse.toString());
+                }
+            );
         dressService.fetchCategories()
             .then(
                 function (c) {
@@ -107,15 +150,7 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
                     console.error('Error while fetching manufacturers:' + errResponse.toString());
                 }
             );
-        dressService.fetchDressesByType($routeParams.type)
-            .then(
-                function(d) {
-                    self.dresses = d;
-                },
-                function(errResponse){
-                    console.error('Error while fetching Users'+errResponse);
-                }
-            );
+        self.fetchDressesByCriteria();
     }
 
     function fetchDressProperties() {
@@ -239,7 +274,7 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     }
 
     function addDressToBag() {
-        dressService.addDressToBag(self.dress, self.dressQuantity);
+        dressService.addDressToBag(self.dress, self.color, self.size, self.dressQuantity);
     }
 
     function getUserBag() {
@@ -258,6 +293,36 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     }
 
     function fetchDressesByCriteria() {
+        self.criteria.pageNumber = 1;
+        dressService.getQueryCount(self.criteria, $routeParams.type)
+            .then(
+                function (c) {
+                    var i = 0;
+                    self.pages = [];
+
+                    while (i * self.criteria.pageSize < c) {
+                        self.pages.push(i + 1);
+                        i++;
+                    }
+                    self.queryCount = c;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching query count:' + errResponse.toString());
+                }
+            );
+        dressService.fetchDressesByCriteria(self.criteria, $routeParams.type)
+            .then(
+                function(d) {
+                    self.dresses = d;
+                },
+                function(errResponse){
+                    console.error('Error while fetching Users'+errResponse);
+                }
+            );
+    }
+
+    function fetchPage(index) {
+        self.criteria.pageNumber = index;
         dressService.fetchDressesByCriteria(self.criteria, $routeParams.type)
             .then(
                 function(d) {

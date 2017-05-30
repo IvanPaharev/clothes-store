@@ -17,27 +17,31 @@ import java.util.Set;
  */
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements UserService {
+
+    private final UserDao userDao;
 
     @Autowired
-    @Resource(name = "mySqlUserDao")
-    private UserDao userDao;
-
-    @Override
-    public User getUserByEmail(String email) {
-        List<User> users = userDao.getAll();
-        User user = null;
-        for (User u : users) {
-            if (u.getEmail().equals(email)) {
-                user = u;
-            }
-        }
-        return user;
+    public UserServiceImpl(UserDao userDao) {
+        super(userDao);
+        this.userDao = userDao;
     }
 
     @Override
-    public void addUser(User user) {
-        userDao.add(user);
+    public User getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
+    }
+
+    @Override
+    public boolean addUser(User user) {
+        boolean isEmailBusy = true;
+        if (userDao.getUserByEmail(user.getEmail()) == null) {
+            userDao.add(user);
+            if (user.getId() != null) {
+                isEmailBusy = false;
+            }
+        }
+        return isEmailBusy;
     }
 
     @Override
