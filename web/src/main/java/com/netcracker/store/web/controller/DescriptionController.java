@@ -15,38 +15,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/description")
-public class DescriptionController {
+public class DescriptionController extends BaseController<Description, Integer> {
     private final DescriptionService descriptionService;
 
     @Autowired
     public DescriptionController(DescriptionService descriptionService) {
+        super(descriptionService);
         this.descriptionService = descriptionService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Description>> getAllCategories() {
-        List<Description> categories = descriptionService.getAll();
-        if (categories.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        descriptionService.add(category);
-        return new ResponseEntity<Category>(category, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
-        descriptionService.update(category);
-        return new ResponseEntity<Category>(category, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Category> deleteCategory(@PathVariable("id") Integer id) {
-        descriptionService.delete(id);
-        return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
-    }
 }

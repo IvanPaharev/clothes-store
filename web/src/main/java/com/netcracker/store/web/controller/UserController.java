@@ -21,37 +21,28 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController<User, Integer> {
+
+    private final UserService userService;
+
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService, BCryptPasswordEncoder passwordEncoder) {
+        super(userService);
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/security", method = RequestMethod.GET)
     public Principal user(Principal user) {
         return user;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     public ResponseEntity<Boolean> addUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    public void updateUser(@RequestBody User user) {
-        userService.updateUser(user);
-    }
-
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<Set<User>> getAllUsers() {
-        Set<User> users = userService.getAllUsers();
-        if (users.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.POST)

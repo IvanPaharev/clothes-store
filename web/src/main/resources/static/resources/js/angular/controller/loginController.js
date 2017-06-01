@@ -81,4 +81,8 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$location'
             );
     };
 
+    self.log = function () {
+        console.log($rootScope.user);
+    }
+
 }]);

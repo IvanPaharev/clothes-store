@@ -8,8 +8,8 @@ import com.netcracker.store.persistence.entity.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 /**
@@ -60,7 +60,7 @@ public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements
     }
 
     @Override
-    public Dress getDressById(int id) {
+    public Dress getDressWithDetailsById(int id) {
         Dress dress = dressDao.get(id);
         Hibernate.initialize(dress.getColorSet());
         Hibernate.initialize(dress.getSizeSet());

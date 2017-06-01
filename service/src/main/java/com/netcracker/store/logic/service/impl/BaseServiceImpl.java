@@ -3,7 +3,9 @@ package com.netcracker.store.logic.service.impl;
 import com.netcracker.store.logic.service.BaseService;
 import com.netcracker.store.persistence.dao.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -11,10 +13,11 @@ import java.util.List;
 /**
  * Created by A-one on 30.05.2017.
  */
-public class BaseServiceImpl<E, ID extends Serializable> implements BaseService<E, ID> {
+@Service
+@Transactional
+public abstract class BaseServiceImpl<E, ID extends Serializable> implements BaseService<E, ID> {
     private final BaseDao<E, ID> baseDao;
 
-    @Autowired
     public BaseServiceImpl(BaseDao<E, ID> baseDao) {
         this.baseDao = baseDao;
     }

@@ -1,48 +1,51 @@
 package com.netcracker.store.web.controller;
 
 import com.netcracker.store.logic.service.CategoryService;
+import com.netcracker.store.logic.service.UserOrderService;
 import com.netcracker.store.persistence.entity.Category;
+import com.netcracker.store.persistence.entity.OrderDetail;
+import com.netcracker.store.persistence.entity.User;
+import com.netcracker.store.persistence.entity.UserOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by A-one on 07.05.2017.
  */
 @RestController
-@RequestMapping(value = "/category")
-public class UserOrderController {
+@RequestMapping(value = "/userOrder")
+public class UserOrderController extends BaseController<UserOrder, Integer> {
+    private final UserOrderService userOrderService;
 
     @Autowired
-    private CategoryService categoryService;
-
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryService.getAll();
-        if (categories.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+    public UserOrderController(UserOrderService userOrderService) {
+        super(userOrderService);
+        this.userOrderService = userOrderService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        categoryService.add(category);
-        return new ResponseEntity<Category>(category, HttpStatus.OK);
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public ResponseEntity<Boolean> addUserOrder(){
+        userOrderService.addUserOrder();
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
-        categoryService.update(category);
-        return new ResponseEntity<Category>(category, HttpStatus.OK);
+    @RequestMapping(value = "/addDressToBag", method = RequestMethod.POST)
+    public void addDressToBag(@RequestBody OrderDetail orderDetail) {
+        userOrderService.addToUserBag(orderDetail);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Category> deleteCategory(@PathVariable("id") Integer id) {
-        categoryService.delete(id);
-        return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
+    @RequestMapping(value = "/userBag", method = RequestMethod.GET)
+    public ResponseEntity<Set<OrderDetail>> getUserBag(){
+        return new ResponseEntity<>(userOrderService.getUserBag(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/deleteDressFromUserBag", method = RequestMethod.POST)
+    public void deleteDressFromUserBag(@RequestBody OrderDetail orderDetail) {
+        userOrderService.deleteDressFromUserBag(orderDetail);
     }
 }

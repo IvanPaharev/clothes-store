@@ -60,7 +60,6 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         addDress: addDress,
         editDress: editDress,
         removeDress: removeDress,
-        getDress: getDress,
         readAsDataUrl: readAsDataUrl,
         addDressToBag: addDressToBag,
         getUserBag: getUserBag,
@@ -80,7 +79,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function fetchAllDresses() {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI)
+        $http.get('dress')
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -95,7 +94,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function fetchDressesByType(type) {
         var deferred = $q.defer();
-        $http.get('dressList/' + type)
+        $http.get('dress/type/' + type)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -110,7 +109,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function fetchDressesByCriteria(criteria, type) {
         var deferred = $q.defer();
-        $http.post('dressesByCriteria/' + type, criteria)
+        $http.post('dress/dressesByCriteria/' + type, criteria)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -125,7 +124,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
     
     function getQueryCount(criteria, type) {
         var deferred = $q.defer();
-        $http.post('getQueryCount/' + type, criteria)
+        $http.post('dress/getQueryCount/' + type, criteria)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -140,7 +139,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function fetchDressById(id) {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI+id)
+        $http.get('dress/details/'+id)
             .then(
                 function(response) {
                     deferred.resolve(response.data);
@@ -230,18 +229,13 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
-    function getDress() {
-        console.log("service get dress "+dress);
-        return dress;
-    }
-
     function addDress(dress, mainImageFile, imageFiles) {
         var deferred = $q.defer();
         var counter = 0;
         imageFiles.unshift(mainImageFile);
         for (var i = 0; i < imageFiles.length; i++) {
             Upload.upload({
-                url: 'image/' + i,
+                url: 'dress/image/' + i,
                 file: imageFiles[i]
             }).success(function (data, status, headers, config) {
                 counter++;
@@ -258,7 +252,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
     }
 
     function uploadDress(dress, deferred) {
-        $http.post(REST_SERVICE_URI, dress)
+        $http.post('dress/new', dress)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -272,7 +266,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function editDress(id, dress) {
         var deferred = $q.defer();
-        $http.put(REST_SERVICE_URI+id, dress)
+        $http.put('dress/'+id, dress)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -287,7 +281,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function removeDress(id) {
         var deferred = $q.defer();
-        $http.delete(REST_SERVICE_URI+id)
+        $http.delete('dress/'+id)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -308,7 +302,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
             size: size,
             quantity: quantity
         };
-        $http.post('addDressToBag', orderDetail)
+        $http.post('userOrder/addDressToBag', orderDetail)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -323,7 +317,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function getUserBag() {
         var deferred = $q.defer();
-        $http.get('getUserBag')
+        $http.get('userOrder/userBag')
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -338,7 +332,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function deleteDressFromUserBag(orderDetail) {
         var deferred = $q.defer();
-        $http.post('deleteDressFromUserBag', orderDetail)
+        $http.post('userOrder/deleteDressFromUserBag', orderDetail)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -353,7 +347,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function getCurrencyInfo() {
         var deferred = $q.defer();
-        $http.get('http://api.fixer.io/latest?base=USD')
+        $http.get('dress/currencyInfo')
             .then(
                 function(response) {
                     deferred.resolve(response.data);

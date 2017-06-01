@@ -30,8 +30,11 @@
     <div class="top-bar">
         <div class="container">
             <div class="row">
-                <div class="col-sm-3 col-xs-4">
-                    <div class="top-number"><p><i class="fa fa-phone-square"></i>  +0123 456 70 90</p></div>
+                <div ng-controller="dressListController as ctrl" class="col-sm-3 col-xs-4" ng-init="ctrl.fetchCurrencyInfo()">
+                    <span>Currency: </span>
+                    <select ng-model="$root.currentCurrency"
+                            ng-options="key for (key, value) in currencyInfo.rates">
+                    </select>
                 </div>
                 <div class="col-sm-5 col-xs-4">
                     <div class="social-header">

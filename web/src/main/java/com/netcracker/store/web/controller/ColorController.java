@@ -15,38 +15,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/color")
-public class ColorController {
+public class ColorController extends BaseController<Color, Integer> {
     private final ColorService colorService;
 
     @Autowired
     public ColorController(ColorService colorService) {
+        super(colorService);
         this.colorService = colorService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Color>> getAllColors() {
-        List<Color> colors = colorService.getAll();
-        if (colors.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(colors, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Color> addColor(@RequestBody Color color) {
-        colorService.add(color);
-        return new ResponseEntity<>(color, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Color> updateCategory(@RequestBody Color color) {
-        colorService.update(color);
-        return new ResponseEntity<>(color, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Color> deleteColor(@PathVariable("id") Integer id) {
-        colorService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }

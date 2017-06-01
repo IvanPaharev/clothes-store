@@ -13,7 +13,7 @@ import java.util.List;
 public interface DressService extends BaseService<Dress, Integer> {
     List<Dress> getAllDresses();
     List<Dress> getDressesByType(String type);
-    Dress getDressById(int id);
+    Dress getDressWithDetailsById(int id);
     void addDress(Dress dress);
     void deleteDress(int id);
     void updateDress(Dress dress);

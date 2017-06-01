@@ -8,7 +8,7 @@ angular.module('myApp').factory('paymentService', ['$http', '$q', function($http
 
     function processPayment(orderData) {
         var deferred = $q.defer();
-        $http.post('order', orderData)
+        $http.post('userOrder/new', orderData)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

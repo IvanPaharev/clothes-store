@@ -19,10 +19,6 @@ public class DressServiceTest {
     @Autowired
     private DressService dressService;
 
-    @Test
-    public void testGetAllEightTimes() {
-        assertEquals(dressService.getAllDresses().size() * 8, dressService.getAllEightTimes().size());
-    }
 
     @Test
     public void testJson() {

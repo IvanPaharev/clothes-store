@@ -2,12 +2,19 @@ package com.netcracker.store.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.netcracker.store.web.webservice.CurrencyInfo;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -15,13 +22,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * Created by A-one on 23.04.2017.
  */
 @SpringBootApplication
-@EntityScan(basePackages = "com.netcracker.store.persistence.entity")
+@PropertySource("classpath:web.properties")
 public class DressStoreApplication extends WebMvcConfigurerAdapter {
+
+    @Value("${resourceHandlersPathPatterns}")
+    private String[] resourceHandlerPathPatterns;
+
+    @Value("${resourceLocations}")
+    private String[] resourceLocations;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:///D:/dressStoreImages/");
+        registry.addResourceHandler(resourceHandlerPathPatterns)
+                .addResourceLocations(resourceLocations);
+    }
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
     }
 
     @Bean

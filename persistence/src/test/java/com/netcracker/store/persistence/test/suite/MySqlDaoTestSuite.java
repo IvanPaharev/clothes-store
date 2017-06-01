@@ -1,5 +1,6 @@
-package com.netcracker.store.persistence.test;
+package com.netcracker.store.persistence.test.suite;
 
+import com.netcracker.store.persistence.test.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

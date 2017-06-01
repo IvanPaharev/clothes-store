@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('myApp').controller('dressListController', ['$scope', '$location', '$routeParams', 'dressService', 'Upload', '$timeout',
-    function($scope, $location, $routeParams, dressService, Upload, $timeout) {
+angular.module('myApp').controller('dressListController', ['$rootScope', '$scope', '$location', '$routeParams', 'dressService', 'Upload', '$timeout',
+    function($rootScope, $scope, $location, $routeParams, dressService, Upload, $timeout) {
 
 
 
@@ -44,8 +44,6 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.sizeTypes=['common', 'uk', 'us', 'italy', 'france', 'russian', 'german', 'japan'];
     self.sizeType='common';
 
-    self.currencyInfo=null;
-    self.currentCurrency=null;
     self.sorts=[
         {
             name: 'first expensive',
@@ -99,6 +97,7 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     self.fetchDressesByCriteria = fetchDressesByCriteria;
     self.toggleCategorySelection = toggleCategorySelection;
     self.toggleManufacturerSelection = toggleManufacturerSelection;
+    self.fetchCurrencyInfo = fetchCurrencyInfo;
 
     function fetchHomeDresses() {
         dressService.fetchHomeDresses();
@@ -122,16 +121,6 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
     }
 
     function fetchDressesByType() {
-        dressService.getCurrencyInfo()
-            .then(
-                function (c) {
-                    self.currencyInfo = c;
-                    self.currentCurrency = 1;
-                },
-                function (errResponse) {
-                    console.error('Error while fetching categories:' + errResponse.toString());
-                }
-            );
         dressService.fetchCategories()
             .then(
                 function (c) {
@@ -389,4 +378,19 @@ angular.module('myApp').controller('dressListController', ['$scope', '$location'
             }
         }
     };
+
+    function fetchCurrencyInfo() {
+        dressService.getCurrencyInfo()
+            .then(
+                function (c) {
+                    $rootScope.currencyInfo = c;
+                    $rootScope.currencyInfo.rates.USD = 1;
+                    $rootScope.currentCurrency = 1;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching currency info:' + errResponse.toString());
+                }
+            );
+    }
+
 }]);

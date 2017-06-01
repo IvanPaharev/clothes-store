@@ -3,11 +3,9 @@ package com.netcracker.store.web.config;
 import com.netcracker.store.logic.config.ServiceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,7 +25,14 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @Import(ServiceConfig.class)
+@PropertySource("classpath:web.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${permitAllAntMatchers}")
+    private String[] permitAllAntMatchers;
+
+    @Value("${ignoringAntMatchers}")
+    private String[] ignoringAntMatchers;
 
     private final UserDetailsService userDetailsService;
 
@@ -61,8 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/index.html", "/pages/home.html", "/pages/login.html",
-                        "/pages/register.html", "/user", "/dress/", "/pages/dressList.html",  "/")
+                .antMatchers(permitAllAntMatchers)
                     .permitAll()
                 .anyRequest()
                     .authenticated().and()
@@ -73,6 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources*//**", "/static*//**", "/css*//**", "/js*//**", "/images*//**");
+                .antMatchers(ignoringAntMatchers);
     }
 }

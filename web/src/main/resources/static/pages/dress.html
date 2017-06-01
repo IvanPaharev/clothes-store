@@ -14,7 +14,7 @@
             <div>
                 <p>Manufacturer: {{ctrl.dress.manufacturer.name}}</p>
                 <p>Category: {{ctrl.dress.category.name}}</p>
-                <p>Price: {{ctrl.dress.price}}</p>
+                <p>Price: {{(ctrl.dress.price * currentCurrency).toFixed(2)}}</p>
                 <p>Release date: {{ctrl.dress.releaseDate}}</p>
             </div>
             <div class="row">

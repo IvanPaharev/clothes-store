@@ -43,7 +43,7 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
         + btoa(credentials.username + ":" + credentials.password)
         } : {};
 
-        $http.get('user', {headers : headers}).then(function(response) {
+        $http.get('user/security', {headers : headers}).then(function(response) {
             if (response.data.name) {
                 user = response.data;
                 scope.authenticated = true;
@@ -60,7 +60,7 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
 
     function initAuthentication(scope) {
         var deferred = $q.defer();
-        $http.get('user')
+        $http.get('user/security')
             .then(
                 function(response) {
                     if (response.data.name) {
@@ -88,7 +88,7 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
 
     function register(user) {
         var deferred = $q.defer();
-        $http.post('user', user)
+        $http.post('user/new', user)
             .then(
                 function(response) {
                     deferred.resolve(response.data);
