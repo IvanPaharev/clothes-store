@@ -26,28 +26,28 @@ public class Dress extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "manufacturer_id", referencedColumnName = "id")
-    @NotNull
+    @NotNull(message = "Manufacturer cannot be null")
     private Manufacturer manufacturer;
 
     @ManyToOne
     @JoinColumn(name = "type_id", referencedColumnName = "id")
-    @NotNull
+    @NotNull(message = "Type cannot be null")
     private Type type;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    @NotNull
+    @NotNull(message = "Category cannot be null")
     private Category category;
 
     @OneToOne(mappedBy = "dress")
     private Description description;
 
-    @NotNull
-    @DecimalMin(value = "0")
+    @NotNull(message = "Price cannot be null")
+    @DecimalMin(value = "0.0", message = "Price cannot be lower than zero")
     private double price;
 
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "Amount cannot be null")
+    @Min(value = 1, message = "Amount cannot be lower than zero")
     private int amount;
 
     @Column(name = "image_source")
@@ -64,12 +64,14 @@ public class Dress extends BaseEntity {
     @JoinTable(name = "dress_has_size",
             joinColumns = @JoinColumn(name = "dress_id"),
             inverseJoinColumns = @JoinColumn(name = "size_id"))
+    @NotNull(message = "Sizes cannot be null")
     private Set<Size> sizeSet;
 
     @ManyToMany
     @JoinTable(name = "dress_has_color",
             joinColumns = @JoinColumn(name = "dress_id"),
             inverseJoinColumns = @JoinColumn(name = "color_id"))
+    @NotNull(message = "Colors cannot be null")
     private Set<Color> colorSet;
 
     @OneToMany(mappedBy = "dress")

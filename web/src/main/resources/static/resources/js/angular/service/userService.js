@@ -11,7 +11,8 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
         initAuthentication: initAuthentication,
         register: register,
         fetchUser: fetchUser,
-        updateUser: updateUser
+        updateUser: updateUser,
+        getUsers: getUsers,
     };
 
     function getUser() {
@@ -33,8 +34,34 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
         return deferred.promise;
     }
 
+    function getUsers() {
+        var deferred = $q.defer();
+        $http.get('user')
+            .then(
+                function (response) {
+                    deferred.resolve(response.data);
+                },
+                function(errResponse){
+                    console.error('Error while fetching users');
+                    deferred.reject(errResponse);
+                }
+            );
+        return deferred.promise;
+    }
+
     function updateUser(user) {
-        $http.put('user', user);
+        var deferred = $q.defer();
+        $http.put('user', user)
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function (errResponse) {
+                    console.error('Error while auth initialization: ' + errResponse);
+                    deferred.resolve(errResponse)
+                }
+            );
+        return deferred.promise;
     }
 
     function authenticate(scope, credentials, callback) {
@@ -88,7 +115,7 @@ angular.module('myApp').factory('userService', ['$http', '$q', function($http, $
 
     function register(user) {
         var deferred = $q.defer();
-        $http.post('user/new', user)
+        $http.post('user', user)
             .then(
                 function(response) {
                     deferred.resolve(response.data);

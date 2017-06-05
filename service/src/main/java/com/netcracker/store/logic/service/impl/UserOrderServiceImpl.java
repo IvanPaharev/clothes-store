@@ -44,7 +44,7 @@ public class UserOrderServiceImpl extends BaseServiceImpl<UserOrder, Integer> im
     }
 
     @Override
-    public void addUserOrder() {
+    public UserOrder addUserOrder() {
         UserOrder userOrder = new UserOrder();
         userOrder.setDateCreated(new Date(System.currentTimeMillis()));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -66,6 +66,7 @@ public class UserOrderServiceImpl extends BaseServiceImpl<UserOrder, Integer> im
         }
         orderDetailDao.addAll(newOrderDetailSet);
         orderDetailDao.deleteAll(userBag);
+        return userOrder;
     }
 
     @Override
@@ -95,11 +96,15 @@ public class UserOrderServiceImpl extends BaseServiceImpl<UserOrder, Integer> im
         UserOrder userOrder = userOrderDao.getUserBagOrder(
                 userService.getUserByEmail(authentication.getName())
         );
-        return userOrder.getOrderDetailSet();
+        Set<OrderDetail> orderDetailSet = null;
+        if (userOrder != null) {
+            orderDetailSet = userOrder.getOrderDetailSet();
+        }
+        return orderDetailSet;
     }
 
     @Override
-    public void deleteDressFromUserBag(OrderDetail orderDetail) {
-        orderDetailDao.delete(orderDetail.getOrderDetailPK());
+    public void deleteDressFromUserBag(OrderDetailPK orderDetailPK) {
+        orderDetailDao.delete(orderDetailPK);
     }
 }

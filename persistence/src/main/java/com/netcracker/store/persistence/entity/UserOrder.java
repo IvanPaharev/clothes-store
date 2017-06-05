@@ -23,18 +23,18 @@ public class UserOrder extends BaseEntity {
     private static final long serialVersionUID = -8529336881202343860L;
 
     @Column(name = "date_created")
-    @NotNull
+    @NotNull(message = "Date of user order creation cannot be null")
     private Date dateCreated;
 
     @ManyToOne
     @JoinColumn(name = "order_status_id", referencedColumnName = "id")
-    @NotNull
+    @NotNull(message = "Order status cannot be null")
     private OrderStatus orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
-    @NotNull
+    @NotNull(message = "User cannot be null")
     private User user;
 
     @OneToMany(mappedBy = "userOrder")

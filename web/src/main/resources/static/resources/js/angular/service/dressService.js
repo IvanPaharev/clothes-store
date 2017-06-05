@@ -101,37 +101,37 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
                 },
                 function(errResponse){
                     console.error('Error while fetching Users');
-                    deferred.reject(errResponse);
+                    deferred.resolve(errResponse);
                 }
             );
         return deferred.promise;
     }
 
-    function fetchDressesByCriteria(criteria, type) {
+    function fetchDressesByCriteria(criteria) {
         var deferred = $q.defer();
-        $http.post('dress/dressesByCriteria/' + type, criteria)
+        $http.post('dress/dressesByCriteria', criteria)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
                 },
                 function(errResponse){
                     console.error('Error while fetching Users');
-                    deferred.reject(errResponse);
+                    deferred.resolve(errResponse);
                 }
             );
         return deferred.promise;
     }
     
-    function getQueryCount(criteria, type) {
+    function getQueryCount(criteria) {
         var deferred = $q.defer();
-        $http.post('dress/getQueryCount/' + type, criteria)
+        $http.post('dress/queryCount', criteria)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
                 },
                 function(errResponse){
                     console.error('Error while fetching Users');
-                    deferred.reject(errResponse);
+                    deferred.resolve(errResponse);
                 }
             );
         return deferred.promise;
@@ -139,7 +139,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function fetchDressById(id) {
         var deferred = $q.defer();
-        $http.get('dress/details/'+id)
+        $http.get('dress/'+id)
             .then(
                 function(response) {
                     deferred.resolve(response.data);
@@ -232,50 +232,145 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
     function addDress(dress, mainImageFile, imageFiles) {
         var deferred = $q.defer();
         var counter = 0;
-        imageFiles.unshift(mainImageFile);
-        for (var i = 0; i < imageFiles.length; i++) {
+        if (mainImageFile !== null) {
             Upload.upload({
-                url: 'dress/image/' + i,
-                file: imageFiles[i]
-            }).success(function (data, status, headers, config) {
-                counter++;
-                console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                console.log(counter);
-                console.log(imageFiles.length);
-                if (counter == imageFiles.length) {
+                url: 'dressImage/main',
+                file: mainImageFile
+            }).success(function () {
+                if (imageFiles !== null) {
+                    for (var i = 0; i < imageFiles.length; i++) {
+                        Upload.upload({
+                            url: 'dressImage/other/' + i,
+                            file: imageFiles[i]
+                        }).success(function (data, status, headers, config) {
+                            counter++;
+                            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                            console.log(counter);
+                            console.log(imageFiles.length);
+                            if (counter === imageFiles.length) {
+                                uploadDress(dress, deferred);
+                            }
+                        })
+                    }
+                } else {
                     uploadDress(dress, deferred);
                 }
             });
+        } else if (imageFiles !== null) {
+            for (var i = 0; i < imageFiles.length; i++) {
+                Upload.upload({
+                    url: 'dressImage/other/' + i,
+                    file: imageFiles[i]
+                }).success(function (data, status, headers, config) {
+                    counter++;
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                    console.log(counter);
+                    console.log(imageFiles.length);
+                    if (counter === imageFiles.length) {
+                        uploadDress(dress, deferred);
+                    }
+                })
+            }
+        } else {
+            uploadDress(dress, deferred);
         }
-        imageFiles.splice(0, 1);
         return deferred.promise;
     }
 
     function uploadDress(dress, deferred) {
-        $http.post('dress/new', dress)
+        $http.post('dress', dress)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
                 },
                 function(errResponse){
                     console.error('Error while creating dress');
-                    deferred.reject(errResponse);
+                    deferred.resolve(errResponse);
                 }
             );
     }
 
-    function editDress(id, dress) {
+    function editDress(dress, imageFiles, mainImageFile) {
         var deferred = $q.defer();
-        $http.put('dress/'+id, dress)
-            .then(
-            function (response) {
-                deferred.resolve(response.data);
-            },
-            function(errResponse){
-                console.error('Error while updating User');
-                deferred.reject(errResponse);
+        var counter = 0;
+        if (mainImageFile !== null) {
+            Upload.upload({
+                url: 'dressImage/main',
+                file: mainImageFile
+            }).success(function () {
+                if (imageFiles !== null) {
+                    for (var i = 0; i < imageFiles.length; i++) {
+                        Upload.upload({
+                            url: 'dressImage/other/' + i,
+                            file: imageFiles[i]
+                        }).success(function (data, status, headers, config) {
+                            counter++;
+                            console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                            console.log(counter);
+                            console.log(imageFiles.length);
+                            if (counter === imageFiles.length) {
+                                $http.put('dress', dress)
+                                    .then(
+                                        function (response) {
+                                            deferred.resolve(response.data);
+                                        },
+                                        function(errResponse){
+                                            console.error('Error while updating dress');
+                                            deferred.resolve(errResponse);
+                                        }
+                                    );
+                            }
+                        })
+                    }
+                } else {
+                    $http.put('dress', dress)
+                        .then(
+                            function (response) {
+                                deferred.resolve(response.data);
+                            },
+                            function(errResponse){
+                                console.error('Error while updating dress');
+                                deferred.resolve(errResponse);
+                            }
+                        );
+                }
+            });
+        } else if (imageFiles !== null) {
+            for (var i = 0; i < imageFiles.length; i++) {
+                Upload.upload({
+                    url: 'dressImage/other/' + i,
+                    file: imageFiles[i]
+                }).success(function (data, status, headers, config) {
+                    counter++;
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                    console.log(counter);
+                    console.log(imageFiles.length);
+                    if (counter === imageFiles.length) {
+                        $http.put('dress', dress)
+                            .then(
+                                function (response) {
+                                    deferred.resolve(response.data);
+                                },
+                                function(errResponse){
+                                    console.error('Error while updating dress');
+                                    deferred.resolve(errResponse);
+                                }
+                            );
+                    }
+                })
             }
-        );
+        } else {
+            $http.put('dress', dress)
+                .then(
+                    function (response) {
+                        deferred.resolve(response.data);
+                    },
+                    function(errResponse){
+                        console.error('Error while updating dress');
+                        deferred.resolve(errResponse);
+                    }
+                );
+        }
         return deferred.promise;
     }
 
@@ -302,7 +397,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
             size: size,
             quantity: quantity
         };
-        $http.post('userOrder/addDressToBag', orderDetail)
+        $http.post('userOrder/bag', orderDetail)
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -317,7 +412,7 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
 
     function getUserBag() {
         var deferred = $q.defer();
-        $http.get('userOrder/userBag')
+        $http.get('userOrder/bag')
             .then(
                 function (response) {
                     deferred.resolve(response.data);
@@ -330,9 +425,9 @@ angular.module('myApp').factory('dressService', ['$http', '$q', 'Upload', functi
         return deferred.promise;
     }
 
-    function deleteDressFromUserBag(orderDetail) {
+    function deleteDressFromUserBag(orderDetailPK) {
         var deferred = $q.defer();
-        $http.post('userOrder/deleteDressFromUserBag', orderDetail)
+        $http.put('userOrder/bag', orderDetailPK)
             .then(
                 function (response) {
                     deferred.resolve(response.data);

@@ -1,96 +1,117 @@
 <div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchDressProperties()">
     <div class="row">
-        <div class="col-sm-6">
-            <div ngf-drop ngf-select ng-model="ctrl.mainImageFile" class="drop-box"
-                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
-                 accept="image/*" ngf-pattern="'image/*'">
-                <span>Upload main image</span>
-            </div>
-            <div ng-if="ctrl.mainImageFile">
-                <div ng-init="ctrl.readAsDataUrl(ctrl.mainImageFile, 'mainImage')">
-                    <img ng-show="ctrl.mainImageFile" ng-src="{{ctrl.mainImgSrc}}" style="max-height: 400px;" class="img-responsive"alt="Dress photo">
-                </div>
-            </div>
-            <div ng-if="!ctrl.mainImageFile && ctrl.dress.imageSource">
-                <img src="images/dress/mainImages/{{ctrl.dress.imageSource}}" style="max-height: 500px;" class="img-responsive"alt="Dress photo">
-            </div>
-            <div ngf-drop ngf-select ng-model="ctrl.imageFiles" class="drop-box"
-                 ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-                 accept="image/*" ngf-pattern="'image/*'">
-                <span>Upload secondary images</span>
+        <div class="col-sm-3">
+            <ul>
+                <li><a href="#/dressAdmin">Add dress</a></li>
+                <li><a href="#/category">Categories</a></li>
+                <li><a href="#/manufacturer">Manufacturers</a></li>
+                <li><a href="#/type">Types</a></li>
+                <li><a href="#/user">Users</a></li>
+                <li><a href="#/color">Colors</a></li>
+                <li><a href="#/size">Sizes</a></li>
+                <li><a href="#/role">Roles</a></li>
+                <li><a href="#/order">Orders</a></li>
+                <li><a href="#/status">Statuses</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <div ng-show="ctrl.isErrors" class="alert alert-danger">
+                <p ng-repeat="error in ctrl.errorMessages">{{error.defaultMessage}}</p>
             </div>
             <div class="row">
-                <div ng-repeat="img in ctrl.imageFiles track by $index" class="col-sm-3">
-                    <div ng-init="ctrl.readAsDataUrl(ctrl.imageFiles[$index], $index)">
-                        <img ng-show="ctrl.imgSrc[$index]" ng-src={{ctrl.imgSrc[$index]}} class="img-responsive" alt="Dress photo">
+                <div class="col-sm-6">
+                    <div ngf-drop ngf-select ng-model="ctrl.mainImageFile" class="drop-box"
+                         ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                         accept="image/*" ngf-pattern="'image/*'">
+                        <span>Upload main image</span>
+                    </div>
+                    <div ng-if="ctrl.mainImageFile">
+                        <div ng-init="ctrl.readAsDataUrl(ctrl.mainImageFile, 'mainImage')">
+                            <img ng-show="ctrl.mainImageFile" ng-src="{{ctrl.mainImgSrc}}" style="max-height: 400px;" class="img-responsive"alt="Dress photo">
+                        </div>
+                    </div>
+                    <div ng-if="!ctrl.mainImageFile && ctrl.dress.imageSource">
+                        <img ng-src="images/dress/mainImages/{{ctrl.dress.imageSource}}" style="max-height: 500px;" class="img-responsive"alt="Dress photo">
+                    </div>
+                    <div ngf-drop ngf-select ng-model="ctrl.imageFiles" class="drop-box"
+                         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                         accept="image/*" ngf-pattern="'image/*'">
+                        <span>Upload secondary images</span>
+                    </div>
+                    <div class="row">
+                        <div ng-repeat="img in ctrl.imageFiles track by $index" class="col-sm-3">
+                            <div ng-init="ctrl.readAsDataUrl(ctrl.imageFiles[$index], $index)">
+                                <img ng-show="ctrl.imgSrc[$index]" ng-src={{ctrl.imgSrc[$index]}} class="img-responsive" alt="Dress photo">
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!ctrl.imageFiles && ctrl.dress.dressImageSet" class="row">
+                        <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
+                            <img ng-src="images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label for="manufacturerSelect">Manufacturer:</label>
+                            <select id="manufacturerSelect"
+                                    ng-model="ctrl.dress.manufacturer"
+                                    ng-options="item.name for item in ctrl.manufacturers">
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="categorySelect">Category:</label>
+                            <select id="categorySelect"
+                                    ng-model="ctrl.dress.category"
+                                    ng-options="item.name for item in ctrl.categories">
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="typeSelect">Type:</label>
+                            <select id="typeSelect"
+                                    ng-model="ctrl.dress.type"
+                                    ng-options="item.name for item in ctrl.types">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="sizeSelect">Size:</label>
+                            <select id="sizeSelect"
+                                    ng-model="ctrl.dress.sizeSet"
+                                    ng-options="item.common for item in ctrl.sizes"
+                                    multiple>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="colorSelect">Color:</label>
+                            <select id="colorSelect"
+                                    ng-model="ctrl.dress.colorSet"
+                                    ng-options="item.color for item in ctrl.colors"
+                                    multiple>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <span>Dress price:</span>
+                        <input type="number" min="0" ng-model="ctrl.dress.price" class="form-control input-sm" placeholder="Enter dress price"/>
+                        <span>Dress description:</span>
+                        <input type="text" ng-model="ctrl.dress.description.english" class="form-control input-sm" placeholder="Enter dress description"/>
+                        <span>Dress amount:</span>
+                        <input type="number" min="0" ng-model="ctrl.dress.amount" class="form-control input-sm" placeholder="Enter amount"/>
+                        <span>Dress release date:</span>
+                        <input type="date" ng-model="ctrl.dress.releaseDate" class="form-control input-sm" placeholder="Enter release date"/>
                     </div>
                 </div>
             </div>
-            <div ng-if="!ctrl.imageFiles && ctrl.dress.dressImageSet" class="row">
-                <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
-                    <img src="images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="row">
-                <div class="col-sm-4">
-                    <label for="manufacturerSelect">Manufacturer:</label>
-                    <select id="manufacturerSelect"
-                            ng-model="ctrl.dress.manufacturer"
-                            ng-options="item.name for item in ctrl.manufacturers">
-                    </select>
-                </div>
-                <div class="col-sm-4">
-                    <label for="categorySelect">Category:</label>
-                    <select id="categorySelect"
-                            ng-model="ctrl.dress.category"
-                            ng-options="item.name for item in ctrl.categories">
-                    </select>
-                </div>
-                <div class="col-sm-4">
-                    <label for="typeSelect">Type:</label>
-                    <select id="typeSelect"
-                            ng-model="ctrl.dress.type"
-                            ng-options="item.name for item in ctrl.types">
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label for="sizeSelect">Size:</label>
-                    <select id="sizeSelect"
-                            ng-model="ctrl.dress.sizeSet"
-                            ng-options="item.common for item in ctrl.sizes"
-                            multiple>
-                    </select>
-                </div>
-                <div class="col-sm-6">
-                    <label for="colorSelect">Color:</label>
-                    <select id="colorSelect"
-                            ng-model="ctrl.dress.colorSet"
-                            ng-options="item.color for item in ctrl.colors"
-                            multiple>
-                    </select>
-                </div>
+            <div>
+                <button ng-show="ctrl.dress.id" ng-click="ctrl.editDress()">Edit dress</button>
+                <button ng-show="!ctrl.dress.id" ng-click="ctrl.addDress()">Add dress</button>
             </div>
             <div>
-                <span>Dress price:</span>
-                <input type="text" ng-model="ctrl.dress.price" class="form-control input-sm" placeholder="Enter dress price"/>
-                <span>Dress description:</span>
-                <input type="text" ng-model="ctrl.dress.description.english" class="form-control input-sm" placeholder="Enter dress description"/>
-                <span>Dress amount:</span>
-                <input type="text" ng-model="ctrl.dress.amount" class="form-control input-sm" placeholder="Enter amount"/>
-                <span>Dress release date:</span>
-                <input type="text" ng-model="ctrl.dress.releaseDate" class="form-control input-sm" placeholder="Enter release date"/>
+                <a href="#/categoriesList">Categories</a>
             </div>
         </div>
-    </div>
-    <div>
-        <button ng-show="ctrl.dress.id" ng-click="ctrl.editDress()">Edit dress</button>
-        <button ng-show="!ctrl.dress.id" ng-click="ctrl.addDress()">Add dress</button>
-    </div>
-    <div>
-        <a href="#/categoriesList">Categories</a>
     </div>
 </div>

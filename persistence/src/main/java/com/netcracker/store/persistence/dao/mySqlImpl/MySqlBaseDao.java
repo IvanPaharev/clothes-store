@@ -41,15 +41,17 @@ public abstract class MySqlBaseDao<E, ID extends Serializable> implements BaseDa
     }
 
     @Override
-    public void add(E e) {
+    public E add(E e) {
         entityManager.persist(e);
+        return e;
     }
 
     @Override
-    public void addAll(Collection<E> collection) {
+    public Collection<E> addAll(Collection<E> collection) {
         for (E e : collection) {
             entityManager.persist(e);
         }
+        return collection;
     }
 
     @Override
@@ -58,8 +60,8 @@ public abstract class MySqlBaseDao<E, ID extends Serializable> implements BaseDa
     }
 
     @Override
-    public void update(E e) {
-        entityManager.merge(e);
+    public E update(E e) {
+        return entityManager.merge(e);
     }
 
     @Override

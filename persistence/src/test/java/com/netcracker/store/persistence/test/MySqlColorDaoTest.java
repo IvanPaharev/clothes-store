@@ -7,6 +7,8 @@ import com.netcracker.store.persistence.entity.Dress;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
@@ -42,5 +44,11 @@ public class MySqlColorDaoTest extends BaseDaoGenericTest{
     @Override
     protected BaseEntity getEntity() {
         return new Color("test category", "test res", new HashSet<>(dressDao.getAll()));
+    }
+
+    @Override
+    protected Collection<BaseEntity> getCollection() {
+        return Arrays.asList(new Color("q", "q", new HashSet<>(dressDao.getAll())),
+                new Color("w", "w", new HashSet<>(dressDao.getAll())));
     }
 }

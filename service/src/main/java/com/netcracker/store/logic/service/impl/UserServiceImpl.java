@@ -1,6 +1,8 @@
 package com.netcracker.store.logic.service.impl;
 
+import com.netcracker.store.logic.service.RoleService;
 import com.netcracker.store.persistence.dao.UserDao;
+import com.netcracker.store.persistence.entity.Role;
 import com.netcracker.store.persistence.entity.User;
 import com.netcracker.store.logic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by A-one on 23.04.2017.
@@ -18,13 +18,14 @@ import java.util.Set;
 @Service
 @Transactional
 public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements UserService {
-
     private final UserDao userDao;
+    private final RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, RoleService roleService) {
         super(userDao);
         this.userDao = userDao;
+        this.roleService = roleService;
     }
 
     @Override
@@ -33,29 +34,18 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
     }
 
     @Override
-    public boolean addUser(User user) {
-        boolean isEmailBusy = true;
+    public User update(User user) {
+        user.setPassword(userDao.get(user.getId()).getPassword());
+        return userDao.update(user);
+    }
+
+    @Override
+    public User add(User user) {
         if (userDao.getUserByEmail(user.getEmail()) == null) {
-            userDao.add(user);
-            if (user.getId() != null) {
-                isEmailBusy = false;
-            }
+            user = userDao.add(user);
+            user.setRoleSet(new HashSet<>(Collections.singletonList(roleService.get(1))));
         }
-        return isEmailBusy;
+        return user;
     }
 
-    @Override
-    public Set<User> getAllUsers() {
-        return new HashSet<>(userDao.getAll());
-    }
-
-    @Override
-    public void deleteUser(User user) {
-        userDao.delete(user.getId());
-    }
-
-    @Override
-    public void updateUser(User user) {
-        userDao.update(user);
-    }
 }

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -24,7 +25,8 @@ public class Type extends BaseEntity {
     private static final long serialVersionUID = 7722192986659845970L;
 
     @Column(unique = true)
-    @NotNull
+    @NotNull(message = "Type name cannot be null")
+    @Size(max = 45, message = "Type name max length - 45 symbols")
     private String name;
 
     @OneToMany(mappedBy = "type")

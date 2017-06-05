@@ -5,13 +5,13 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$location'
     self.confirmPassword = null;
     self.isPasswordsNotMatch = false;
     self.isPasswordNotCorrect = false;
-    self.isEmailNotFree = false;
+    self.isErrors = false;
     self.isRegistered = false;
     self.user = {
         email: null,
         password: null
     };
-
+    self.errorMessages = [];
 
     self.register = function () {
         if (self.user.password === self.confirmPassword) {
@@ -21,9 +21,14 @@ angular.module('myApp').controller('loginController', ['$rootScope', '$location'
                 userService.register(self.user)
                     .then(
                         function (response) {
-                            self.isEmailNotFree = response;
-                            if (!response) {
+                            if (response.data) {
+                                self.isErrors = response.data.errors;
+                                self.errorMessages = response.data.errors;
+                                self.isRegistered = false;
+                            }
+                            if (!response.data) {
                                 self.isRegistered = true;
+                                self.isErrors = false;
                             }
                         },
                         function (errResponse) {

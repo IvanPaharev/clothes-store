@@ -32,14 +32,14 @@ public class UserServiceTest {
     @Test
     public void testAddAndDeleteUser() {
         User user = new User("t", "t", "t", "t", "t", "t");
-        userService.addUser(user);
+        userService.add(user);
         assertNotNull(user.getId());
-        userService.deleteUser(user);
+        userService.delete(user);
         assertNull(userService.getUserByEmail("t"));
     }
 
     @Test
     public void testGetAllUsers() {
-        assertNotNull(userService.getAllUsers());
+        assertNotNull(userService.getAll());
     }
 }

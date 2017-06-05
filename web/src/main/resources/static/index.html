@@ -30,32 +30,27 @@
     <div class="top-bar">
         <div class="container">
             <div class="row">
-                <div ng-controller="dressListController as ctrl" class="col-sm-3 col-xs-4" ng-init="ctrl.fetchCurrencyInfo()">
-                    <span>Currency: </span>
+                <div ng-controller="currencyController as ctrl" class="col-sm-3 col-xs-3" ng-init="ctrl.fetchCurrencyInfo()">
+                    <span>{{$root.i18nMessages.currency}}</span>
                     <select ng-model="$root.currentCurrency"
                             ng-options="key for (key, value) in currencyInfo.rates">
                     </select>
                 </div>
-                <div class="col-sm-5 col-xs-4">
-                    <div class="social-header">
-                        <ul class="social-share">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="https://github.com/IvanPaharev/clothes-store"><i class="fa fa-github"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="https://vk.com/id254693006"><i class="fa fa-vk"></i></a></li>
-                            <li><a href="#"><i class="fa fa-skype"></i></a></li>
-                        </ul>
-                    </div>
+                <div ng-controller="languageController as ctrl" class="col-sm-3 col-xs-3" ng-init="ctrl.fetchMessages()">
+                    <span>{{$root.i18nMessages.lang}}</span>
+                    <select ng-model="ctrl.currentLanguage"
+                            ng-options="item for item in ctrl.availableLanguages"
+                            ng-change="ctrl.fetchMessages()">
+                    </select>
                 </div>
-                <div class="col-sm-4 col-xs-4 social-header" ng-controller="loginController as ctrl">
+                <div class="col-sm-6 col-xs-6 social-header" ng-controller="loginController as ctrl">
                     <ul class="reg-list" ng-init="ctrl.initAuthentication()">
                         <li><a href="#/userBag"><i class="fa fa-shopping-cart"></i></a></li>
-                        <li ng-show="!authenticated"><a href="#/register"><!--ui-sref="register">-->Register</a></li>
-                        <li ng-show="!authenticated"><a href="#/login"> <!--ui-sref="login">-->Sign in</a></li>
+                        <li ng-show="!authenticated"><a href="#/register"><!--ui-sref="register">-->{{$root.i18nMessages.register}}</a></li>
+                        <li ng-show="!authenticated"><a href="#/login"> <!--ui-sref="login">-->{{$root.i18nMessages.sign_in}}</a></li>
                         <li ng-show="authenticated"><a href="#/userRoom">{{user.name}}</a></li>
-                        <li ng-show="authenticated && isAdmin"><a href="#/dressAdmin">Admin dress</a></li>
-                        <li ng-show="authenticated"><a href="#" ng-click="ctrl.logout()">Logout</a></li>
+                        <li ng-show="authenticated && isAdmin"><a href="#/dressAdmin">{{$root.i18nMessages.admin_dress}}</a></li>
+                        <li ng-show="authenticated"><a href="#" ng-click="ctrl.logout()">{{$root.i18nMessages.logout}}</a></li>
                     </ul>
                 </div>
             </div>
@@ -76,11 +71,11 @@
 
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li><a href="#/dressList/women"><!--ui-sref="dressList">-->Women</a></li>
-                    <li><a href="#/dressList/men">Men</a></li>
-                    <li><a href="#/dressList/girl">Girls</a></li>
-                    <li><a href="#/dressList/boy">Boys</a></li>
-                    <li><a href="#/dressList/new">New</a></li>
+                    <li><a href="#/dresses/women"><!--ui-sref="dressList">-->{{$root.i18nMessages.type_women}}</a></li>
+                    <li><a href="#/dresses/men">{{$root.i18nMessages.type_men}}</a></li>
+                    <li><a href="#/dresses/girl">{{$root.i18nMessages.type_girl}}</a></li>
+                    <li><a href="#/dresses/boy">{{$root.i18nMessages.type_boy}}</a></li>
+                    <li><a href="#/dresses">{{$root.i18nMessages.type_all}}</a></li>
                     <li>
                         <div class="search" style="padding-top: 5px">
                             <form role="form">
@@ -98,15 +93,23 @@
 <footer>
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
-                &copy; 2017 <a target="_blank" href="http://shapebootstrap.net/" title="Free Twitter Bootstrap WordPress Themes and HTML templates">Dress Store</a>. All Rights Reserved.
+            <div class="col-sm-4 col-xs-4">
+                &copy; 2017 <a target="_blank" href="#/">Dress Store</a>. {{$root.i18nMessages.all_rights_reserved}}.
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4 col-xs-4">
+                <div class="social-header">
+                    <ul class="social-share">
+                        <li><a href="https://github.com/IvanPaharev/clothes-store"><i class="fa fa-github"></i></a>
+                            {{$root.i18nMessages.github}}</li>
+                        <li><a href="https://vk.com/id254693006"><i class="fa fa-vk"></i></a>{{$root.i18nMessages.vk}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-4">
                 <ul class="pull-right">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Faq</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">{{$root.i18nMessages.home}}</a></li>
+                    <li><a href="#">{{$root.i18nMessages.about}}</a></li>
+                    <li><a href="#">{{$root.i18nMessages.contact}}</a></li>
                 </ul>
             </div>
         </div>
@@ -121,12 +124,28 @@
 <script src="resources/js/angular/service/dressService.js"></script>
 <script src="resources/js/angular/service/categoryService.js"></script>
 <script src="resources/js/angular/service/userService.js"></script>
-<script src="resources/js/angular/service/paymentService.js"></script>
+<script src="resources/js/angular/service/languageService.js"></script>
+<script src="resources/js/angular/service/typeService.js"></script>
+<script src="resources/js/angular/service/currencyService.js"></script>
+<script src="resources/js/angular/service/colorService.js"></script>
+<script src="resources/js/angular/service/sizeService.js"></script>
+<script src="resources/js/angular/service/roleService.js"></script>
+<script src="resources/js/angular/service/orderService.js"></script>
+<script src="resources/js/angular/service/statusService.js"></script>
+<script src="resources/js/angular/service/manufacturerService.js"></script>
 <script src="resources/js/angular/controller/dressListController.js"></script>
 <script src="resources/js/angular/controller/categoryController.js"></script>
-<script src="resources/js/angular/controller/paymentController.js"></script>
 <script src="resources/js/angular/controller/loginController.js"></script>
+<script src="resources/js/angular/controller/languageController.js"></script>
 <script src="resources/js/angular/controller/userController.js"></script>
+<script src="resources/js/angular/controller/typeController.js"></script>
+<script src="resources/js/angular/controller/currencyController.js"></script>
+<script src="resources/js/angular/controller/colorController.js"></script>
+<script src="resources/js/angular/controller/sizeController.js"></script>
+<script src="resources/js/angular/controller/roleController.js"></script>
+<script src="resources/js/angular/controller/orderController.js"></script>
+<script src="resources/js/angular/controller/statusController.js"></script>
+<script src="resources/js/angular/controller/manufacturerController.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>-->
 <script src="resources/js/jquery.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>

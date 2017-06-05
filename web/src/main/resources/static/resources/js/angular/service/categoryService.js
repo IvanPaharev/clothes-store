@@ -33,7 +33,7 @@ angular.module('myApp').factory('categoryService', ['$http', '$q', function($htt
                 },
                 function(errResponse){
                     console.error('Error while creating category');
-                    deferred.reject(errResponse);
+                    deferred.resolve(errResponse);
                 }
             );
         return deferred.promise;
@@ -49,7 +49,7 @@ angular.module('myApp').factory('categoryService', ['$http', '$q', function($htt
                 },
                 function(errResponse){
                     console.error('Error while updating User');
-                    deferred.reject(errResponse);
+                    deferred.resolve(errResponse);
                 }
             );
         return deferred.promise;

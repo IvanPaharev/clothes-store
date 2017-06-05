@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -25,7 +26,8 @@ public class Role extends BaseEntity {
     private static final long serialVersionUID = 8101419755624978165L;
 
     @Column(unique = true)
-    @NotNull
+    @NotNull(message = "Role name cannot be null")
+    @Size(max = 60, message = "Role name max length - 60 symbols")
     private String role;
 
     @ManyToMany(mappedBy = "roleSet")

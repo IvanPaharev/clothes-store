@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -24,9 +25,11 @@ public class Manufacturer extends BaseEntity {
     private static final long serialVersionUID = 7722192986659845970L;
 
     @Column(unique = true)
-    @NotNull
+    @NotNull(message = "Manufacturer name cannot be null")
+    @Size(max = 90, message = "Max manufacturer name length - 90 symbols")
     private String name;
 
+    @Size(max = 90, message = "Max manufacturer description length - 600 symbols")
     private String description;
 
     @OneToMany(mappedBy = "manufacturer")

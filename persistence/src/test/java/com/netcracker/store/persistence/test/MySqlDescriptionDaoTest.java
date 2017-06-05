@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 
 import static org.junit.Assert.*;
@@ -123,4 +125,5 @@ public class MySqlDescriptionDaoTest{
         dressDao.add(dress);
         return new Description(dress.getId(), "test category", "test res", dress);
     }
+
 }

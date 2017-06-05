@@ -1,93 +1,71 @@
 'use strict';
-/*var app = angular.module('myApp',['ui.router'])
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-
-        $urlRouterProvider.otherwise('/home');
-
-        $stateProvider
-            .state('home', {
-                url: '/home',
-                templateUrl: 'home.html',
-                controller: 'dressListController'
-            })
-            .state('login', {
-                url: '/login',
-                templateUrl: 'login.html',
-                controller: 'loginController'
-            })
-            .state('register', {
-                url: '/register',
-                templateUrl: 'register.html',
-                controller: 'loginController'
-            })
-            .state('dressList', {
-                url: '/dressList',
-                templateUrl: 'dressList.html',
-                controller: 'dressListController'
-            })
-/!*            .state('dress.list', {
-                url: '/dressList',
-                templateUrl: 'dressList.html',
-                controller: 'dressListController'
-            })
-            .state('dress.id', {
-                url: '/dress/:id',
-                templateUrl: 'dress.html',
-                controller: 'dressListController'
-            })*!/
-            .state('dress', {
-                url: '/dress/:id',
-                templateUrl: 'dress.html',
-                controller: 'dressListController',
-            });
-
-        $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-
-    });*/
 var App = angular.module('myApp',['ngRoute', 'ngFileUpload'])
     .config(function($routeProvider, $httpProvider) {
-
-        //noinspection JSUnresolvedFunction
         $routeProvider.when('/', {
-            templateUrl : 'pages/home.html',
+            templateUrl: 'pages/public/home.html',
             controller : 'dressListController'
-        }).when('/dressList/:type', {
-            templateUrl : 'pages/dressList.html',
+        }).when('/dresses', {
+            templateUrl: 'pages/public/dresses.html',
+            controller : 'dressListController'
+        }).when('/dresses/:type', {
+            templateUrl: 'pages/public/dresses.html',
             controller : 'dressListController'
         }).when('/dress/:id', {
-            templateUrl: 'pages/dress.html',
+            templateUrl: 'pages/public/dress.html',
             controller : 'dressListController'
+        }).when('/login', {
+            templateUrl: 'pages/public/login.html',
+            controller : 'loginController'
+        }).when('/register', {
+            templateUrl: 'pages/public/register.html',
+            controller : 'loginController'
         }).when('/userBag', {
-            templateUrl: 'pages/userBag.html',
+            templateUrl: 'pages/user/userBag.html',
             controller : 'dressListController'
         }).when('/orderPage', {
-            templateUrl: 'pages/orderPage.html',
+            templateUrl: 'pages/user/orderPage.html',
             controller : 'paymentController'
+        }).when('/userRoom', {
+            templateUrl: 'pages/user/userRoom.html',
+            controller : 'userController'
         }).when('/dressAdmin', {
             templateUrl: 'pages/admin/dressAdmin.html',
             controller : 'dressListController'
         }).when('/dressAdmin/:id', {
             templateUrl: 'pages/admin/dressAdmin.html',
             controller : 'dressListController'
-        }).when('/login', {
-            templateUrl : 'pages/login.html',
-            controller : 'loginController'
-        }).when('/register', {
-            templateUrl : 'pages/register.html',
-            controller : 'loginController'
-        }).when('/categoriesList', {
-            templateUrl : 'pages/categoriesList.html',
+        }).when('/category', {
+            templateUrl: 'pages/admin/categories.html',
             controller : 'categoryController'
-        }).when('/userRoom', {
-            templateUrl : 'pages/user/userRoom.html',
+        }).when('/manufacturer', {
+            templateUrl: 'pages/admin/manufacturers.html',
+            controller : 'manufacturerController'
+        }).when('/user', {
+            templateUrl: 'pages/admin/users.html',
             controller : 'userController'
+        }).when('/color', {
+            templateUrl: 'pages/admin/colors.html',
+            controller : 'colorController'
+        }).when('/size', {
+            templateUrl: 'pages/admin/sizes.html',
+            controller : 'sizeController'
+        }).when('/role', {
+            templateUrl: 'pages/admin/roles.html',
+            controller : 'roleController'
+        }).when('/order', {
+            templateUrl: 'pages/admin/orders.html',
+            controller : 'orderController'
+        }).when('/status', {
+            templateUrl: 'pages/admin/statuses.html',
+            controller : 'statusController'
+        }).when('/type', {
+            templateUrl: 'pages/admin/types.html',
+            controller : 'typeController'
         }).otherwise('/', {
-            templateUrl: 'pages/home.html',
-            controller: 'dressListController'
+            templateUrl: 'pages/public/home.html',
+            controller : 'dressListController'
         });
-
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-
     });
 
 App.directive('restrict', function(userService){

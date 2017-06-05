@@ -22,30 +22,18 @@ public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements
     private final DressDao dressDao;
     private final ManufacturerDao manufacturerDao;
     private final CategoryDao categoryDao;
-    private final ColorDao colorDao;
-    private final SizeDao sizeDao;
-    private final TypeDao typeDao;
     private final DescriptionDao descriptionDao;
-    private final DressImageDao dressImageDao;
 
     @Autowired
     public DressServiceImpl(DressDao dressDao,
                             ManufacturerDao manufacturerDao,
                             CategoryDao categoryDao,
-                            ColorDao colorDao,
-                            SizeDao sizeDao,
-                            TypeDao typeDao,
-                            DescriptionDao descriptionDao,
-                            DressImageDao dressImageDao) {
+                            DescriptionDao descriptionDao) {
         super(dressDao);
         this.dressDao = dressDao;
         this.manufacturerDao = manufacturerDao;
         this.categoryDao = categoryDao;
-        this.colorDao = colorDao;
-        this.sizeDao = sizeDao;
-        this.typeDao = typeDao;
         this.descriptionDao = descriptionDao;
-        this.dressImageDao = dressImageDao;
 
     }
 
@@ -69,27 +57,18 @@ public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements
     }
 
     @Override
-    public void addDress(Dress dress) {
-        dressDao.add(dress);
+    public Dress add(Dress dress) {
+        dress = dressDao.add(dress);
         dress.setImageSource(dress.getId() + ".jpg");
         Description description = dress.getDescription();
         description.setDressId(dress.getId());
         description.setDress(dress);
         descriptionDao.add(description);
+        return dress;
     }
 
     @Override
-    public void deleteDress(int id) {
-        dressDao.delete(id);
-    }
-
-    @Override
-    public void updateDress(Dress dress) {
-        dressDao.update(dress);
-    }
-
-    @Override
-    public List<Dress> getDressesByCriteria(Criteria criteria, String type) {
+    public List<Dress> getDressesByCriteria(Criteria criteria) {
         if (criteria.getCategories().size() == 0) {
             criteria.setCategories(categoryDao.getAll());
         }
@@ -99,17 +78,11 @@ public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements
         if (criteria.getSort() == null) {
             criteria.setSort(new Sort("", "releaseDate", false));
         }
-        return dressDao.getAllByCriteria(criteria, type);
+        return dressDao.getAllByCriteria(criteria);
     }
 
     @Override
-    public Long getQueryCount(Criteria criteria, String type) {
-        if (criteria.getCategories().size() == 0) {
-            criteria.setCategories(categoryDao.getAll());
-        }
-        if (criteria.getManufacturers().size() == 0) {
-            criteria.setManufacturers(manufacturerDao.getAll());
-        }
-        return dressDao.getQueryCount(criteria, type);
+    public Long getQueryCount(Criteria criteria) {
+        return dressDao.getQueryCount(criteria);
     }
 }

@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -74,14 +72,16 @@ public class MySqlDressDaoTest extends BaseDaoGenericTest {
         manufacturers.add(manufacturerDao.getAll().get(6));
         List<Dress> dresses = dressDao.getAllByCriteria(
                 new Criteria(
+                        "women",
                 categoryDao.getAll(),
                 manufacturers,
+                sizeDao.getAll(),
+                colorDao.getAll().get(0),
                 550,
                 900,
                 1,
                 2,
-                 new Sort("", "price", true)),
-                "women");
+                 new Sort("", "price", true)));
         for (Dress dress : dresses) {
             System.out.println(dress.getPrice());
             System.out.println(dresses.size());
@@ -94,14 +94,16 @@ public class MySqlDressDaoTest extends BaseDaoGenericTest {
         manufacturers.add(manufacturerDao.getAll().get(1));
         manufacturers.add(manufacturerDao.getAll().get(6));
         System.out.println(dressDao.getQueryCount(new Criteria(
+                "women",
                         categoryDao.getAll(),
                         manufacturers,
+                        sizeDao.getAll(),
+                        colorDao.getAll().get(0),
                         550,
                         900,
                         1,
                         2,
-                        new Sort("", "price", true)),
-                        "women"));
+                        new Sort("", "price", true))));
     }
 
     @Override
@@ -124,5 +126,10 @@ public class MySqlDressDaoTest extends BaseDaoGenericTest {
                 new HashSet<Color>(colorDao.getAll()),
                 new HashSet<DressImage>(dressImageDao.getAll())
         );
+    }
+
+    @Override
+    protected Collection<BaseEntity> getCollection() {
+        return Arrays.asList(getEntity(), getEntity());
     }
 }

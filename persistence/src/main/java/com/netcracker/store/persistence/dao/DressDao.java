@@ -17,6 +17,6 @@ import java.util.List;
 @Repository
 public interface DressDao extends BaseDao<Dress, Integer> {
     List<Dress> getDressesByType(String type);
-    List<Dress> getAllByCriteria(Criteria criteria, String type);
-    long getQueryCount(Criteria criteria, String type);
+    List<Dress> getAllByCriteria(Criteria criteria);
+    long getQueryCount(Criteria criteria);
 }

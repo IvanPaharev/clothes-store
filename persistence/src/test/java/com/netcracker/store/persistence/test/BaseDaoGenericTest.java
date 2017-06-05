@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -29,6 +30,7 @@ import static org.junit.Assert.*;
 @EnableConfigurationProperties
 public abstract class BaseDaoGenericTest {
 
+    private Collection<BaseEntity> collection;
     private BaseEntity entity;
     protected int testId;
     private int deleteId;
@@ -36,6 +38,7 @@ public abstract class BaseDaoGenericTest {
     @Before
     public void setUp(){
         entity = getEntity();
+        collection = getCollection();
         testId = ((BaseEntity)getDao().getAll().get(1)).getId();
     }
 
@@ -51,6 +54,14 @@ public abstract class BaseDaoGenericTest {
         getDao().add(entity);
         assertNotNull(getDao().get(entity.getId()));
         deleteId = entity.getId();
+    }
+
+    @Test
+    public void testAddAll() {
+        getDao().addAll(collection);
+        for (BaseEntity entity : collection) {
+            assertNotNull(getDao().get(entity.getId()));
+        }
     }
 
     @Test
@@ -70,4 +81,5 @@ public abstract class BaseDaoGenericTest {
 
     protected abstract BaseDao getDao();
     protected abstract BaseEntity getEntity();
+    protected abstract Collection<BaseEntity> getCollection();
 }

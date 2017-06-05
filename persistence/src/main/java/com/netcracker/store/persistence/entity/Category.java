@@ -10,7 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 
@@ -23,7 +24,8 @@ public class Category extends BaseEntity {
     private static final long serialVersionUID = 7722192986659845970L;
 
     @Column(unique = true)
-    @NotNull
+    @Size(max = 60, message = "Category name max length - 60")
+    @NotNull(message = "Category name cannot be null")
     private String name;
 
     @OneToMany(mappedBy = "category")

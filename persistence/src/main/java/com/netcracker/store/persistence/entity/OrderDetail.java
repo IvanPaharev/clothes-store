@@ -25,7 +25,7 @@ public class OrderDetail implements Serializable {
     @EmbeddedId
     protected OrderDetailPK orderDetailPK;
 
-    @NotNull
+    @NotNull(message = "Quantity cannot be null")
     @Min(value = 0)
     private int quantity;
 

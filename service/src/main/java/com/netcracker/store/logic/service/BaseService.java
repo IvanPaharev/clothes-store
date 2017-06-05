@@ -11,11 +11,11 @@ import java.util.List;
  */
 @Service
 public interface BaseService<E, ID extends Serializable> {
-    void add(E e);
-    void addAll(Collection<E> collection);
+    E add(E e);
+    Collection<E> addAll(Collection<E> collection);
     E get(ID id);
     List<E> getAll();
-    void update(E e);
+    E update(E e);
     void delete(E e);
     void delete(ID id);
     void deleteAll(Collection<E> collection);

@@ -14,9 +14,6 @@ public interface DressService extends BaseService<Dress, Integer> {
     List<Dress> getAllDresses();
     List<Dress> getDressesByType(String type);
     Dress getDressWithDetailsById(int id);
-    void addDress(Dress dress);
-    void deleteDress(int id);
-    void updateDress(Dress dress);
-    List<Dress> getDressesByCriteria(Criteria criteria, String type);
-    Long getQueryCount(Criteria criteria, String type);
+    List<Dress> getDressesByCriteria(Criteria criteria);
+    Long getQueryCount(Criteria criteria);
 }

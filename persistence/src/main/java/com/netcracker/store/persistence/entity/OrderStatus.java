@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
@@ -23,9 +24,11 @@ public class OrderStatus extends BaseEntity{
     private static final long serialVersionUID = 272256990910779772L;
 
     @Column(unique = true)
-    @NotNull
+    @NotNull(message = "Status cannot be null")
+    @Size(max = 60, message = "Order status name max length - 60 symbols")
     private String status;
 
+    @Size(max = 300, message = "Order status description max length - 300 symbols")
     private String description;
 
     @OneToMany(mappedBy = "orderStatus")

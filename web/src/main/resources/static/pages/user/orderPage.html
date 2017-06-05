@@ -1,0 +1,12 @@
+<div class="container" ng-controller="orderController as ctrl">
+    <div>
+        <span>Input your payment data:</span>
+        <input type="text" ng-model="ctrl.orderData.paymentData" class="form-control input-sm" placeholder="Enter your payment data"/>
+        <span>Input your delivery address:</span>
+        <input type="text" ng-model="ctrl.orderData.deliveryAddress" class="form-control input-sm" placeholder="Enter your delivery address"/>
+    </div>
+    <div>
+        <button ng-click="ctrl.addEntity()" class="btn btn-danger">Pay</button>
+    </div>
+    <span ng-show="ctrl.paidSuccess">Successful paid!</span>
+</div>

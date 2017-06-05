@@ -5,9 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
+import javax.validation.constraints.Size;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -26,8 +27,10 @@ public class Description implements Serializable{
     @Column(name = "dress_id")
     private int dressId;
 
+    @Size(max = 600, message = "Description max size - 600 symbols")
     private String english;
 
+    @Size(max = 600, message = "Description max size - 600 symbols")
     private String russian;
 
     @OneToOne

@@ -1,0 +1,48 @@
+<div class="container" ng-controller="typeController as ctrl" ng-init="ctrl.getTypes()">
+    <div class="row">
+        <div class="col-sm-3">
+            <ul>
+                <li><a href="#/dressAdmin">Add dress</a></li>
+                <li><a href="#/category">Categories</a></li>
+                <li><a href="#/manufacturer">Manufacturers</a></li>
+                <li><a href="#/type">Types</a></li>
+                <li><a href="#/user">Users</a></li>
+                <li><a href="#/color">Colors</a></li>
+                <li><a href="#/size">Sizes</a></li>
+                <li><a href="#/role">Roles</a></li>
+                <li><a href="#/order">Orders</a></li>
+                <li><a href="#/status">Statuses</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <div ng-show="ctrl.isErrors" class="alert alert-danger">
+                <p ng-repeat="error in ctrl.errorMessages">{{error.defaultMessage}}</p>
+            </div>
+            <div class="row">
+                <div>
+                    <p>Add type:</p>
+                    <input type="text" ng-model="ctrl.type.name" class="form-control input-sm" placeholder="Enter type name"/>
+                    <button ng-click="ctrl.addType()">Add</button>
+                </div>
+                <div>
+                    <span>Existing types:</span>
+                </div>
+                <div class="row">
+                    <div ng-repeat="type in ctrl.types" class="col-sm-3">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <p>ID: {{type.id}} Name: {{type.name}}</p><br>
+                                <span>Change name:</span>
+                                <input type="text" ng-model="type.name" class="form-control input-sm" placeholder="Enter type name"/>
+                            </div>
+                            <div class="panel-footer">
+                                <button ng-click="ctrl.updateType(type)">Edit</button>
+                                <button ng-click="ctrl.deleteType(type.id)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

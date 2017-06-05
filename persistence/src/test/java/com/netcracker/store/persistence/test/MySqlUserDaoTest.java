@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,5 +38,11 @@ public class MySqlUserDaoTest extends BaseDaoGenericTest{
     @Override
     protected BaseEntity getEntity() {
         return new User("t", "t", "t", "t", "t", "t");
+    }
+
+    @Override
+    protected Collection<BaseEntity> getCollection() {
+        return Arrays.asList(new User("q", "q", "q", "q", "q", "q"),
+                new User("w", "w", "w", "w", "w", "w"));
     }
 }

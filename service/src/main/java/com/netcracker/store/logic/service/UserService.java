@@ -11,8 +11,4 @@ import java.util.Set;
 @Service
 public interface UserService extends BaseService<User, Integer> {
     User getUserByEmail(String email);
-    boolean addUser(User user);
-    void updateUser(User user);
-    Set<User> getAllUsers();
-    void deleteUser(User user);
 }

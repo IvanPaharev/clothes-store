@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,5 +38,10 @@ public class MySqlRoleDaoTest extends BaseDaoGenericTest{
     @Override
     protected BaseEntity getEntity() {
         return new Role("test category");
+    }
+
+    @Override
+    protected Collection<BaseEntity> getCollection() {
+        return Arrays.asList(new Role("q"), new Role("w"));
     }
 }

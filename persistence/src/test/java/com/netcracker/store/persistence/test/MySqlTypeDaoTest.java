@@ -7,6 +7,9 @@ import com.netcracker.store.persistence.entity.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -34,5 +37,10 @@ public class MySqlTypeDaoTest extends BaseDaoGenericTest{
     @Override
     protected BaseEntity getEntity() {
         return new Type("test category");
+    }
+
+    @Override
+    protected Collection<BaseEntity> getCollection() {
+        return Arrays.asList(new Type("q"), new Type("w"));
     }
 }

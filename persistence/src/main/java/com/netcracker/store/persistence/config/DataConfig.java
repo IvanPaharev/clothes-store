@@ -23,9 +23,9 @@ import java.util.Properties;
  * Created by A-one on 23.04.2017.
  */
 @Configuration
-@ComponentScan(basePackages = "com.netcracker.store.persistence")
 @EnableTransactionManagement
 @PropertySource("classpath:persistence.properties")
+@ComponentScan(basePackages = "com.netcracker.store.persistence")
 public class DataConfig {
     private final DatasourceProperties datasourceProperties;
     private final JpaProperties jpaProperties;

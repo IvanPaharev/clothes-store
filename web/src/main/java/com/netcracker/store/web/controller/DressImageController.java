@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,5 +26,15 @@ public class DressImageController extends BaseController<DressImage, Integer> {
     public DressImageController(DressImageService dressImageService) {
         super(dressImageService);
         this.dressImageService = dressImageService;
+    }
+
+    @RequestMapping(value = "/main", method = RequestMethod.POST)
+    public void uploadMainImage(@RequestParam("file") MultipartFile file) {
+        dressImageService.uploadMainImage(file);
+    }
+
+    @RequestMapping(value = "/other/{id}", method = RequestMethod.POST)
+    public void uploadOtherImages(@RequestParam("file") MultipartFile file, @PathVariable("id") int id) {
+        dressImageService.uploadOtherImage(file, id);
     }
 }

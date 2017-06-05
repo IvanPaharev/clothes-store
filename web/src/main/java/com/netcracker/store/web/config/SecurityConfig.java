@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.*;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +29,32 @@ import javax.sql.DataSource;
 @PropertySource("classpath:web.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${userRole}")
+    private String userRole;
+
+    @Value("${adminRole}")
+    private String adminRole;
+
     @Value("${permitAllAntMatchers}")
     private String[] permitAllAntMatchers;
+
+    @Value("${permitAllGetAntMatchers}")
+    private String[] permitAllGetAntMatchers;
+
+    @Value("${permitAllPostAntMatchers}")
+    private String[] permitAllPostAntMatchers;
+
+    @Value("${userRoleAntMatchers}")
+    private String[] userRoleAntMatchers;
+
+    @Value("${userRoleGetAntMatchers}")
+    private String[] userRoleGetAntMatchers;
+
+    @Value("${userRolePostAntMatchers}")
+    private String[] userRolePostAntMatchers;
+
+    @Value("${userRolePutAntMatchers}")
+    private String[] userRolePutAntMatchers;
 
     @Value("${ignoringAntMatchers}")
     private String[] ignoringAntMatchers;
@@ -68,8 +93,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(permitAllAntMatchers)
                     .permitAll()
+                .antMatchers(HttpMethod.GET, permitAllGetAntMatchers)
+                    .permitAll()
+                .antMatchers(HttpMethod.POST, permitAllPostAntMatchers)
+                    .permitAll()
+                .antMatchers(userRoleAntMatchers)
+                    .hasAuthority(userRole)
+                .antMatchers(userRoleGetAntMatchers)
+                    .hasAuthority(userRole)
+                .antMatchers(userRolePostAntMatchers)
+                    .hasAuthority(userRole)
+                .antMatchers(userRolePutAntMatchers)
+                    .hasAuthority(userRole)
                 .anyRequest()
-                    .authenticated().and()
+                    .hasAuthority(adminRole)
+                .and()
                 .csrf()
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }

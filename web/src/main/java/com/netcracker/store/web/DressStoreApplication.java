@@ -13,10 +13,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import java.util.Locale;
 
 /**
  * Created by A-one on 23.04.2017.
@@ -50,6 +55,15 @@ public class DressStoreApplication extends WebMvcConfigurerAdapter {
         messageConverter.setObjectMapper(mapper);
         return messageConverter;
 
+    }
+
+    @Bean
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+        source.addBasenames("i18n/messages");
+        source.setUseCodeAsDefaultMessage(true);
+        source.setDefaultEncoding("cp1251");
+        return source;
     }
 
     public static void main(String[] args) {

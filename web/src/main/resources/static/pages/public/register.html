@@ -1,0 +1,30 @@
+<div ng-controller="loginController as ctrl">
+    <form role="form" ng-submit="ctrl.register()">
+        <div class="form-group">
+            <label for="username">Email:</label>
+            <input type="text" class="form-control" id="username" name="username" ng-model="ctrl.user.email"/>
+            <div ng-show="ctrl.isErrors" class="alert alert-danger">
+                <p ng-repeat="error in ctrl.errorMessages">{{error.defaultMessage}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" ng-model="ctrl.user.password"/>
+            <div ng-show="ctrl.isPasswordNotCorrect" class="alert alert-danger">
+                <span>Password should be 6 - 20 characters length!</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm password:</label>
+            <input type="password" class="form-control" id="confirm-password"
+                   name="password" ng-model="ctrl.confirmPassword"/>
+            <div ng-show="ctrl.isPasswordsNotMatch" class="alert alert-danger">
+                <span>Passwords don't match each other!</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <div ng-show="ctrl.isRegistered" class="alert alert-success">
+            <span>Successfully registered!</span>
+        </div>
+    </form>
+</div>

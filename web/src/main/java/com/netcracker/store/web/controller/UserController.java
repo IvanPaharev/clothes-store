@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
@@ -34,21 +35,24 @@ public class UserController extends BaseController<User, Integer> {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<User> add(@Valid @RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return new ResponseEntity<>(userService.add(user), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/security", method = RequestMethod.GET)
     public Principal user(Principal user) {
         return user;
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> addUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/details", method = RequestMethod.POST)
     public ResponseEntity<User> getUserDetails(@RequestBody String email) {
         User user = userService.getUserByEmail(email);
+        user.setPassword("");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
 
 }

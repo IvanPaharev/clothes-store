@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -24,7 +25,8 @@ public class Color extends BaseEntity{
     private static final long serialVersionUID = 7137654951871026843L;
 
     @Column(unique = true)
-    @NotNull
+    @Size(max = 60, message = "Color name max length - 60")
+    @NotNull(message = "Color name cannot be null")
     private String color;
 
     @Column(name = "image_source")

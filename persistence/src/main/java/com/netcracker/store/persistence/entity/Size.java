@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
@@ -24,35 +25,43 @@ public class Size extends BaseEntity{
     private static final long serialVersionUID = 8101419755624978165L;
 
     @Column(name = "common", unique = true)
-    @NotNull
+    @NotNull(message = "Common size cannot be null")
+    @javax.validation.constraints.Size(max = 15, message = "Common size max length - 15 symbols")
     private String common;
 
     @Column(name = "uk", unique = true)
-    @NotNull
+    @NotNull(message = "UK size cannot be null")
+    @Min(value = 0, message = "UK size cannot be lower than zero")
     private Integer uk;
 
     @Column(name = "us", unique = true)
-    @NotNull
+    @NotNull(message = "US size cannot be null")
+    @javax.validation.constraints.Size(max = 5, message = "US size max length - 5 symbols")
     private String us;
 
     @Column(name = "italy", unique = true)
-    @NotNull
+    @NotNull(message = "Italy size cannot be null")
+    @Min(value = 0, message = "Italy size cannot be lower than zero")
     private Integer italy;
 
     @Column(name = "france", unique = true)
-    @NotNull
+    @NotNull(message = "France size cannot be null")
+    @Min(value = 0, message = "France size cannot be lower than zero")
     private Integer france;
 
     @Column(name = "russia", unique = true)
-    @NotNull
+    @NotNull(message = "Russia size cannot be null")
+    @Min(value = 0, message = "Russia size cannot be lower than zero")
     private Integer russia;
 
     @Column(name = "germany", unique = true)
-    @NotNull
+    @NotNull(message = "Germany size cannot be null")
+    @Min(value = 0, message = "Germany size cannot be lower than zero")
     private Integer germany;
 
     @Column(name = "japan", unique = true)
-    @NotNull
+    @NotNull(message = "Japan size cannot be null")
+    @Min(value = 0, message = "Japan size cannot be lower than zero")
     private Integer japan;
 
     @ManyToMany(mappedBy = "sizeSet")

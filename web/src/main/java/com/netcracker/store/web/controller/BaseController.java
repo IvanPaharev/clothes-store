@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,23 +35,18 @@ public abstract class BaseController<E, ID extends Serializable> {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<E> add(@RequestBody E e) {
-        //TODO check out persist to return e, becouse now we just returning same e without id
-        baseService.add(e);
-        return new ResponseEntity<>(e, HttpStatus.OK);
+    public ResponseEntity<E> add(@Valid @RequestBody E e) {
+        return new ResponseEntity<>(baseService.add(e), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.POST)
-    public ResponseEntity<List<E>> addAll(@RequestBody List<E> entities) {
-        //TODO check out persist to return e, becouse now we just returning same e without id
-        baseService.addAll(entities);
-        return new ResponseEntity<>(entities, HttpStatus.OK);
+    public ResponseEntity<Collection<E>> addAll(@Valid @RequestBody List<E> entities) {
+        return new ResponseEntity<>(baseService.addAll(entities), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<E> update(@RequestBody E e) {
-        baseService.update(e);
-        return new ResponseEntity<>(e, HttpStatus.OK);
+    public ResponseEntity<E> update(@Valid @RequestBody E e) {
+        return new ResponseEntity<>(baseService.update(e), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

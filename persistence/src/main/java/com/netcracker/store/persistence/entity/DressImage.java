@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by A-one on 19.04.2017.
@@ -20,13 +21,14 @@ public class DressImage extends BaseEntity {
     private static final long serialVersionUID = -5879513953579091985L;
 
     @Column(name = "image_source")
-    @NotNull
+    @NotNull(message = "Image source cannot be null")
+    @Size(max = 150, message = "Max image source length - 150 symbols")
     private String imageSource;
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "dress_id", referencedColumnName = "id")
-    @NotNull
+    @NotNull(message = "Dress cannot be null")
     private Dress dress;
 
     @Override

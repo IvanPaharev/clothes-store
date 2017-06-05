@@ -8,6 +8,8 @@ angular.module('myApp').controller('categoryController', ['$scope', 'categorySer
         name: null
     };
     self.categories=[];
+    self.isErrors = false;
+    self.errorMessages = [];
 
     self.getCategories = getCategories;
     self.addCategory = addCategory;
@@ -29,13 +31,38 @@ angular.module('myApp').controller('categoryController', ['$scope', 'categorySer
     function addCategory() {
         categoryService.addCategory(self.category)
             .then(
-                self.categories = [],
-                getCategories()
+                function(response) {
+                    if (response.data) {
+                        self.isErrors = response.data.errors;
+                        self.errorMessages = response.data.errors;
+                    }
+                    if (!response.data) {
+                        self.categories.push(response);
+                        self.isErrors = false;
+                    }
+                },
+                function(errResponse){
+                    console.error('Error while adding entity'+errResponse);
+                }
             );
     }
 
     function updateCategory(category) {
-        categoryService.updateCategory(category);
+        categoryService.updateCategory(category)
+            .then(
+            function(response) {
+                if (response.data) {
+                    self.isErrors = response.data.errors;
+                    self.errorMessages = response.data.errors;
+                }
+                if (!response.data) {
+                    self.isErrors = false;
+                }
+            },
+            function(errResponse){
+                console.error('Error while adding entity'+errResponse);
+            }
+        );
     }
 
     function deleteCategory(id) {

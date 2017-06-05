@@ -5,9 +5,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -23,18 +25,28 @@ public class User extends BaseEntity {
     private static final long serialVersionUID = 4425799012842683419L;
 
     @Column(unique = true)
-    @NotNull
+    @NotNull(message = "User email cannot be null")
+    @Pattern(
+            regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+            flags = Pattern.Flag.CASE_INSENSITIVE,
+            message = "Invalid email: not up to standard!"
+    )
+    @Size(min = 6, max = 255, message = "Invalid email: too short!")
     private String email;
 
-    @NotNull
+    @NotNull(message = "User password cannot be null")
     private String password;
 
+    @Size(max = 200, message = "Invalid address: too long!")
     private String address;
 
+    @Size(max = 35, message = "Invalid firstname: too long!")
     private String firstname;
 
+    @Size(max = 35, message = "Invalid lastname: too long!")
     private String lastname;
 
+    @Size(max = 20, message = "Invalid phone: too long!")
     private String phone;
 
     @OneToMany(mappedBy = "user")

@@ -23,13 +23,13 @@ public abstract class BaseServiceImpl<E, ID extends Serializable> implements Bas
     }
 
     @Override
-    public void add(E e) {
-        baseDao.add(e);
+    public E add(E e) {
+        return baseDao.add(e);
     }
 
     @Override
-    public void addAll(Collection<E> collection) {
-        baseDao.addAll(collection);
+    public Collection<E> addAll(Collection<E> collection) {
+        return baseDao.addAll(collection);
     }
 
     @Override
@@ -43,8 +43,8 @@ public abstract class BaseServiceImpl<E, ID extends Serializable> implements Bas
     }
 
     @Override
-    public void update(E e) {
-        baseDao.update(e);
+    public E update(E e) {
+        return baseDao.update(e);
     }
 
     @Override

@@ -1,0 +1,53 @@
+<div class="container" ng-controller="colorController as ctrl" ng-init="ctrl.getColors()">
+    <div class="row">
+        <div class="col-sm-3">
+            <ul>
+                <li><a href="#/dressAdmin">Add dress</a></li>
+                <li><a href="#/category">Categories</a></li>
+                <li><a href="#/manufacturer">Manufacturers</a></li>
+                <li><a href="#/type">Types</a></li>
+                <li><a href="#/user">Users</a></li>
+                <li><a href="#/color">Colors</a></li>
+                <li><a href="#/size">Sizes</a></li>
+                <li><a href="#/role">Roles</a></li>
+                <li><a href="#/order">Orders</a></li>
+                <li><a href="#/status">Statuses</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <div ng-show="ctrl.isErrors" class="alert alert-danger">
+                <p ng-repeat="error in ctrl.errorMessages">{{error.defaultMessage}}</p>
+            </div>
+            <div class="row">
+                <div>
+                    <p>Add Color:</p>
+                    <input type="text" ng-model="ctrl.color.color" class="form-control input-sm" placeholder="Enter color name"/>
+                    <input type="text" ng-model="ctrl.color.imageSource" class="form-control input-sm" placeholder="Enter color image source"/>
+                    <button ng-click="ctrl.addColor()">Add</button>
+                </div>
+                <div>
+                    <span>Existing colors:</span>
+                </div>
+                <div class="row">
+                    <div ng-repeat="color in ctrl.colors" class="col-sm-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <img src="images/colors/{{color.imageSource}}" class="img-responsive" style="height: 200px;" alt="Image">
+                            </div>
+                            <div class="panel-footer">
+                                <span>ID: {{color.id}}</span><br>
+                                <span>Name: {{color.color}}</span><br>
+                                <span>Change color name:</span>
+                                <input type="text" ng-model="color.color" class="form-control input-sm" placeholder="Enter color name"/>
+                            </div>
+                            <div>
+                                <button ng-click="ctrl.updateColor(color)">Edit</button>
+                                <button ng-click="ctrl.deleteColor(color.id)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

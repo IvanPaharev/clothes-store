@@ -41,8 +41,9 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     self.dressQuantity=null;
     self.mainImgSrc=null;
     self.imgSrc=[];
-    self.sizeTypes=['common', 'uk', 'us', 'italy', 'france', 'russian', 'german', 'japan'];
+    self.sizeTypes=['common', 'uk', 'us', 'italy', 'france', 'russia', 'germany', 'japan'];
     self.sizeType='common';
+    self.sizeChange=true;
 
     self.sorts=[
         {
@@ -70,14 +71,20 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     self.queryCount=null;
     self.pages=[];
     self.criteria={
-        categories:[],
-        manufacturers:[],
-        priceFrom:0,
-        priceTo:99999,
-        sort:null,
-        pageNumber:1,
-        pageSize:12
+        type: null,
+        categories: [],
+        manufacturers: [],
+        sizes: [],
+        color: null,
+        priceFrom: 0,
+        priceTo: 99999,
+        sort: null,
+        pageNumber: 1,
+        pageSize: 12
     };
+
+    self.isErrors = false;
+    self.errorMessages = [];
 
     self.fetchDressById = fetchDressById;
     self.addDress = addDress;
@@ -97,7 +104,7 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     self.fetchDressesByCriteria = fetchDressesByCriteria;
     self.toggleCategorySelection = toggleCategorySelection;
     self.toggleManufacturerSelection = toggleManufacturerSelection;
-    self.fetchCurrencyInfo = fetchCurrencyInfo;
+    self.toggleSizeSelection = toggleSizeSelection;
 
     function fetchHomeDresses() {
         dressService.fetchHomeDresses();
@@ -137,6 +144,24 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
                 },
                 function (errResponse) {
                     console.error('Error while fetching manufacturers:' + errResponse.toString());
+                }
+            );
+        dressService.fetchColors()
+            .then(
+                function (c) {
+                    self.colors = c;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching colors:' + errResponse.toString());
+                }
+            );
+        dressService.fetchSizes()
+            .then(
+                function (s) {
+                    self.sizes = s;
+                },
+                function (errResponse) {
+                    console.error('Error while fetching sizes:' + errResponse.toString());
                 }
             );
         self.fetchDressesByCriteria();
@@ -222,16 +247,36 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     }
 
     function addDress() {
-        dressService.addDress(self.dress, self.mainImageFile, self.imageFiles);
+        dressService.addDress(self.dress, self.mainImageFile, self.imageFiles)
+            .then(
+                function (response) {
+                    if (response.data) {
+                        self.isErrors = response.data.errors;
+                        self.errorMessages = response.data.errors;
+                    }
+                    if (!response.data) {
+                        self.isErrors = false;
+                    }
+                },
+                function (errResponse) {
+                    console.error('Error while adding dress:' + errResponse.toString());
+                }
+            );
     }
 
-    function editDress(id) {
-        dressService.editDress(id, self.dress)
+    function editDress() {
+        dressService.editDress(self.dress, self.imageFiles, self.mainImageFile)
             .then(
-                function(){
-                    self.dresses = [];
-                    fetchAllDresses();
-                    self.dresses[id] = self.dress;
+                function(response){
+                    if (response.data) {
+                        self.isErrors = response.data.errors;
+                        self.errorMessages = response.data.errors;
+                    }
+                    if (!response.data) {
+                        self.dresses = [];
+                        fetchAllDresses();
+                        self.isErrors = false;
+                    }
                 },
                 function(errResponse){
                     console.error('Error while updating User'+errResponse);
@@ -242,7 +287,7 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     function removeDress(id) {
         dressService.removeDress(id)
             .then(
-                fetchAllDresses(),
+                fetchDressesByType(),
                 function(errResponse){
                     console.error('Error while deleting User'+errResponse);
                 }
@@ -276,8 +321,8 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
             );
     }
 
-    function deleteDressFromUserBag(orderDetail) {
-        dressService.deleteDressFromUserBag(orderDetail);
+    function deleteDressFromUserBag(orderDetailPK) {
+        dressService.deleteDressFromUserBag(orderDetailPK);
         getUserBag();
     }
 
@@ -285,27 +330,44 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
         self.criteria.pageNumber = 1;
         dressService.getQueryCount(self.criteria, $routeParams.type)
             .then(
-                function (c) {
-                    var i = 0;
-                    self.pages = [];
-
-                    while (i * self.criteria.pageSize < c) {
-                        self.pages.push(i + 1);
-                        i++;
+                function (response) {
+                    if (response.data) {
+                        self.isErrors = response.data.errors;
+                        self.errorMessages = response.data.errors;
                     }
-                    self.queryCount = c;
+                    if (!response.data) {
+                        var i = 0;
+                        self.pages = [];
+
+                        while (i * self.criteria.pageSize < response) {
+                            self.pages.push(i + 1);
+                            i++;
+                        }
+                        self.queryCount = response;
+                        self.isErrors = false;
+                    }
                 },
                 function (errResponse) {
                     console.error('Error while fetching query count:' + errResponse.toString());
                 }
             );
-        dressService.fetchDressesByCriteria(self.criteria, $routeParams.type)
+        if($routeParams.type) {
+            self.criteria.type = $routeParams.type;
+        }
+        dressService.fetchDressesByCriteria(self.criteria)
             .then(
-                function(d) {
-                    self.dresses = d;
+                function(response) {
+                    if (response.data) {
+                        self.isErrors = response.data.errors;
+                        self.errorMessages = response.data.errors;
+                    }
+                    if (!response.data) {
+                        self.dresses = response;
+                        self.isErrors = false;
+                    }
                 },
                 function(errResponse){
-                    console.error('Error while fetching Users'+errResponse);
+                    console.error('Error while fetching dresses by criteria'+errResponse);
                 }
             );
     }
@@ -345,6 +407,17 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
         self.fetchDressesByCriteria();
     }
 
+    function toggleSizeSelection(size) {
+        var idx = self.criteria.sizes.indexOf(size);
+        if (idx > -1) {
+            self.criteria.sizes.splice(idx, 1);
+        }
+        else {
+            self.criteria.sizes.push(size);
+        }
+        self.fetchDressesByCriteria();
+    }
+
     $scope.$watch('imageFiles', function () {
         $scope.upload($scope.imageFiles);
     });
@@ -378,19 +451,5 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
             }
         }
     };
-
-    function fetchCurrencyInfo() {
-        dressService.getCurrencyInfo()
-            .then(
-                function (c) {
-                    $rootScope.currencyInfo = c;
-                    $rootScope.currencyInfo.rates.USD = 1;
-                    $rootScope.currentCurrency = 1;
-                },
-                function (errResponse) {
-                    console.error('Error while fetching currency info:' + errResponse.toString());
-                }
-            );
-    }
 
 }]);

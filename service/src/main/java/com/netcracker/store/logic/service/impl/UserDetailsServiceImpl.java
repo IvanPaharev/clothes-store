@@ -1,6 +1,7 @@
 package com.netcracker.store.logic.service.impl;
 
 import com.netcracker.store.logic.service.UserService;
+import com.netcracker.store.persistence.dao.UserDao;
 import com.netcracker.store.persistence.entity.Role;
 import com.netcracker.store.persistence.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,16 @@ import java.util.Set;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserDao userDao;
 
     @Autowired
-    public UserDetailsServiceImpl(UserService userService) {
-        this.userService = userService;
+    public UserDetailsServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userService.getUserByEmail(s);
+        User user = userDao.getUserByEmail(s);
         List<GrantedAuthority> authorities = buildUserAuthority(user.getRoleSet());
         return buildUserForAuthentication(user, authorities);
     }

@@ -1,0 +1,52 @@
+<div class="container" ng-controller="manufacturerController as ctrl" ng-init="ctrl.getAll()">
+    <div class="row">
+        <div class="col-sm-3">
+            <ul>
+                <li><a href="#/dressAdmin">Add dress</a></li>
+                <li><a href="#/category">Categories</a></li>
+                <li><a href="#/manufacturer">Manufacturers</a></li>
+                <li><a href="#/type">Types</a></li>
+                <li><a href="#/user">Users</a></li>
+                <li><a href="#/color">Colors</a></li>
+                <li><a href="#/size">Sizes</a></li>
+                <li><a href="#/role">Roles</a></li>
+                <li><a href="#/order">Orders</a></li>
+                <li><a href="#/status">Statuses</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <div ng-show="ctrl.isErrors" class="alert alert-danger">
+                <p ng-repeat="error in ctrl.errorMessages">{{error.defaultMessage}}</p>
+            </div>
+            <div class="row">
+                <div>
+                    <p>Add manufacturer:</p>
+                    <input type="text" ng-model="ctrl.entity.name" class="form-control input-sm" placeholder="Enter manufacturer name"/>
+                    <input type="text" ng-model="ctrl.entity.description" class="form-control input-sm" placeholder="Enter manufacturer description"/>
+                    <button ng-click="ctrl.addEntity()">Add</button>
+                </div>
+                <div>
+                    <span>Existing manufacturers:</span>
+                </div>
+                <div class="row">
+                    <div ng-repeat="manufacturer in ctrl.entities" class="col-sm-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <p>ID: {{manufacturer.id}} Name: {{manufacturer.name}}</p><br>
+                                <span>Change name:</span>
+                                <input type="text" ng-model="manufacturer.name" class="form-control input-sm" placeholder="Enter manufacturer name"/>
+                                <p>Description: {{manufacturer.description}}</p><br>
+                                <span>Change description:</span>
+                                <input type="text" ng-model="manufacturer.description" class="form-control input-sm" placeholder="Enter manufacturer description"/>
+                            </div>
+                            <div class="panel-footer">
+                                <button ng-click="ctrl.updateEntity(manufacturer)">Edit</button>
+                                <button ng-click="ctrl.deleteEntity(manufacturer.id)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

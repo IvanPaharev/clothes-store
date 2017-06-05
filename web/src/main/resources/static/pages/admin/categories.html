@@ -1,0 +1,45 @@
+<div class="container" ng-controller="categoryController as ctrl" ng-init="ctrl.getCategories()">
+    <div class="row">
+        <div class="col-sm-3">
+            <ul>
+                <li><a href="#/dressAdmin">Add dress</a></li>
+                <li><a href="#/category">Categories</a></li>
+                <li><a href="#/manufacturer">Manufacturers</a></li>
+                <li><a href="#/type">Types</a></li>
+                <li><a href="#/user">Users</a></li>
+                <li><a href="#/color">Colors</a></li>
+                <li><a href="#/size">Sizes</a></li>
+                <li><a href="#/role">Roles</a></li>
+                <li><a href="#/order">Orders</a></li>
+                <li><a href="#/status">Statuses</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <div ng-show="ctrl.isErrors" class="alert alert-danger">
+                <p ng-repeat="error in ctrl.errorMessages">{{error.defaultMessage}}</p>
+            </div>
+            <div class="row">
+                <div ng-repeat="c in ctrl.categories" class="col-sm-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <img src="" class="img-responsive" style="max-height: 250px;" alt="Category image">
+                        </div>
+                        <div class="panel-footer">
+                            <p>ID: {{c.id}}</p><br>
+                            <input type="text" ng-model="c.name" class="form-control input-sm" placeholder="Enter category name"/>
+                        </div>
+                        <div>
+                            <button ng-click="ctrl.updateCategory(c)">Edit</button>
+                            <button ng-click="ctrl.deleteCategory(c.id)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p>Add category:</p>
+                <input type="text" ng-model="ctrl.category.name" class="form-control input-sm" placeholder="Enter category name"/>
+                <button ng-click="ctrl.addCategory()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
