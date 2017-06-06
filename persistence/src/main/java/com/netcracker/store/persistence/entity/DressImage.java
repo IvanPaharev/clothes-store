@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class DressImage extends BaseEntity {
-
     private static final long serialVersionUID = -5879513953579091985L;
 
     @Column(name = "image_source")
@@ -31,13 +30,19 @@ public class DressImage extends BaseEntity {
     @NotNull(message = "Dress cannot be null")
     private Dress dress;
 
+    public DressImage() {
+    }
+
+    public DressImage(String imageSource, Dress dress) {
+        this.imageSource = imageSource;
+        this.dress = dress;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         DressImage that = (DressImage) o;
-
         if (imageSource != null ? !imageSource.equals(that.imageSource) : that.imageSource != null)
             return false;
         return dress != null ? dress.equals(that.dress) : that.dress == null;
@@ -48,14 +53,6 @@ public class DressImage extends BaseEntity {
     public int hashCode() {
         int result = imageSource != null ? imageSource.hashCode() : 0;
         return result;
-    }
-
-    public DressImage() {
-    }
-
-    public DressImage(String imageSource, Dress dress) {
-        this.imageSource = imageSource;
-        this.dress = dress;
     }
 
     @Override

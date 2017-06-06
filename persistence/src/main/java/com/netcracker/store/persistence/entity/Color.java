@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by A-one on 19.04.2017.
@@ -21,7 +21,6 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class Color extends BaseEntity{
-
     private static final long serialVersionUID = 7137654951871026843L;
 
     @Column(unique = true)
@@ -32,28 +31,25 @@ public class Color extends BaseEntity{
     @Column(name = "image_source")
     private String imageSource;
 
-    @ManyToMany(mappedBy = "colorSet")
+    @ManyToMany(mappedBy = "colors")
     @JsonIgnore
-    private Set<Dress> dressSet;
+    private List<Dress> dresses;
 
     public Color() {
     }
 
-    public Color(String color, String imageSource, Set<Dress> dressSet) {
+    public Color(String color, String imageSource, List<Dress> dresses) {
         this.color = color;
         this.imageSource = imageSource;
-        this.dressSet = dressSet;
+        this.dresses = dresses;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Color color1 = (Color) o;
-
         return color != null ? color.equals(color1.color) : color1.color == null;
-
     }
 
     @Override

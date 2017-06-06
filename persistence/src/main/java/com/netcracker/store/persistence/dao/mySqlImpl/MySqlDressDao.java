@@ -45,16 +45,7 @@ public class MySqlDressDao extends MySqlBaseDao<Dress, Integer> implements Dress
         dressQuery.select(dressRoot);
         dressQuery.where(builder.and(
                 getPredicates(criteria, dressRoot, builder)
-/*                    dressRoot.get("category").in(criteria.getCategories()),
-                dressRoot.get("manufacturer").in(criteria.getManufacturers())),
-                builder.ge(dressRoot.get("price"), criteria.getPriceFrom()),
-                builder.le(dressRoot.get("price"), criteria.getPriceTo()),
-                builder.equal(dressRoot.get("type").get("name"), criteria.getType()),
-
-                builder.isMember(criteria.getCategories().get(0), dressRoot.get("")),
-                builder.i*/
         ));
-
         if (criteria.getSort().isAsc()) {
             dressQuery.orderBy(builder.asc(dressRoot.get(criteria.getSort().getParameter())));
         } else {
@@ -87,10 +78,10 @@ public class MySqlDressDao extends MySqlBaseDao<Dress, Integer> implements Dress
             predicates.add(builder.equal(dressRoot.get("type").get("name"), criteria.getType()));
         }
         if (criteria.getColor() != null) {
-            predicates.add(builder.isMember(criteria.getColor(), dressRoot.get("colorSet")));
+            predicates.add(builder.isMember(criteria.getColor(), dressRoot.get("colors")));
         }
         for (Size size : criteria.getSizes()) {
-            predicates.add(builder.isMember(size, dressRoot.get("sizeSet")));
+            predicates.add(builder.isMember(size, dressRoot.get("sizes")));
         }
         predicates.add(builder.ge(dressRoot.get("price"), criteria.getPriceFrom()));
         predicates.add(builder.le(dressRoot.get("price"), criteria.getPriceTo()));

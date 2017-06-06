@@ -28,7 +28,6 @@ public class UserController extends BaseController<User, Integer> {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserController(UserService userService, BCryptPasswordEncoder passwordEncoder) {
         super(userService);
         this.userService = userService;

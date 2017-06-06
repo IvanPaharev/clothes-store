@@ -16,10 +16,8 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderStatusServiceImpl extends BaseServiceImpl<OrderStatus, Integer> implements OrderStatusService {
-
     private final OrderStatusDao orderStatusDao;
 
-    @Autowired
     public OrderStatusServiceImpl(OrderStatusDao orderStatusDao) {
         super(orderStatusDao);
         this.orderStatusDao = orderStatusDao;

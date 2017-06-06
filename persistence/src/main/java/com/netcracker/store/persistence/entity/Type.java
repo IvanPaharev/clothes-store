@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by A-one on 18.04.2017.
@@ -21,7 +21,6 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class Type extends BaseEntity {
-
     private static final long serialVersionUID = 7722192986659845970L;
 
     @Column(unique = true)
@@ -31,7 +30,7 @@ public class Type extends BaseEntity {
 
     @OneToMany(mappedBy = "type")
     @JsonIgnore
-    private Set<Dress> dressSet;
+    private List<Dress> dresses;
 
     public Type() {
         super();
@@ -52,11 +51,9 @@ public class Type extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Type type = (Type) o;
-
         if (name != null ? !name.equals(type.name) : type.name != null) return false;
-        return dressSet != null ? dressSet.equals(type.dressSet) : type.dressSet == null;
+        return dresses != null ? dresses.equals(type.dresses) : type.dresses == null;
 
     }
 

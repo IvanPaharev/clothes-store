@@ -6,7 +6,6 @@ import com.netcracker.store.logic.service.DressService;
 import com.netcracker.store.persistence.dao.*;
 import com.netcracker.store.persistence.entity.*;
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,21 +17,13 @@ import java.util.*;
 @Service
 @Transactional
 public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements DressService {
-
     private final DressDao dressDao;
-    private final ManufacturerDao manufacturerDao;
-    private final CategoryDao categoryDao;
     private final DescriptionDao descriptionDao;
 
-    @Autowired
     public DressServiceImpl(DressDao dressDao,
-                            ManufacturerDao manufacturerDao,
-                            CategoryDao categoryDao,
                             DescriptionDao descriptionDao) {
         super(dressDao);
         this.dressDao = dressDao;
-        this.manufacturerDao = manufacturerDao;
-        this.categoryDao = categoryDao;
         this.descriptionDao = descriptionDao;
 
     }
@@ -50,9 +41,9 @@ public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements
     @Override
     public Dress getDressWithDetailsById(int id) {
         Dress dress = dressDao.get(id);
-        Hibernate.initialize(dress.getColorSet());
-        Hibernate.initialize(dress.getSizeSet());
-        Hibernate.initialize(dress.getDressImageSet());
+        Hibernate.initialize(dress.getColors());
+        Hibernate.initialize(dress.getSizes());
+        Hibernate.initialize(dress.getDressImages());
         return dress;
     }
 
@@ -69,12 +60,6 @@ public class DressServiceImpl extends BaseServiceImpl<Dress, Integer> implements
 
     @Override
     public List<Dress> getDressesByCriteria(Criteria criteria) {
-        if (criteria.getCategories().size() == 0) {
-            criteria.setCategories(categoryDao.getAll());
-        }
-        if (criteria.getManufacturers().size() == 0) {
-            criteria.setManufacturers(manufacturerDao.getAll());
-        }
         if (criteria.getSort() == null) {
             criteria.setSort(new Sort("", "releaseDate", false));
         }

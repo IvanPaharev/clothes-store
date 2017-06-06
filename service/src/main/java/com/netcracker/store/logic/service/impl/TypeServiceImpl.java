@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 public class TypeServiceImpl extends BaseServiceImpl<Type, Integer> implements TypeService {
     private final TypeDao typeDao;
 
-    @Autowired
     public TypeServiceImpl(TypeDao typeDao) {
         super(typeDao);
         this.typeDao = typeDao;

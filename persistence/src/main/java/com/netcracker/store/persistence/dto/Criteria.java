@@ -18,10 +18,11 @@ import java.util.List;
 /**
  * Created by A-one on 22.05.2017.
  */
-@EqualsAndHashCode
-@ToString
+
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class Criteria {
     private String type;
     private List<Category> categories;

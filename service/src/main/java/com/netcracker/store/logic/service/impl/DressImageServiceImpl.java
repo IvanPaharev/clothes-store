@@ -6,8 +6,12 @@ import com.netcracker.store.persistence.entity.Dress;
 import com.netcracker.store.persistence.entity.DressImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
@@ -21,10 +25,13 @@ import java.nio.file.Paths;
  */
 @Service
 @Transactional
+@Scope(
+        value = WebApplicationContext.SCOPE_SESSION,
+        proxyMode = ScopedProxyMode.INTERFACES
+)
 @PropertySource("classpath:service.properties")
 public class DressImageServiceImpl extends BaseServiceImpl<DressImage, Integer> implements DressImageService {
     private final DressImageDao dressImageDao;
-
     private byte[][] otherImagesBytes = new byte[100][];
     private byte[] mainImageBytes;
 
@@ -34,7 +41,6 @@ public class DressImageServiceImpl extends BaseServiceImpl<DressImage, Integer> 
     @Value("${otherImagesPath}")
     private String otherImagesPath;
 
-    @Autowired
     public DressImageServiceImpl(DressImageDao dressImageDao) {
         super(dressImageDao);
         this.dressImageDao = dressImageDao;

@@ -62,7 +62,7 @@ public class DressStoreApplication extends WebMvcConfigurerAdapter {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
         source.addBasenames("i18n/messages");
         source.setUseCodeAsDefaultMessage(true);
-        source.setDefaultEncoding("cp1251");
+        //source.setDefaultEncoding("cp1251");
         return source;
     }
 

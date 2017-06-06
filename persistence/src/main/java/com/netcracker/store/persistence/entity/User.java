@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,13 +51,13 @@ public class User extends BaseEntity {
     private String phone;
 
     @OneToMany(mappedBy = "user")
-    private Set<UserOrder> userOrderSet;
+    private List<UserOrder> userOrders;
 
     @ManyToMany
     @JoinTable(name = "user_has_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roleSet;
+    private List<Role> roles;
 
     public User() {
         super();

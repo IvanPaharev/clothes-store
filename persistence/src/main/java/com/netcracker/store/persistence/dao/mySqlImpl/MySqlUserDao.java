@@ -3,7 +3,6 @@ package com.netcracker.store.persistence.dao.mySqlImpl;
 import com.netcracker.store.persistence.dao.UserDao;
 import com.netcracker.store.persistence.entity.User;
 import org.hibernate.Hibernate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -32,7 +31,7 @@ public class MySqlUserDao extends MySqlBaseDao<User, Integer> implements UserDao
         User user = null;
         if(!users.isEmpty()) {
             user = users.get(0);
-            Hibernate.initialize(user.getRoleSet());
+            Hibernate.initialize(user.getRoles());
         }
         return user;
     }

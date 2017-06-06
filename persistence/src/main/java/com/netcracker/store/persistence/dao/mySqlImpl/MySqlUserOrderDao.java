@@ -37,7 +37,7 @@ public class MySqlUserOrderDao extends MySqlBaseDao<UserOrder, Integer> implemen
         UserOrder userOrder = null;
         if(!userOrders.isEmpty()) {
             userOrder = userOrders.get(0);
-            Hibernate.initialize(userOrder.getOrderDetailSet());
+            Hibernate.initialize(userOrder.getOrderDetails());
         }
         return userOrder;
     }

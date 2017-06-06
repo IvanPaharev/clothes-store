@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -53,7 +50,7 @@ public class MySqlUserOrderDaoTest extends BaseDaoGenericTest{
         return new UserOrder(new Date(System.currentTimeMillis()),
                 orderStatusDao.getAll().get(0),
                 userDao.getAll().get(0),
-                new HashSet<>(orderDetailDao.getAll()));
+                new ArrayList<>(orderDetailDao.getAll()));
     }
 
     @Override
@@ -61,10 +58,10 @@ public class MySqlUserOrderDaoTest extends BaseDaoGenericTest{
         return Arrays.asList(new UserOrder(new Date(System.currentTimeMillis()),
                         orderStatusDao.getAll().get(0),
                         userDao.getAll().get(0),
-                        new HashSet<>(orderDetailDao.getAll())),
+                        new ArrayList<>(orderDetailDao.getAll())),
                 new UserOrder(new Date(System.currentTimeMillis()),
                         orderStatusDao.getAll().get(1),
                         userDao.getAll().get(1),
-                        new HashSet<>(orderDetailDao.getAll())));
+                        new ArrayList<>(orderDetailDao.getAll())));
     }
 }

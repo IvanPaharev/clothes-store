@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 public class DescriptionServiceImpl extends BaseServiceImpl<Description, Integer> implements DescriptionService {
     private final DescriptionDao descriptionDao;
 
-    @Autowired
     public DescriptionServiceImpl(DescriptionDao descriptionDao) {
         super(descriptionDao);
         this.descriptionDao = descriptionDao;

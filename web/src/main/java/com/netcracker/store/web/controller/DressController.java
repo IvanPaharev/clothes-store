@@ -28,7 +28,6 @@ public class DressController extends BaseController<Dress, Integer>{
     private final DressService dressService;
     private final DressImageService dressImageService;
 
-    @Autowired
     public DressController(DressService dressService,
                            DressImageService dressImageService) {
         super(dressService);

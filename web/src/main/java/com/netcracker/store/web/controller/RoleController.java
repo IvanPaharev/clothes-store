@@ -20,7 +20,6 @@ public class RoleController extends BaseController<Role, Integer> {
 
     private final RoleService roleService;
 
-    @Autowired
     public RoleController(RoleService roleService) {
         super(roleService);
         this.roleService = roleService;

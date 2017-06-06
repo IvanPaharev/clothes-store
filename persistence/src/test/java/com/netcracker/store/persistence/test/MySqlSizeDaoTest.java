@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -44,12 +45,12 @@ public class MySqlSizeDaoTest extends BaseDaoGenericTest{
 
     @Override
     protected BaseEntity getEntity() {
-        return new Size("test", 2, "test", 2, 2, 2, 2, 2, new HashSet<>(dressDao.getAll()));
+        return new Size("test", 2, "test", 2, 2, 2, 2, 2, new ArrayList<>(dressDao.getAll()));
     }
 
     @Override
     protected Collection<BaseEntity> getCollection() {
-        return Arrays.asList(new Size("q", 1, "q", 1, 1, 1, 1, 1, new HashSet<>(dressDao.getAll())),
-                new Size("w", 3, "w", 3, 3, 3, 3, 3, new HashSet<>(dressDao.getAll())));
+        return Arrays.asList(new Size("q", 1, "q", 1, 1, 1, 1, 1, new ArrayList<>(dressDao.getAll())),
+                new Size("w", 3, "w", 3, 3, 3, 3, 0, new ArrayList<>(dressDao.getAll())));
     }
 }

@@ -5,6 +5,7 @@ import com.netcracker.store.persistence.entity.OrderDetailPK;
 import com.netcracker.store.persistence.entity.UserOrder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,5 +16,5 @@ public interface UserOrderService extends BaseService<UserOrder, Integer> {
     UserOrder addUserOrder();
     void addToUserBag(OrderDetail orderDetail);
     void deleteDressFromUserBag(OrderDetailPK orderDetailPK);
-    Set<OrderDetail> getUserBag();
+    List<OrderDetail> getUserBag();
 }

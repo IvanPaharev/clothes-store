@@ -19,16 +19,16 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class OrderDetail implements Serializable {
-
     private static final long serialVersionUID = 5604812482204021100L;
 
     @EmbeddedId
     protected OrderDetailPK orderDetailPK;
 
     @NotNull(message = "Quantity cannot be null")
-    @Min(value = 0)
+    @Min(value = 1, message = "Quantity cannot be lower than 1")
     private int quantity;
 
+    @NotNull(message = "Dress cannot be null")
     @JoinColumn(name = "dress_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Dress dress;
@@ -38,10 +38,12 @@ public class OrderDetail implements Serializable {
     @ManyToOne
     private UserOrder userOrder;
 
+    @NotNull(message = "Color cannot be null")
     @JoinColumn(name = "color_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Color color;
 
+    @NotNull(message = "Size cannot be null")
     @JoinColumn(name = "size_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Size size;
@@ -58,12 +60,9 @@ public class OrderDetail implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         OrderDetail that = (OrderDetail) o;
-
         if (quantity != that.quantity) return false;
         return orderDetailPK != null ? orderDetailPK.equals(that.orderDetailPK) : that.orderDetailPK == null;
-
     }
 
     @Override

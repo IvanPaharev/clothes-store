@@ -20,7 +20,6 @@ public class OrderStatusController extends BaseController<OrderStatus, Integer> 
 
     private final OrderStatusService orderStatusService;
 
-    @Autowired
     public OrderStatusController(OrderStatusService orderStatusService) {
         super(orderStatusService);
         this.orderStatusService = orderStatusService;

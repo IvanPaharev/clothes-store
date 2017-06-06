@@ -7,16 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes = DataConfig.class)
 @Rollback
 @Transactional
+@EnableConfigurationProperties
 public class MySqlOrderDetailDaoTest{
 
     @Autowired
@@ -96,13 +97,13 @@ public class MySqlOrderDetailDaoTest{
                 new Date(System.currentTimeMillis()),
                 orderStatusDao.getAll().get(0),
                 userDao.getAll().get(0),
-                new HashSet<>(orderDetailDao.getAll()));
+                new ArrayList<>(orderDetailDao.getAll()));
         userOrderDao.add(userOrder);
         OrderDetail orderDetail = new OrderDetail(new OrderDetailPK(
                 userOrder.getId(),
                 dress.getId(),
-                dress.getColorSet().iterator().next().getId(),
-                dress.getSizeSet().iterator().next().getId()), 2);
+                dress.getColors().iterator().next().getId(),
+                dress.getSizes().iterator().next().getId()), 2);
         return orderDetail;
     }
 }

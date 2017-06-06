@@ -9,6 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,7 +39,7 @@ public class UserOrder extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "userOrder")
-    private Set<OrderDetail> orderDetailSet;
+    private List<OrderDetail> orderDetails;
 
     public UserOrder() {
         super();
@@ -47,25 +48,22 @@ public class UserOrder extends BaseEntity {
     public UserOrder(Date dateCreated,
                      OrderStatus orderStatus,
                      User user,
-                     Set<OrderDetail> orderDetailSet) {
+                     List<OrderDetail> orderDetails) {
         super();
         this.dateCreated = dateCreated;
         this.orderStatus = orderStatus;
         this.user = user;
-        this.orderDetailSet = orderDetailSet;
+        this.orderDetails = orderDetails;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         UserOrder userOrder = (UserOrder) o;
-
         if (dateCreated != null ? !dateCreated.equals(userOrder.dateCreated) : userOrder.dateCreated != null)
             return false;
         return orderStatus != null ? orderStatus.equals(userOrder.orderStatus) : userOrder.orderStatus == null;
-
     }
 
     @Override

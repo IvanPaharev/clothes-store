@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 public class ManufacturerServiceImpl extends BaseServiceImpl<Manufacturer, Integer> implements ManufacturerService {
     private final ManufacturerDao manufacturerDao;
 
-    @Autowired
     public ManufacturerServiceImpl(ManufacturerDao manufacturerDao) {
         super(manufacturerDao);
         this.manufacturerDao = manufacturerDao;

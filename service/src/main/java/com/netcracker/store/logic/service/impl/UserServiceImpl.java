@@ -2,13 +2,10 @@ package com.netcracker.store.logic.service.impl;
 
 import com.netcracker.store.logic.service.RoleService;
 import com.netcracker.store.persistence.dao.UserDao;
-import com.netcracker.store.persistence.entity.Role;
 import com.netcracker.store.persistence.entity.User;
 import com.netcracker.store.logic.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -21,7 +18,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
     private final UserDao userDao;
     private final RoleService roleService;
 
-    @Autowired
     public UserServiceImpl(UserDao userDao, RoleService roleService) {
         super(userDao);
         this.userDao = userDao;
@@ -43,7 +39,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
     public User add(User user) {
         if (userDao.getUserByEmail(user.getEmail()) == null) {
             user = userDao.add(user);
-            user.setRoleSet(new HashSet<>(Collections.singletonList(roleService.get(1))));
+            user.setRoles(new ArrayList<>(Collections.singletonList(roleService.get(1))));
         }
         return user;
     }

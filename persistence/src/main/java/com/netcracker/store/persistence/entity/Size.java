@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by A-one on 19.04.2017.
@@ -21,7 +21,6 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class Size extends BaseEntity{
-
     private static final long serialVersionUID = 8101419755624978165L;
 
     @Column(name = "common", unique = true)
@@ -64,9 +63,9 @@ public class Size extends BaseEntity{
     @Min(value = 0, message = "Japan size cannot be lower than zero")
     private Integer japan;
 
-    @ManyToMany(mappedBy = "sizeSet")
+    @ManyToMany(mappedBy = "sizes")
     @JsonIgnore
-    private Set<Dress> dressesSet;
+    private List<Dress> dresses;
 
     public Size() {
         super();
@@ -80,7 +79,7 @@ public class Size extends BaseEntity{
                 Integer russia,
                 Integer germany,
                 Integer japan,
-                Set<Dress> dressesSet) {
+                List<Dress> dresses) {
         this.common = common;
         this.uk = uk;
         this.us = us;
@@ -89,7 +88,7 @@ public class Size extends BaseEntity{
         this.russia = russia;
         this.germany = germany;
         this.japan = japan;
-        this.dressesSet = dressesSet;
+        this.dresses = dresses;
     }
 
     @Override
@@ -110,9 +109,7 @@ public class Size extends BaseEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Size size = (Size) o;
-
         if (!common.equals(size.common)) return false;
         if (!uk.equals(size.uk)) return false;
         if (!us.equals(size.us)) return false;

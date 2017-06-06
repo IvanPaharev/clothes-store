@@ -17,7 +17,6 @@ import java.util.List;
 public class CategoryServiceImpl extends BaseServiceImpl<Category, Integer> implements CategoryService {
     private final CategoryDao categoryDao;
 
-    @Autowired
     public CategoryServiceImpl(CategoryDao categoryDao) {
         super(categoryDao);
         this.categoryDao = categoryDao;

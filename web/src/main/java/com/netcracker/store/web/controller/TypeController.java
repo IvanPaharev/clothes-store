@@ -20,7 +20,6 @@ public class TypeController extends BaseController<Type, Integer> {
 
     private final TypeService typeService;
 
-    @Autowired
     public TypeController(TypeService typeService) {
         super(typeService);
         this.typeService = typeService;

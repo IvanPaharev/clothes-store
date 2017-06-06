@@ -1,7 +1,9 @@
 package com.netcracker.store.logic.service.impl;
 
+import com.netcracker.store.logic.exception.ServiceException;
 import com.netcracker.store.logic.service.BaseService;
 import com.netcracker.store.persistence.dao.BaseDao;
+import com.netcracker.store.persistence.exception.DaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

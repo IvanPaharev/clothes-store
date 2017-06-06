@@ -8,10 +8,12 @@ import lombok.ToString;
 /**
  * Created by A-one on 23.05.2017.
  */
-@EqualsAndHashCode
-@ToString
+
+
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class Sort {
     private String name;
     private String parameter;

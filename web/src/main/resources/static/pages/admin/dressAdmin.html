@@ -45,8 +45,8 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="!ctrl.imageFiles && ctrl.dress.dressImageSet" class="row">
-                        <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
+                    <div ng-if="!ctrl.imageFiles && ctrl.dress.dressImages" class="row">
+                        <div ng-repeat="img in ctrl.dress.dressImages" class="col-sm-3">
                             <img ng-src="images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                         <div class="col-sm-6">
                             <label for="sizeSelect">Size:</label>
                             <select id="sizeSelect"
-                                    ng-model="ctrl.dress.sizeSet"
+                                    ng-model="ctrl.dress.sizes"
                                     ng-options="item.common for item in ctrl.sizes"
                                     multiple>
                             </select>
@@ -87,7 +87,7 @@
                         <div class="col-sm-6">
                             <label for="colorSelect">Color:</label>
                             <select id="colorSelect"
-                                    ng-model="ctrl.dress.colorSet"
+                                    ng-model="ctrl.dress.colors"
                                     ng-options="item.color for item in ctrl.colors"
                                     multiple>
                             </select>

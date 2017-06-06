@@ -20,7 +20,6 @@ public class SizeController extends BaseController<Size, Integer> {
 
     private final SizeService sizeService;
 
-    @Autowired
     public SizeController(SizeService sizeService) {
         super(sizeService);
         this.sizeService = sizeService;

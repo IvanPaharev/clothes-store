@@ -18,7 +18,6 @@ import java.io.Serializable;
 @ToString
 @Getter @Setter
 public abstract class BaseEntity implements Serializable {
-
     private static final long serialVersionUID = -1468284451392068139L;
 
     @Id

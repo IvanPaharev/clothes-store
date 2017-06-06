@@ -15,9 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by A-one on 07.05.2017.
@@ -25,13 +23,11 @@ import java.util.Set;
 @Service
 @Transactional
 public class UserOrderServiceImpl extends BaseServiceImpl<UserOrder, Integer> implements UserOrderService {
-
     private final UserOrderDao userOrderDao;
     private final UserService userService;
     private final OrderStatusService orderStatusService;
     private final OrderDetailDao orderDetailDao;
 
-    @Autowired
     public UserOrderServiceImpl(UserOrderDao userOrderDao,
                                 UserService userService,
                                 OrderStatusService orderStatusService,
@@ -52,8 +48,8 @@ public class UserOrderServiceImpl extends BaseServiceImpl<UserOrder, Integer> im
         userOrder.setUser(userService.getUserByEmail(currentUserName));
         userOrder.setOrderStatus(orderStatusService.getAllOrderStatuses().get(2));
         userOrderDao.add(userOrder);
-        Set<OrderDetail> userBag = getUserBag();
-        Set<OrderDetail> newOrderDetailSet = new HashSet<>();
+        List<OrderDetail> userBag = getUserBag();
+        List<OrderDetail> newOrderDetailSet = new ArrayList<>();
         int userOrderId = userOrder.getId();
         for (OrderDetail orderDetail : userBag) {
             newOrderDetailSet.add(new OrderDetail(
@@ -91,16 +87,16 @@ public class UserOrderServiceImpl extends BaseServiceImpl<UserOrder, Integer> im
     }
 
     @Override
-    public Set<OrderDetail> getUserBag() {
+    public List<OrderDetail> getUserBag() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserOrder userOrder = userOrderDao.getUserBagOrder(
                 userService.getUserByEmail(authentication.getName())
         );
-        Set<OrderDetail> orderDetailSet = null;
+        List<OrderDetail> orderDetails = null;
         if (userOrder != null) {
-            orderDetailSet = userOrder.getOrderDetailSet();
+            orderDetails = userOrder.getOrderDetails();
         }
-        return orderDetailSet;
+        return orderDetails;
     }
 
     @Override

@@ -18,7 +18,6 @@ import java.util.List;
 public class ColorController extends BaseController<Color, Integer> {
     private final ColorService colorService;
 
-    @Autowired
     public ColorController(ColorService colorService) {
         super(colorService);
         this.colorService = colorService;

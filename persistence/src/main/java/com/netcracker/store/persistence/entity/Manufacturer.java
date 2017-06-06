@@ -21,7 +21,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class Manufacturer extends BaseEntity {
-
     private static final long serialVersionUID = 7722192986659845970L;
 
     @Column(unique = true)
@@ -34,7 +33,7 @@ public class Manufacturer extends BaseEntity {
 
     @OneToMany(mappedBy = "manufacturer")
     @JsonIgnore
-    private List<Dress> dressList;
+    private List<Dress> dresses;
 
     public Manufacturer() {
         super();
@@ -58,13 +57,10 @@ public class Manufacturer extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Manufacturer that = (Manufacturer) o;
-
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        return dressList != null ? dressList.equals(that.dressList) : that.dressList == null;
-
+        return dresses != null ? dresses.equals(that.dresses) : that.dresses == null;
     }
 
     @Override

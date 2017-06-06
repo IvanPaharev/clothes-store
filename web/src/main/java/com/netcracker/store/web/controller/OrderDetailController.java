@@ -21,7 +21,6 @@ public class OrderDetailController extends BaseController<OrderDetail, OrderDeta
 
     private final OrderDetailService orderDetailService;
 
-    @Autowired
     public OrderDetailController(OrderDetailService orderDetailService) {
         super(orderDetailService);
         this.orderDetailService = orderDetailService;

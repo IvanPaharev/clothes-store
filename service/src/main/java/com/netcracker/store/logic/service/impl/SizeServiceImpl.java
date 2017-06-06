@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 public class SizeServiceImpl extends BaseServiceImpl<Size, Integer> implements SizeService {
     private final SizeDao sizeDao;
 
-    @Autowired
     public SizeServiceImpl(SizeDao sizeDao) {
         super(sizeDao);
         this.sizeDao = sizeDao;

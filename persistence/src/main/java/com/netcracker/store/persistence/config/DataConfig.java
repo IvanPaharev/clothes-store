@@ -5,9 +5,10 @@ import com.netcracker.store.persistence.properties.JpaProperties;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -33,7 +34,6 @@ public class DataConfig {
     @Value("${entityPackages}")
     private String entityPackages;
 
-    @Autowired
     public DataConfig(DatasourceProperties datasourceProperties, JpaProperties jpaProperties) {
         this.datasourceProperties = datasourceProperties;
         this.jpaProperties = jpaProperties;

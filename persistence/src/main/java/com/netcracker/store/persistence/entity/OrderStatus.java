@@ -9,6 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,7 +21,6 @@ import java.util.Set;
 @ToString(callSuper = true)
 @Getter @Setter
 public class OrderStatus extends BaseEntity{
-
     private static final long serialVersionUID = 272256990910779772L;
 
     @Column(unique = true)
@@ -33,7 +33,7 @@ public class OrderStatus extends BaseEntity{
 
     @OneToMany(mappedBy = "orderStatus")
     @JsonIgnore
-    private Set<UserOrder> userOrderSet;
+    private List<UserOrder> userOrders;
 
     public OrderStatus() {
         super();
@@ -49,12 +49,9 @@ public class OrderStatus extends BaseEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         OrderStatus that = (OrderStatus) o;
-
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         return description != null ? description.equals(that.description) : that.description == null;
-
     }
 
     @Override

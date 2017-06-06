@@ -13,7 +13,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/messages")
 public class MessageController {
-
     private MessageService messageService;
 
     public MessageController(MessageService messageService) {

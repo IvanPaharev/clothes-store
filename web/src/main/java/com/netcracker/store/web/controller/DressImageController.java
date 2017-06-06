@@ -19,10 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/dressImage")
 public class DressImageController extends BaseController<DressImage, Integer> {
-
     private final DressImageService dressImageService;
 
-    @Autowired
     public DressImageController(DressImageService dressImageService) {
         super(dressImageService);
         this.dressImageService = dressImageService;

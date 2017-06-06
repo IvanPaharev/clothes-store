@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDetailPK> implements OrderDetailService {
     private final OrderDetailDao orderDetailDao;
 
-    @Autowired
     public OrderDetailServiceImpl(OrderDetailDao orderDetailDao) {
         super(orderDetailDao);
         this.orderDetailDao = orderDetailDao;

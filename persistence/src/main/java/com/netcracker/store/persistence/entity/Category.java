@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,7 +21,6 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class Category extends BaseEntity {
-
     private static final long serialVersionUID = 7722192986659845970L;
 
     @Column(unique = true)
@@ -30,7 +30,7 @@ public class Category extends BaseEntity {
 
     @OneToMany(mappedBy = "category")
     @JsonIgnore
-    private Set<Dress> dressSet;
+    private List<Dress> dresses;
     
     public Category() {
         super();
@@ -51,9 +51,7 @@ public class Category extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Category category = (Category) o;
-
         return name != null ? name.equals(category.name) : category.name == null;
     }
 

@@ -24,7 +24,7 @@ var App = angular.module('myApp',['ngRoute', 'ngFileUpload'])
             controller : 'dressListController'
         }).when('/orderPage', {
             templateUrl: 'pages/user/orderPage.html',
-            controller : 'paymentController'
+            controller : 'orderController'
         }).when('/userRoom', {
             templateUrl: 'pages/user/userRoom.html',
             controller : 'userController'

@@ -20,10 +20,10 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
         amount: null,
         imageSource: null,
         releaseDate: null,
-        orderDetailSet: null,
-        sizeSet: null,
-        colorSet: null,
-        dressImageSet: null
+        orderDetails: null,
+        sizes: null,
+        colors: null,
+        dressImages: null
     };
     self.dresses=null;
     self.categories=null;
@@ -36,8 +36,8 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     self.userBag=null;
     self.homeDresses=null;
 
-    self.color={};
-    self.size={};
+    self.color=null;
+    self.size=null;
     self.dressQuantity=null;
     self.mainImgSrc=null;
     self.imgSrc=[];
@@ -109,10 +109,10 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     function fetchHomeDresses() {
         dressService.fetchHomeDresses();
         self.homeDresses = [];
-        self.homeDresses.push("resources/images/jackets/nigel_cabourn/1.jpg");
         self.homeDresses.push("resources/images/welcome/1.jpg");
         self.homeDresses.push("resources/images/welcome/2.jpg");
         self.homeDresses.push("resources/images/welcome/3.jpg");
+        self.homeDresses.push("resources/images/welcome/4.jpg");
     }
 
     function fetchAllDresses(){
@@ -237,8 +237,8 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
             .then(
                 function (d) {
                     self.dress = d;
-                    self.sizes = d.sizeSet;
-                    self.colors = d.colorSet;
+                    self.sizes = d.sizes;
+                    self.colors = d.colors;
                 },
                 function (errResponse) {
                     console.error('Error while fetching dress by id:' + errResponse.toString());
@@ -308,7 +308,22 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
     }
 
     function addDressToBag() {
-        dressService.addDressToBag(self.dress, self.color, self.size, self.dressQuantity);
+        dressService.addDressToBag(self.dress, self.color, self.size, self.dressQuantity)
+            .then(
+                function (response) {
+                    self.isErrors = false;
+                },
+                function (errResponse) {
+                    self.isErrors = true;
+                    if (errResponse.data.message) {
+                        self.errorMessages = [{defaultMessage: errResponse.data.message}];
+                    }
+                    if (errResponse.data.errors) {
+                        self.errorMessages = errResponse.data.errors;
+                    }
+                    console.error('Error while fetching query count:' + errResponse.toString());
+                }
+            );
     }
 
     function getUserBag() {

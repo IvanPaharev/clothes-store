@@ -7,6 +7,7 @@ import com.netcracker.store.persistence.entity.Dress;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -43,12 +44,12 @@ public class MySqlColorDaoTest extends BaseDaoGenericTest{
 
     @Override
     protected BaseEntity getEntity() {
-        return new Color("test category", "test res", new HashSet<>(dressDao.getAll()));
+        return new Color("test category", "test res", new ArrayList<>(dressDao.getAll()));
     }
 
     @Override
     protected Collection<BaseEntity> getCollection() {
-        return Arrays.asList(new Color("q", "q", new HashSet<>(dressDao.getAll())),
-                new Color("w", "w", new HashSet<>(dressDao.getAll())));
+        return Arrays.asList(new Color("q", "q", new ArrayList<>(dressDao.getAll())),
+                new Color("w", "w", new ArrayList<>(dressDao.getAll())));
     }
 }

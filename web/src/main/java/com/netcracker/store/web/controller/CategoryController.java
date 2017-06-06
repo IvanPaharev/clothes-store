@@ -16,10 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/category")
 public class CategoryController extends BaseController<Category, Integer> {
-
     private final CategoryService categoryService;
 
-    @Autowired
     public CategoryController(CategoryService categoryService) {
         super(categoryService);
         this.categoryService = categoryService;

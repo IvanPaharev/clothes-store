@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,6 +32,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes = DataConfig.class)
 @Rollback
 @Transactional
+@EnableConfigurationProperties
 public class MySqlDescriptionDaoTest{
 
     @Autowired
@@ -117,10 +120,10 @@ public class MySqlDescriptionDaoTest{
                 1.0,
                 "test",
                 new Date(System.currentTimeMillis()),
-                new HashSet<>(orderDetailDao.getAll()),
-                new HashSet<Size>(sizeDao.getAll()),
-                new HashSet<Color>(colorDao.getAll()),
-                new HashSet<DressImage>(dressImageDao.getAll())
+                new ArrayList<>(orderDetailDao.getAll()),
+                new ArrayList<Size>(sizeDao.getAll()),
+                new ArrayList<Color>(colorDao.getAll()),
+                new ArrayList<DressImage>(dressImageDao.getAll())
         );
         dressDao.add(dress);
         return new Description(dress.getId(), "test category", "test res", dress);

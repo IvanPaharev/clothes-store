@@ -121,10 +121,10 @@ public class MySqlDressDaoTest extends BaseDaoGenericTest {
                 1.0,
                 "test",
                 new Date(System.currentTimeMillis()),
-                new HashSet<>(orderDetailDao.getAll()),
-                new HashSet<Size>(sizeDao.getAll()),
-                new HashSet<Color>(colorDao.getAll()),
-                new HashSet<DressImage>(dressImageDao.getAll())
+                new ArrayList<>(orderDetailDao.getAll()),
+                new ArrayList<Size>(sizeDao.getAll()),
+                new ArrayList<Color>(colorDao.getAll()),
+                new ArrayList<DressImage>(dressImageDao.getAll())
         );
     }
 

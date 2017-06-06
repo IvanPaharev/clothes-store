@@ -17,10 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/manufacturer")
 public class ManufacturerController extends BaseController<Manufacturer, Integer> {
-
     private final ManufacturerService manufacturerService;
 
-    @Autowired
     public ManufacturerController(ManufacturerService manufacturerService) {
         super(manufacturerService);
         this.manufacturerService = manufacturerService;

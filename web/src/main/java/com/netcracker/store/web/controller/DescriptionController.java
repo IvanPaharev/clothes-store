@@ -18,7 +18,6 @@ import java.util.List;
 public class DescriptionController extends BaseController<Description, Integer> {
     private final DescriptionService descriptionService;
 
-    @Autowired
     public DescriptionController(DescriptionService descriptionService) {
         super(descriptionService);
         this.descriptionService = descriptionService;

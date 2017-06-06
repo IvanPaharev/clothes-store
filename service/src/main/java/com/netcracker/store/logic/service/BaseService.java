@@ -1,5 +1,6 @@
 package com.netcracker.store.logic.service;
 
+import com.netcracker.store.logic.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;

@@ -1,6 +1,5 @@
 package com.netcracker.store.persistence.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
@@ -8,12 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "dress")
@@ -21,7 +19,6 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter @Setter
 public class Dress extends BaseEntity {
-
     private static final long serialVersionUID = 3932117536853558680L;
 
     @ManyToOne
@@ -58,24 +55,24 @@ public class Dress extends BaseEntity {
 
     @OneToMany(mappedBy = "dress")
     @JsonIgnore
-    private Set<OrderDetail> orderDetailSet;
+    private List<OrderDetail> orderDetails;
 
     @ManyToMany
     @JoinTable(name = "dress_has_size",
             joinColumns = @JoinColumn(name = "dress_id"),
             inverseJoinColumns = @JoinColumn(name = "size_id"))
     @NotNull(message = "Sizes cannot be null")
-    private Set<Size> sizeSet;
+    private List<Size> sizes;
 
     @ManyToMany
     @JoinTable(name = "dress_has_color",
             joinColumns = @JoinColumn(name = "dress_id"),
             inverseJoinColumns = @JoinColumn(name = "color_id"))
     @NotNull(message = "Colors cannot be null")
-    private Set<Color> colorSet;
+    private List<Color> colors;
 
     @OneToMany(mappedBy = "dress")
-    private Set<DressImage> dressImageSet;
+    private List<DressImage> dressImages;
 
     public Dress() {
         super();
@@ -88,10 +85,10 @@ public class Dress extends BaseEntity {
                  Double price,
                  String imageSource,
                  Date releaseDate,
-                 Set<OrderDetail> orderDetailSet,
-                 Set<Size> sizeSet,
-                 Set<Color> colorSet,
-                 Set<DressImage> dressImageSet) {
+                 List<OrderDetail> orderDetails,
+                 List<Size> sizes,
+                 List<Color> colors,
+                 List<DressImage> dressImages) {
         this.manufacturer = manufacturer;
         this.type = type;
         this.category = category;
@@ -99,10 +96,10 @@ public class Dress extends BaseEntity {
         this.price = price;
         this.imageSource = imageSource;
         this.releaseDate = releaseDate;
-        this.orderDetailSet = orderDetailSet;
-        this.sizeSet = sizeSet;
-        this.colorSet = colorSet;
-        this.dressImageSet = dressImageSet;
+        this.orderDetails = orderDetails;
+        this.sizes = sizes;
+        this.colors = colors;
+        this.dressImages = dressImages;
     }
 
     @Override
@@ -115,10 +112,10 @@ public class Dress extends BaseEntity {
                 ", price=" + price +
                 ", imageSource='" + imageSource + '\'' +
                 ", releaseDate=" + releaseDate +
-                ", orderDetailSet=" + orderDetailSet +
-                ", sizeSet=" + sizeSet +
-                ", colorSet=" + colorSet +
-                ", dressImageSet=" + dressImageSet +
+                ", orderDetails=" + orderDetails +
+                ", sizes=" + sizes +
+                ", colors=" + colors +
+                ", dressImages=" + dressImages +
                 '}';
     }
 }

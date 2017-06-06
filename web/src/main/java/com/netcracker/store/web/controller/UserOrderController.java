@@ -20,7 +20,6 @@ import java.util.Set;
 public class UserOrderController extends BaseController<UserOrder, Integer> {
     private final UserOrderService userOrderService;
 
-    @Autowired
     public UserOrderController(UserOrderService userOrderService) {
         super(userOrderService);
         this.userOrderService = userOrderService;
@@ -28,7 +27,7 @@ public class UserOrderController extends BaseController<UserOrder, Integer> {
 
     @Override
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<UserOrder> add(@Valid @RequestBody UserOrder userOrder) {
+    public ResponseEntity<UserOrder> add(UserOrder userOrder) {
         return new ResponseEntity<>(userOrderService.addUserOrder(), HttpStatus.OK);
     }
 
@@ -38,7 +37,7 @@ public class UserOrderController extends BaseController<UserOrder, Integer> {
     }
 
     @RequestMapping(value = "/bag", method = RequestMethod.GET)
-    public ResponseEntity<Set<OrderDetail>> getUserBag(){
+    public ResponseEntity<List<OrderDetail>> getUserBag(){
         return new ResponseEntity<>(userOrderService.getUserBag(), HttpStatus.OK);
     }
 

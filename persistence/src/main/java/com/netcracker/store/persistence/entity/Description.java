@@ -20,7 +20,6 @@ import java.io.Serializable;
 @Getter @Setter
 @DynamicInsert
 public class Description implements Serializable{
-
     private static final long serialVersionUID = -4515287304435395433L;
 
     @Id
@@ -52,9 +51,7 @@ public class Description implements Serializable{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Description that = (Description) o;
-
         if (dressId != that.dressId) return false;
         if (english != null ? !english.equals(that.english) : that.english != null) return false;
         return russian != null ? russian.equals(that.russian) : that.russian == null;

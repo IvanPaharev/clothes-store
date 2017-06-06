@@ -16,7 +16,6 @@ import javax.transaction.Transactional;
 public class RoleServiceImpl extends BaseServiceImpl<Role, Integer> implements RoleService {
     private final RoleDao roleDao;
 
-    @Autowired
     public RoleServiceImpl(RoleDao roleDao) {
         super(roleDao);
         this.roleDao = roleDao;

@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,9 +31,9 @@ public class Role extends BaseEntity {
     @Size(max = 60, message = "Role name max length - 60 symbols")
     private String role;
 
-    @ManyToMany(mappedBy = "roleSet")
+    @ManyToMany(mappedBy = "roles")
     @JsonIgnore
-    private Set<User> userSet;
+    private List<User> users;
 
     public Role() {
         super();
@@ -47,9 +48,7 @@ public class Role extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Role role1 = (Role) o;
-
         return role != null ? role.equals(role1.role) : role1.role == null;
 
     }

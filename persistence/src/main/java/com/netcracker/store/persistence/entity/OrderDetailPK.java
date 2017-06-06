@@ -26,19 +26,22 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 public class OrderDetailPK implements Serializable {
-    
     private static final long serialVersionUID = -1381453765352891148L;
 
     @Column(name = "user_order_id")
+    @NotNull(message = "User order id cannot be null")
     private int userOrderId;
 
     @Column(name = "dress_id")
+    @NotNull(message = "Dress id cannot be null")
     private int dressId;
 
     @Column(name = "color_id")
+    @NotNull(message = "Color id cannot be null")
     private int colorId;
 
     @Column(name = "size_id")
+    @NotNull(message = "Size id cannot be null")
     private int sizeId;
 
     public OrderDetailPK() {

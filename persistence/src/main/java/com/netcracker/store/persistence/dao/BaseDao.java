@@ -1,5 +1,6 @@
 package com.netcracker.store.persistence.dao;
 
+import com.netcracker.store.persistence.exception.DaoException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ import java.util.List;
  */
 @Repository
 public interface BaseDao<E, ID extends Serializable> {
-    E add(E e);
+    E add(E e) throws DaoException;
     Collection<E> addAll(Collection<E> collection);
     E get(ID id);
     List<E> getAll();

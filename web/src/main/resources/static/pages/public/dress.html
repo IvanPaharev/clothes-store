@@ -1,11 +1,14 @@
 <div class="container" ng-controller="dressListController as ctrl" ng-init="ctrl.fetchDressById()">
+    <div ng-show="ctrl.isErrors" class="alert alert-danger">
+        <p ng-repeat="error in ctrl.errorMessages">{{error.defaultMessage}}</p>
+    </div>
     <div class="row">
         <div class="col-sm-6">
             <div>
                 <img ng-src="images/dress/mainImages/{{ctrl.dress.imageSource}}" style="max-height: 500px;" class="img-responsive"alt="Dress photo">
             </div>
             <div class="row">
-                <div ng-repeat="img in ctrl.dress.dressImageSet" class="col-sm-3">
+                <div ng-repeat="img in ctrl.dress.dressImages" class="col-sm-3">
                     <img ng-src="images/dress/otherImages/{{img.imageSource}}" class="img-responsive"alt="Dress photo">
                 </div>
             </div>
@@ -62,14 +65,6 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="colorSelect">Color:</label>
-<!--                    <select id="colorSelect" ng-model="ctrl.color">
-                        <option ng-repeat="item in ctrl.colors" ng-style="{'background': 'url(images/colors/pink.jpg)'}">
-                            {{item.color}}
-                        </option>
-                    </select>
-                    <div ng-style="{'background': 'url(images/colors/pink.jpg)'}">
-                        test
-                    </div>-->
                     <select id="colorSelect"
                             ng-model="ctrl.color"
                             ng-options="item.color for item in ctrl.colors">
