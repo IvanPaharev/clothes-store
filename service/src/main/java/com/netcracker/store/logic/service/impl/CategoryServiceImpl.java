@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 @Transactional
 public class CategoryServiceImpl extends BaseServiceImpl<Category, Integer> implements CategoryService {
+
     private final CategoryDao categoryDao;
 
     public CategoryServiceImpl(CategoryDao categoryDao) {

@@ -110,9 +110,9 @@ angular.module('myApp').controller('dressListController', ['$rootScope', '$scope
         dressService.fetchHomeDresses();
         self.homeDresses = [];
         self.homeDresses.push("resources/images/welcome/1.jpg");
-        self.homeDresses.push("resources/images/welcome/2.jpg");
-        self.homeDresses.push("resources/images/welcome/3.jpg");
         self.homeDresses.push("resources/images/welcome/4.jpg");
+        self.homeDresses.push("resources/images/welcome/3.jpg");
+        self.homeDresses.push("resources/images/welcome/2.jpg");
     }
 
     function fetchAllDresses(){
